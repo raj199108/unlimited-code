@@ -21,7 +21,7 @@ Supabase supplies optional profile login, email and an editable display name. Lo
 - [x] Add a non-destructive database migration to retire client commercial access while retaining historical records.
 - [x] Verify profile migration and OAuth/profile behavior against development Supabase; temporary accounts and credentials removed.
 - [x] Complete regression checks and desktop/CLI/website builds for this scope change. Evidence: 109 engine/provider/server tests, 11 app tests, 12 branding/integration tests, 7 desktop session/storage tests, 6 CLI tests, release-config checks and 22 website tests; isolated database/RLS and hosted OAuth/profile checks pass. Browser profile editing and a compiled CLI task with a local provider pass.
-- [ ] Update the existing review branches with the verified changes.
+- [ ] Update the existing review branches after resolving the concurrent software-pricing decision. Local commits contain verified changes; publication is paused because the landing-page task is adding a $99/month software plan. Its in-progress edits are preserved.
 
 ## Foundations retained
 
@@ -49,3 +49,7 @@ Supabase supplies optional profile login, email and an editable display name. Lo
 - [ ] Finalize privacy/operator policies, account support and operational monitoring; promote a verified beta to stable.
 
 Domain remains intentionally undecided. Billing prices, Dodo credentials, company OpenRouter keys and paid-access acceptance are no longer launch requirements. No running development app/server is restarted by this change.
+
+## Coordination note (2026-09-24)
+
+“Build Unlimit Code landing page” is concurrently editing the private website checkout and has a confirmed $99/month software-only plan. This task interpreted removal of managed subscriptions as removal of all paid-access gates. Clarify the software-subscription requirement before publishing or merging these differing policies. Managed company-funded inference is removed in either case. Existing release prerequisites above remain unchanged.

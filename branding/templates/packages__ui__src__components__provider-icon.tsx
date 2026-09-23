@@ -21,7 +21,10 @@ export const ProviderIcon: Component<ProviderIconProps> = (props) => {
       }}
     >
       {local.id === "unlimitcode" ? (
-        <image href={unlimitIcon} width="100%" height="100%" />
+        <>
+          <rect width="100%" height="100%" fill="#fdfcfc" />
+          <image href={unlimitIcon} width="100%" height="100%" />
+        </>
       ) : (
         <use href={`${sprite}#${resolved()}`} />
       )}

@@ -228,5 +228,10 @@
     "target": "packages/desktop/src/renderer/index.html",
     "source": "branding/templates/packages__desktop__src__renderer__index.html",
     "upstreamSha256": "8b4bb96d4eef6e92d83ebc9f9931605beb42fe3c92578e363b45d62396d3d65d"
+  },
+  {
+    "target": "packages/ui/src/components/provider-icon.tsx",
+    "source": "branding/templates/packages__ui__src__components__provider-icon.tsx",
+    "upstreamSha256": "496efb540e644bcb9e54acba48f77b82c0fe5fd5a389e42383855155fb1ace7d"
   }
 ]

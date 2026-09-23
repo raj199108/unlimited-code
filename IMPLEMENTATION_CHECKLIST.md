@@ -41,9 +41,10 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Add Supabase migrations for profiles, model selections, subscriptions, webhook processing, and usage metadata.
 - [x] Add RLS and server-only subscription writes; test cross-account access denial.
 - [ ] Finish website signup/login, recovery, logout, and account acceptance tests. Email-link login, logout and model-selection pages are implemented; real email delivery and full browser sign-in remain to verify.
-- [ ] Implement desktop and CLI browser login, secure token storage, session refresh, and revocation.
+- [x] Implement development desktop and CLI browser login, secure token storage, session refresh, and revocation. Installed-release handoff acceptance remains below.
 - [x] Implement desktop browser PKCE, consent, account-only IPC, encrypted-storage adapter, refresh coalescing and logout fencing; verify real hosted OAuth/account API/refresh revocation with a temporary user and remove the user.
 - [x] Implement the standalone development CLI with browser PKCE, a separate public Supabase client, OS-backed encrypted credentials, cross-process refresh/logout coordination and pending-login fencing. Hosted Supabase and real macOS Keychain acceptance pass; see `branding/CLI_ACCOUNT.md`.
+- [x] Pass CLI regression/storage tests on Linux, macOS and Windows CI, including real Keychain/DPAPI encryption and tamper rejection. Evidence: [CLI cross-platform run](https://github.com/raj199108/unlimited-code/actions/runs/35835688547).
 - [x] Verify the encrypted-token adapter against real Electron safeStorage on macOS in an isolated profile; synthetic credentials and profile removed.
 - [x] Launch the development desktop in an isolated onboarding profile and verify that the provider entry opens signed-out account controls through the accessibility tree, with no provider-key form.
 - [ ] Verify installed macOS/Windows browser callback, desktop Windows credential storage and real email delivery; finish CLI release packaging.
@@ -124,4 +125,4 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.
 
-- 2026-09-23: Managed CLI milestone: six account/loopback/process/storage tests, shared desktop session and bridge regression tests, 106 engine/provider tests, package typechecks, compiled macOS CLI engine checks and desktop/website builds pass. Hosted CLI Supabase PKCE, callback, Keychain, account and refresh/logout acceptance pass; temporary user and credentials removed. Windows OS-store CI, interactive email/browser acceptance, bundled release runtime, WSL, signed artifacts and updater remain separate gates.
+- 2026-09-23: Managed CLI milestone: six account/loopback/process/storage tests, shared desktop session and bridge regression tests, 106 engine/provider tests, package typechecks, compiled macOS CLI engine checks and desktop/website builds pass. Hosted CLI Supabase PKCE, callback, Keychain, account and refresh/logout acceptance pass; temporary user and credentials removed. CLI OS-storage tests passed on macOS and Windows CI; Linux account tests also pass. Interactive email/browser acceptance, desktop Windows storage acceptance, bundled release runtime, WSL, signed artifacts and updater remain separate gates.

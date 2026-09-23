@@ -16,7 +16,8 @@ flowchart LR
   G --> O[OpenRouter: actual selected model]
   D --> R[Authenticated downloads and updates]
   R --> P
-  R --> S[Private R2 artifacts]
+  R --> WKR[Download Worker: scoped short-lived link]
+  WKR --> S[Private R2 artifacts]
 ```
 
 The desktop continues to read files, run tools and manage coding sessions locally. The service authenticates individual model requests and streams the provider response. It must not move the agent loop into a long-running Vercel request.
@@ -30,7 +31,7 @@ Supabase login identifies the customer. It is not a universal credential for the
 3. Apply reviewed display-string rules and checksummed logo/theme overlays. Preserve internal imports, configuration keys and upstream license notices. Inventory unresolved technical references, external URLs and binary assets separately.
 4. Every six hours or manually, discover the newest official stable release, merge it in an integration branch, install its locked dependencies, reapply branding and run checks. Unknown branding, new workflows, modified overlays or merge conflicts stop integration.
 5. Open a draft PR after those checks pass. Review the diff and run managed-account/provider acceptance plus desktop builds. Promote deliberately. A bot never merges or publishes a release automatically.
-6. Keep Anomaly's publishing/deployment/triage workflows archived outside `.github/workflows`. Configure a narrowly scoped `UPSTREAM_SYNC_TOKEN` so generated PRs trigger CI. Enable the schedule only after the workflow is on the default branch and this credential is configured.
+6. Keep Anomaly's publishing/deployment/triage workflows archived outside `.github/workflows`. Prepare updates in a read-only job and pass a verified Git bundle to a fresh publisher job that never executes candidate code. Configure a narrowly scoped `UPSTREAM_SYNC_TOKEN` in the publisher only so generated PRs trigger CI. Enable the schedule after the workflow is reviewed on the default branch and this credential is configured. See `branding/UPSTREAM_MAINTENANCE.md`.
 
 Initial automated checks are intentionally narrower than release acceptance. Installer, native-icon, real model, sign-in and update tests remain launch gates even when branding checks pass.
 

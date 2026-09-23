@@ -11,3 +11,5 @@ Compatibility exceptions: `@opencode-ai/*` workspace/dependency imports, `OPENCO
 Reports inventory all tracked case-insensitive `open[ _-]?code` matches. `brand:check` enforces the reviewed display-name and overlay scope; it does not claim all remaining matches are approved for production.
 
 Production stays disabled until domain/API/download URLs, managed-only authentication, signing, private update delivery, and the remaining release checklist are configured and verified. Never publish upstream's original release/deployment workflows from this fork.
+
+Upstream preparation, credential isolation, review procedures and rehearsal evidence are documented in [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).

@@ -30,3 +30,13 @@ This evidence does not certify a release. Outstanding acceptance gates are in IM
 - Visual inspection discovered the V2 layout's separate upstream wordmark, Inter font and provider-tip copy. The V2 wordmark now delegates to the approved shared logo; onboarding and model management use account copy; explicit Paper/Ink V2 surfaces and IBM Plex Mono defaults are supplied. Semantic status, diff and syntax colours are preserved.
 - Branding application remains idempotent with 52 checksum-protected overlays. App/UI typechecks, 39 theme/catalog/deep-link tests, settings tests and branding tests pass. The desktop renderer/main/preload rebuild passes.
 - The running application was not restarted, per package instructions. The post-fix installed visual review and full browser-to-installed-app callback remain unchecked acceptance gates.
+
+## Private distribution — 2026-09-23
+
+The private platform passes 29 tests including actual local workerd/R2 ranged downloads, publisher-catalog signatures, file digests and paid-access gates. Typechecks, isolated PostgreSQL tests and the production Next.js build pass. Production HTTP checks deny disabled downloads, missing bearer credentials and cross-origin forms; signed-out download pages redirect to login. Hosted Supabase testing passed paid/unpaid isolation and revocation using the production access adapter, then removed both synthetic accounts.
+
+The catalog remains empty and downloads are disabled. No storage resources, signed artifacts, updater integration or public deployment were created. The checked items describe implemented and tested code; hosted distribution and installed update acceptance remain pending.
+
+## Upstream maintenance rehearsals — 2026-09-23
+
+Eleven branding/integration tests pass. Disposable real Git repositories verified a clean merge with branding preserved and a bundled candidate, a conflicting upstream logo, rejection of new automation and branding, and release/downgrade and credential-environment guards. `actionlint` passes for both active workflows. Preparation and draft publication are now separate jobs; only the publisher gets the scoped write credential, and it never executes candidate source. The latest official upstream release remains the pinned v1.18.32. No newer upstream version, live scheduled job, merge to main or signed release was performed.

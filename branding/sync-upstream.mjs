@@ -1,81 +1,80 @@
-import { execFileSync } from "node:child_process"
-import { readFileSync, writeFileSync, mkdtempSync, rmSync, readdirSync } from "node:fs"
-import { join } from "node:path"
-import { tmpdir } from "node:os"
+// Preparation only. This process must never receive a publishing credential or push a branch.
+import { readFileSync, writeFileSync, mkdirSync, appendFileSync } from "node:fs"
+import { resolve } from "node:path"
+import { run, candidate, mergeCandidate, validationEnvironment } from "./integration.mjs"
 
-const run = (command, args, options = {}) =>
-  execFileSync(command, args, { encoding: "utf8", stdio: ["ignore", "pipe", "inherit"], ...options }).trim()
 const brand = JSON.parse(readFileSync("branding/brand.json", "utf8"))
-if (run("git", ["status", "--porcelain"])) throw new Error("Use a clean checkout for upstream integration")
-const release = JSON.parse(
-  run("gh", ["release", "view", "--repo", brand.upstream.repository, "--json", "tagName,isPrerelease,isDraft"]),
-)
-if (release.isDraft || release.isPrerelease || !/^v\d+\.\d+\.\d+$/.test(release.tagName))
-  throw new Error("Expected an official stable version tag")
-if (release.tagName === brand.upstream.tag) {
-  console.log(`Already at ${release.tagName}`)
-  process.exit(0)
+const reportDirectory = resolve(process.env.RUNNER_TEMP ?? "branding/reports", "upstream-integration")
+mkdirSync(reportDirectory, { recursive: true })
+const report = { status: "blocked", previous: brand.upstream, checkedAt: new Date().toISOString() }
+const output = (key, value) => {
+  if (process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`)
 }
-const branch = `codex/upstream-${release.tagName}`
-if (run("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`])) {
-  console.log(`${branch} already exists; review or resume that integration instead of creating a duplicate`)
-  process.exit(0)
-}
-run("git", ["fetch", `https://github.com/${brand.upstream.repository}.git`, `refs/tags/${release.tagName}`])
-const sha = run("git", ["rev-parse", "FETCH_HEAD^{commit}"])
-run("git", ["checkout", "-b", branch, "origin/main"])
 try {
-  run("git", ["merge", "--no-commit", "--no-ff", sha])
-  const unknown = readdirSync(".github/workflows").filter(
-    (file) => !["brand-check.yml", "upstream-sync.yml"].includes(file),
+  if (run("git", ["status", "--porcelain"])) throw new Error("Use a clean checkout for upstream integration")
+  if (brand.repository !== "raj199108/unlimited-code" || brand.upstream.repository !== "anomalyco/opencode")
+    throw new Error("Unexpected repository configuration")
+  const release = JSON.parse(
+    run("gh", ["release", "view", "--repo", brand.upstream.repository, "--json", "tagName,isPrerelease,isDraft"]),
   )
-  if (unknown.length) throw new Error(`Unreviewed workflows: ${unknown.join(", ")}`)
-  run("bun", ["install", "--frozen-lockfile"], { stdio: "inherit" })
-  run("node", ["branding/brand.mjs", "apply"], { stdio: "inherit" })
-  run("node", ["branding/brand.mjs", "check"], { stdio: "inherit" })
-  run("bun", ["test"], { cwd: "branding", stdio: "inherit" })
-  for (const cwd of ["packages/ui", "packages/app", "packages/tui"])
-    run("bun", ["typecheck"], { cwd, stdio: "inherit" })
-  run("bun", ["test", "--conditions=solid", "--preload", "./happydom.ts", "./src/theme-preload.test.ts"], {
-    cwd: "packages/app",
-    stdio: "inherit",
-  })
-} catch (error) {
-  console.error(
-    "Integration stopped. Inspect merge conflicts or branding drift; no branch was pushed and no release was published.",
-  )
-  throw error
-}
-brand.upstream.tag = release.tagName
-brand.upstream.sha = sha
-writeFileSync("branding/brand.json", JSON.stringify(brand, null, 2) + "\n")
-run("git", ["add", "-A"])
-run("git", ["commit", "-m", `chore(upstream): integrate ${release.tagName}`])
-run("git", ["push", "-u", "origin", branch])
-const directory = mkdtempSync(join(tmpdir(), "unlimit-pr-"))
-const body = join(directory, "body.md")
-writeFileSync(
-  body,
-  `Integrates upstream stable ${release.tagName} (${sha}) into the Unlimit Code fork.\n\nBranding checks, branding tests, app/theme checks, and UI/app/TUI typechecks passed. This is a draft integration: desktop builds, signed installers, managed-provider integration, and end-to-end acceptance remain required before promotion. No deployment is performed.\n`,
-)
-try {
-  console.log(
-    run("gh", [
-      "pr",
-      "create",
-      "--repo",
-      brand.repository,
-      "--base",
-      "main",
-      "--head",
+  const branch = candidate(release, brand.upstream.tag)
+  if (!branch) {
+    report.status = "current"
+    console.log(`Already at ${release.tagName}`)
+  } else if (run("git", ["ls-remote", "--heads", "origin", `refs/heads/${branch}`])) {
+    report.status = "existing"
+    console.log(`${branch} already exists; review that integration`)
+  } else {
+    run("git", ["fetch", `https://github.com/${brand.upstream.repository}.git`, `refs/tags/${release.tagName}`])
+    const sha = run("git", ["rev-parse", "FETCH_HEAD^{commit}"])
+    run("git", ["merge-base", "--is-ancestor", brand.upstream.sha, sha])
+    run("git", ["checkout", "-b", branch, "origin/main"])
+    mergeCandidate(process.cwd(), sha)
+    const env = validationEnvironment(process.env)
+    const check = (command, args, cwd = ".") => run(command, args, { cwd, env, stdio: "inherit" })
+    check("node", ["branding/brand.mjs", "apply"])
+    check("node", ["branding/brand.mjs", "check"])
+    check("bun", ["install", "--frozen-lockfile"])
+    check("node", ["branding/brand.mjs", "check"])
+    check("bun", ["test"], "branding")
+    for (const cwd of ["packages/ui", "packages/app", "packages/tui", "packages/desktop", "packages/opencode"])
+      check("bun", ["typecheck"], cwd)
+    check("bun", ["test", "src/managed"], "packages/desktop")
+    check("node", ["--experimental-strip-types", "--test", "test-node/managed-bridge.test.mjs"], "packages/desktop")
+    check("bun", ["test", "test/config/unlimit.test.ts", "test/provider/provider.test.ts"], "packages/opencode")
+    check(
+      "bun",
+      [
+        "test",
+        "--conditions=solid",
+        "--preload",
+        "./happydom.ts",
+        "./src/theme-preload.test.ts",
+        "./src/hooks/provider-catalog.test.ts",
+        "./src/pages/layout/helpers.test.ts",
+      ],
+      "packages/app",
+    )
+    check("bun", ["run", "build"], "packages/app")
+    check("bun", ["run", "build"], "packages/desktop")
+    brand.upstream = { ...brand.upstream, tag: release.tagName, sha }
+    writeFileSync("branding/brand.json", JSON.stringify(brand, null, 2) + "\n")
+    run("git", ["add", "-A"])
+    run("git", ["-c", "core.hooksPath=/dev/null", "commit", "-m", `chore(upstream): integrate ${release.tagName}`])
+    run("git", ["bundle", "create", `${reportDirectory}/candidate.bundle`, "HEAD", "^origin/main"])
+    Object.assign(report, {
+      status: "prepared",
       branch,
-      "--draft",
-      "--title",
-      `chore(upstream): integrate ${release.tagName}`,
-      "--body-file",
-      body,
-    ]),
-  )
+      tag: release.tagName,
+      upstreamSha: sha,
+      head: run("git", ["rev-parse", "HEAD"]),
+    })
+  }
+  output("prepared", report.status === "prepared" ? "true" : "false")
+} catch (error) {
+  report.reason = "Merge, automation drift, branding drift or validation failed; inspect the read-only preparation log."
+  console.error("Integration stopped; nothing was pushed or published.")
+  throw error
 } finally {
-  rmSync(directory, { recursive: true, force: true })
+  writeFileSync(`${reportDirectory}/report.json`, JSON.stringify(report, null, 2) + "\n")
 }

@@ -72,6 +72,9 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [ ] Gate downloads on verified account and subscription state; keep binaries out of public release assets.
 - [ ] Implement private-storage delivery and authenticated app-update access, including Range requests and expiry handling.
 - [ ] Generate download listings from verified release metadata.
+- [x] Implement verified-account/paid-access download gates, same-origin forms and native JSON link requests; validate hosted Supabase account isolation and immediate revocation of new links.
+- [x] Implement private R2 delivery through a download Worker with five-minute scoped tickets, GET/HEAD, single byte ranges and expiry checks; pass local workerd/R2 integration tests.
+- [x] Implement publisher-signed catalog validation, sequence rollback protection, catalog-driven installer listings and a local SHA-256/SHA-512/size verifier. Signed installer production and hosted storage acceptance remain pending.
 - [ ] Configure Vercel previews, production domains, and private object storage.
 
 ## 6. Builds, releases, and upstream maintenance
@@ -86,7 +89,8 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Archive inherited upstream workflows and add narrowly scoped branding/integration workflows. Scheduled integration still needs its credential and default-branch activation.
 - [ ] Check upstream stable releases every six hours and on manual trigger; prepare reviewed integration PRs.
 - [ ] Run branding drift checks, package tests/typechecks, builds, and attach integration reports.
-- [ ] Rehearse both successful upstream integration and a conflicting update that stops safely.
+- [x] Rehearse clean and conflicting upstream merges in disposable real Git repositories; verify branded overlays, bundle creation and safe stops on new workflows/branding. A real newer upstream release and live scheduled run remain pending.
+- [x] Separate upstream preparation from draft publication so candidate dependency/build code never receives the publishing secret; validate candidate ancestry and unchanged automation again before the fixed-branch push.
 - [ ] Verify install, coexistence with OpenCode, and upgrade from an earlier Unlimit Code build on supported platforms.
 
 ## 7. Production launch gates
@@ -110,5 +114,9 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - 2026-09-23: Enabled hosted Supabase OAuth with dynamic registration disabled; registered/reused a public development desktop client. Hosted PKCE, consent, one-use codes, verified account API, refresh and logout revocation pass. Added native account/bridge integration, managed provider restriction, identity isolation, approved native icons and release guards. These code checks do not complete real email, installed-app, Windows/macOS signing, private distribution or paid inference acceptance. See `branding/NATIVE_ACCOUNT.md` and private platform `NATIVE_AUTH.md`.
 
 - 2026-09-23: Desktop first-launch inspection found a separate V2 wordmark/font and provider-tip surface. Replaced those surfaces, preserved model-management controls and added five reviewed overlays (52 total). The running app was not restarted; final appearance acceptance of the rebuilt application remains pending.
+
+- 2026-09-23: Private distribution implementation passes 29 tests, website/Worker typechecks, isolated PostgreSQL checks, production build and HTTP fail-closed checks. Hosted download access smoke verified two-account isolation and revocation, then removed both accounts. No R2 bucket, public Worker, signed release or download capability was published. See private platform `DISTRIBUTION.md`.
+
+- 2026-09-23: Eleven branding/integration tests pass, including real-Git clean/conflict rehearsals and credential-environment isolation. The two-job upstream workflow passes actionlint and adds app/desktop builds plus managed-provider checks. Latest official upstream stable is still v1.18.32. Schedule activation, scoped publishing credential and a live integration run remain pending; see `branding/UPSTREAM_MAINTENANCE.md`.
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.

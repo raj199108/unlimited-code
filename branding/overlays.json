@@ -258,5 +258,45 @@
     "target": "packages/app/src/index.css",
     "source": "branding/templates/packages__app__src__index.css",
     "upstreamSha256": "be87c82ef2e44d0c1f8d27576ad229fd689b8475574ae6bb69007747af870bff"
+  },
+  {
+    "target": "packages/opencode/src/cli/cmd/serve.ts",
+    "source": "branding/templates/packages__opencode__src__cli__cmd__serve.ts",
+    "upstreamSha256": "4cdec5fb55b58a3215aec3d58c6e15a3ef0db75dd6f613180c901214be67983f"
+  },
+  {
+    "target": "packages/opencode/src/cli/cmd/tui.ts",
+    "source": "branding/templates/packages__opencode__src__cli__cmd__tui.ts",
+    "upstreamSha256": "09c6591126d56aa7faf3f5607c4a8e9e847de556a7eb52892dd222d1b99d2a34"
+  },
+  {
+    "target": "packages/opencode/src/cli/upgrade.ts",
+    "source": "branding/templates/packages__opencode__src__cli__upgrade.ts",
+    "upstreamSha256": "4819069725ef38dfd57846c92fd3ef4f29580e3ca1268794019c3c5c30c0925d"
+  },
+  {
+    "target": "packages/opencode/src/index.ts",
+    "source": "branding/templates/packages__opencode__src__index.ts",
+    "upstreamSha256": "bddea4eb640adb6fe72193f292c1ae75526ff1bf5bc507ff7c539e4e93825dbc"
+  },
+  {
+    "target": "packages/tui/src/app.tsx",
+    "source": "branding/templates/packages__tui__src__app.tsx",
+    "upstreamSha256": "c99db2d432450e34cbd2b101a4414e075a510679e1e065cc3d4245c3d3170e5f"
+  },
+  {
+    "target": "packages/tui/src/component/dialog-model.tsx",
+    "source": "branding/templates/packages__tui__src__component__dialog-model.tsx",
+    "upstreamSha256": "e30c8949786f66bc139e7f2b748bbb6cba4d5f368689141316b8378fe99ba3a5"
+  },
+  {
+    "target": "packages/tui/src/component/dialog-provider.tsx",
+    "source": "branding/templates/packages__tui__src__component__dialog-provider.tsx",
+    "upstreamSha256": "9fa8090a8c54c5260916525552fd25caee462f306acad6facf548e10ca6d776c"
+  },
+  {
+    "target": "packages/tui/src/feature-plugins/home/tips-view.tsx",
+    "source": "branding/templates/packages__tui__src__feature-plugins__home__tips-view.tsx",
+    "upstreamSha256": "f01ecef2ae37d55bdd5b1b061e8604e0c2a4b35fffb84e40232c42236b759630"
   }
 ]

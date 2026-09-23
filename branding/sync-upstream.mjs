@@ -37,7 +37,15 @@ try {
     check("bun", ["install", "--frozen-lockfile"])
     check("node", ["branding/brand.mjs", "check"])
     check("bun", ["test"], "branding")
-    for (const cwd of ["packages/ui", "packages/app", "packages/tui", "packages/desktop", "packages/opencode"])
+    for (const cwd of [
+      "packages/ui",
+      "packages/app",
+      "packages/tui",
+      "packages/desktop",
+      "packages/opencode",
+      "packages/account",
+      "packages/unlimit-cli",
+    ])
       check("bun", ["typecheck"], cwd)
     check("bun", ["test", "src/managed"], "packages/desktop")
     check("node", ["--experimental-strip-types", "--test", "test-node/managed-bridge.test.mjs"], "packages/desktop")
@@ -55,6 +63,8 @@ try {
       ],
       "packages/app",
     )
+    check("bun", ["run", "test"], "packages/unlimit-cli")
+    check("bun", ["run", "build", "--with-engine"], "packages/unlimit-cli")
     check("bun", ["run", "build"], "packages/app")
     check("bun", ["run", "build"], "packages/desktop")
     brand.upstream = { ...brand.upstream, tag: release.tagName, sha }

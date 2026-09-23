@@ -30,7 +30,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Add Paper/Ink application and TUI themes with readable syntax, diffs, and status colours.
 - [x] Replace the newer desktop layout’s separate wordmark and provider onboarding copy; apply Paper/Ink surfaces and IBM Plex Mono to its theme tokens. Source/typecheck/build verification is complete; final visual acceptance remains below.
 - [ ] Isolate application IDs, URL schemes, CLI command, and user-data paths from OpenCode.
-- [x] Isolate desktop application IDs/schemes, core user-data/config/cache/state directories and managed preferences; remove automatic legacy OpenCode data migration. Standalone CLI naming remains pending.
+- [x] Isolate desktop application IDs/schemes, core user-data/config/cache/state directories and managed preferences; remove automatic legacy OpenCode data migration. The development CLI now uses unlimitcode; packaged PATH installation and release archives remain pending.
 - [x] Remove upstream desktop update feeds, disable updating until private delivery is ready, disallow downgrades and require Windows update signature verification.
 - [ ] Replace owned website, support, install, download, telemetry, and update destinations; disable unsupported upstream-owned services.
 - [x] Verify repeated branding application is a no-op, missing targets fail, and unexpected new branding fails.
@@ -43,9 +43,10 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [ ] Finish website signup/login, recovery, logout, and account acceptance tests. Email-link login, logout and model-selection pages are implemented; real email delivery and full browser sign-in remain to verify.
 - [ ] Implement desktop and CLI browser login, secure token storage, session refresh, and revocation.
 - [x] Implement desktop browser PKCE, consent, account-only IPC, encrypted-storage adapter, refresh coalescing and logout fencing; verify real hosted OAuth/account API/refresh revocation with a temporary user and remove the user.
+- [x] Implement the standalone development CLI with browser PKCE, a separate public Supabase client, OS-backed encrypted credentials, cross-process refresh/logout coordination and pending-login fencing. Hosted Supabase and real macOS Keychain acceptance pass; see `branding/CLI_ACCOUNT.md`.
 - [x] Verify the encrypted-token adapter against real Electron safeStorage on macOS in an isolated profile; synthetic credentials and profile removed.
 - [x] Launch the development desktop in an isolated onboarding profile and verify that the provider entry opens signed-out account controls through the accessibility tree, with no provider-key form.
-- [ ] Verify installed macOS/Windows browser callback, Windows credential storage and real email delivery; implement standalone CLI login.
+- [ ] Verify installed macOS/Windows browser callback, desktop Windows credential storage and real email delivery; finish CLI release packaging.
 - [x] Implement account-bound Dodo test-checkout/customer-portal routes with fixed server product, checkout reuse, and disabled-by-default billing. Verified with the official SDK, simulated provider responses and real hosted Supabase.
 - [x] Verify raw-body signatures, deduplicate events, and atomically reconcile current subscription/payment state with database leases and stale-worker protection.
 - [x] Test mandate versus payment, renewal-period matching, delayed events, retries, cancellation, holds/expiry, refunds, cross-account access and payment-reuse denial using unit/PostgreSQL tests and a hosted Supabase smoke test.
@@ -61,6 +62,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [ ] Preserve streaming tool calls, reasoning options, cancellation, provider errors, and context limits; never silently change the selected model.
 - [ ] Automatically load account selections in the fork and remove customer model-connection/key-entry flows.
 - [x] Wire the development desktop to the managed gateway through a private loopback bridge; replace provider-key forms with account controls and filter the picker to account-selected models. Verify routing, streaming, cancellation, key exclusion and selection filtering in tests.
+- [x] Restrict the development CLI/TUI to account-selected managed models, replace connection/key-entry forms with account guidance, and disable upstream auto-update, sharing and provider-auth defaults. Verify the compiled engine catalog/help in an isolated profile.
 - [ ] Preserve custom workflows, agents, and tools independently from managed model connections.
 - [ ] Track company usage/cost metadata without storing prompt/code contents by default or implementing customer usage quotas.
 - [ ] Test unauthorized requests, cancelled subscriptions, model IDs, stream failures, cancellation, and actual end-to-end coding.
@@ -80,9 +82,10 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 ## 6. Builds, releases, and upstream maintenance
 
 - [ ] Build all bundled engine/CLI components from the fork revision; avoid upstream-branded executable downloads.
-- [x] Build the desktop's embedded v1 engine from the fork and remove the upstream development v2 executable download/launch path. CLI and WSL packaging remain pending.
+- [x] Build the desktop's embedded v1 engine from the fork and remove the upstream development v2 executable download/launch path. The managed CLI also compiles its v1 engine from this checkout. Release archives, bundled runtime and WSL packaging remain pending.
 - [ ] Separate product version from upstream compatibility version.
 - [x] Source desktop display/package version from the brand manifest independently of upstream engine compatibility version; beta/production packaging remains explicitly disabled.
+- [x] Build and smoke-test the macOS arm64 development CLI launcher and fork engine with separate product/upstream versions.
 - [ ] Build macOS arm64/x64 and Windows x64/arm64 desktop apps and CLI archives.
 - [ ] Configure Apple Developer ID signing/notarization and Windows Authenticode signing; fail production builds when absent.
 - [ ] Publish verified artifacts before update metadata, separate beta/stable feeds, and reject invalid signatures/downgrades.
@@ -120,3 +123,5 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - 2026-09-23: Eleven branding/integration tests pass, including real-Git clean/conflict rehearsals and credential-environment isolation. The two-job upstream workflow passes actionlint and adds app/desktop builds plus managed-provider checks. Latest official upstream stable is still v1.18.32. Schedule activation, scoped publishing credential and a live integration run remain pending; see `branding/UPSTREAM_MAINTENANCE.md`.
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.
+
+- 2026-09-23: Managed CLI milestone: six account/loopback/process/storage tests, shared desktop session and bridge regression tests, 106 engine/provider tests, package typechecks, compiled macOS CLI engine checks and desktop/website builds pass. Hosted CLI Supabase PKCE, callback, Keychain, account and refresh/logout acceptance pass; temporary user and credentials removed. Windows OS-store CI, interactive email/browser acceptance, bundled release runtime, WSL, signed artifacts and updater remain separate gates.

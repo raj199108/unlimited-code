@@ -1,0 +1,7 @@
+{
+  "issuer": "https://akonegyrvrjhgrmpzgbd.supabase.co",
+  "clientId": "f9aac64a-f9b4-4578-8ae1-b762700d777b",
+  "redirectUri": "http://127.0.0.1:32187/auth/callback",
+  "site": "http://127.0.0.1:3210",
+  "publishableKey": "sb_publishable_aOwpDnIGh3TCDaVzDHJSaA_1UpONAWl"
+}

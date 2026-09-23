@@ -35,3 +35,31 @@ test("an incomplete managed setup fails closed and ordinary CLI config is unchan
     }),
   ).toThrow("Managed bridge")
 })
+
+test("CLI managed catalog follows selected models while disabling upstream sharing and updates", () => {
+  const managed = ConfigUnlimit.apply(
+    { autoupdate: true, share: "auto", autoshare: true },
+    {
+      UNLIMIT_MANAGED: "1",
+      UNLIMIT_BRIDGE_URL: "http://127.0.0.1:12345/v1",
+      UNLIMIT_BRIDGE_KEY: "a".repeat(43),
+      UNLIMIT_SELECTED_MODELS: JSON.stringify(["openai/gpt-6-astra"]),
+    },
+  )
+  expect(Object.keys(managed.provider!.unlimitcode.models!)).toEqual(["openai/gpt-6-astra"])
+  expect(managed.autoupdate).toBe(false)
+  expect(managed.share).toBe("disabled")
+  expect(managed.autoshare).toBe(false)
+  for (const selected of ["[]", '["unknown"]', "{}", '"openai/gpt-6-astra"'])
+    expect(() =>
+      ConfigUnlimit.apply(
+        {},
+        {
+          UNLIMIT_MANAGED: "1",
+          UNLIMIT_BRIDGE_URL: "http://127.0.0.1:12345/v1",
+          UNLIMIT_BRIDGE_KEY: "a".repeat(43),
+          UNLIMIT_SELECTED_MODELS: selected,
+        },
+      ),
+    ).toThrow("Managed model selection is invalid")
+})

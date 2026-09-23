@@ -38,6 +38,7 @@ export function createCliAccount(config: AccountConfig, storage: TokenStorage, d
     commit: (generation: string, tokens: Tokens) =>
       locked(async () => {
         if ((await readFile(generationFile, "utf8")) !== generation) throw new Error("account_session_changed")
+        await renew()
         await createAccountSession(config, storage).signOut()
         await storage.write(tokens)
       }),

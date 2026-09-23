@@ -14,6 +14,7 @@ export const dict = {
   "managed.account.signIn": "Sign in with browser",
   "managed.account.signOut": "Sign out",
   "managed.account.manage": "Manage account",
+  "managed.account.onboarding": "Sign in to Unlimit Code to choose your models and start coding.",
   ...DESKTOP_NATIVE_ENGLISH,
   "command.category.suggested": "Suggested",
   "command.category.view": "View",

@@ -23,3 +23,10 @@ This evidence does not certify a release. Outstanding acceptance gates are in IM
 - The private platform passes 22 unit tests, typecheck and production build. Billing and paid inference remain disabled.
 - Approved PNG artwork is packaged into native PNG/ICNS/ICO files with checksums. Owned icons are used for the dock, notifications and HTML favicons. Application IDs, protocol handlers and user-data namespaces are independent from upstream; upstream desktop update feeds are removed and publishing defaults are disabled.
 - Native/account changes to upstream files are recorded as explicit checksum-protected overlays. Integration deliberately stops if upstream modifies these files, requiring a reviewed merge before accepting a new baseline. New fork-owned modules remain ordinary maintained source files.
+
+## First-launch follow-up — 2026-09-23
+
+- The development desktop launched with the fork-built embedded engine in an isolated onboarding profile. Clicking the first-launch provider entry exposed “Unlimit Code account”, “Sign in with browser” and “Manage account” in the accessibility tree; no provider-key fields were present. No customer email or login was submitted.
+- Visual inspection discovered the V2 layout's separate upstream wordmark, Inter font and provider-tip copy. The V2 wordmark now delegates to the approved shared logo; onboarding and model management use account copy; explicit Paper/Ink V2 surfaces and IBM Plex Mono defaults are supplied. Semantic status, diff and syntax colours are preserved.
+- Branding application remains idempotent with 52 checksum-protected overlays. App/UI typechecks, 39 theme/catalog/deep-link tests, settings tests and branding tests pass. The desktop renderer/main/preload rebuild passes.
+- The running application was not restarted, per package instructions. The post-fix installed visual review and full browser-to-installed-app callback remain unchecked acceptance gates.

@@ -28,6 +28,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [ ] Replace shipped names, logos, icons, banners, installer metadata, native menus, and localization copy.
 - [x] Package the approved original icon as macOS ICNS, Windows ICO and native PNG resources; verify checksums and compile the desktop with owned metadata and notification artwork.
 - [x] Add Paper/Ink application and TUI themes with readable syntax, diffs, and status colours.
+- [x] Replace the newer desktop layout’s separate wordmark and provider onboarding copy; apply Paper/Ink surfaces and IBM Plex Mono to its theme tokens. Source/typecheck/build verification is complete; final visual acceptance remains below.
 - [ ] Isolate application IDs, URL schemes, CLI command, and user-data paths from OpenCode.
 - [x] Isolate desktop application IDs/schemes, core user-data/config/cache/state directories and managed preferences; remove automatic legacy OpenCode data migration. Standalone CLI naming remains pending.
 - [x] Remove upstream desktop update feeds, disable updating until private delivery is ready, disallow downgrades and require Windows update signature verification.
@@ -43,6 +44,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [ ] Implement desktop and CLI browser login, secure token storage, session refresh, and revocation.
 - [x] Implement desktop browser PKCE, consent, account-only IPC, encrypted-storage adapter, refresh coalescing and logout fencing; verify real hosted OAuth/account API/refresh revocation with a temporary user and remove the user.
 - [x] Verify the encrypted-token adapter against real Electron safeStorage on macOS in an isolated profile; synthetic credentials and profile removed.
+- [x] Launch the development desktop in an isolated onboarding profile and verify that the provider entry opens signed-out account controls through the accessibility tree, with no provider-key form.
 - [ ] Verify installed macOS/Windows browser callback, Windows credential storage and real email delivery; implement standalone CLI login.
 - [x] Implement account-bound Dodo test-checkout/customer-portal routes with fixed server product, checkout reuse, and disabled-by-default billing. Verified with the official SDK, simulated provider responses and real hosted Supabase.
 - [x] Verify raw-body signatures, deduplicate events, and atomically reconcile current subscription/payment state with database leases and stale-worker protection.
@@ -106,5 +108,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - 2026-09-23: Dodo, real OpenRouter execution, native account integration, signed downloads, updater delivery and public deployment are not complete. Domain and price/currency remain intentionally deferred.
 - 2026-09-23: Added test-mode billing routes, raw-body verification, event deduplication, fenced reconciliation, refund/dispute handling, checkout reuse and recovery tooling. All 20 unit tests, PostgreSQL account/billing checks, typecheck and production build pass. Billing migration applied to development Supabase; hosted Auth/Postgres billing smoke passed with simulated Dodo responses, and both temporary accounts plus test metadata were removed. Actual Dodo merchant acceptance and production billing remain pending; live mode is rejected.
 - 2026-09-23: Enabled hosted Supabase OAuth with dynamic registration disabled; registered/reused a public development desktop client. Hosted PKCE, consent, one-use codes, verified account API, refresh and logout revocation pass. Added native account/bridge integration, managed provider restriction, identity isolation, approved native icons and release guards. These code checks do not complete real email, installed-app, Windows/macOS signing, private distribution or paid inference acceptance. See `branding/NATIVE_ACCOUNT.md` and private platform `NATIVE_AUTH.md`.
+
+- 2026-09-23: Desktop first-launch inspection found a separate V2 wordmark/font and provider-tip surface. Replaced those surfaces, preserved model-management controls and added five reviewed overlays (52 total). The running app was not restarted; final appearance acceptance of the rebuilt application remains pending.
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.

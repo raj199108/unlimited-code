@@ -2198,7 +2198,7 @@ export default function LegacyLayout(props: ParentProps) {
                   {language.t("sidebar.gettingStarted.line1")}
                 </div>
                 <div class="text-14-regular text-text-base" style={{ "line-height": "var(--line-height-normal)" }}>
-                  {language.t("sidebar.gettingStarted.line2")}
+                  {language.t(platform.managedAccount ? "managed.account.onboarding" : "sidebar.gettingStarted.line2")}
                 </div>
               </div>
               <div data-component="getting-started-actions">

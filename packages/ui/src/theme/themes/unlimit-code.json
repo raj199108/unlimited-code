@@ -46,6 +46,15 @@
       "background-strong": "#fdfcfc",
       "text-base": "#201d1d",
       "text-strong": "#201d1d"
+    },
+    "v2Overrides": {
+      "v2-background-bg-base": "#fdfcfc",
+      "v2-background-bg-deep": "#fdfcfc",
+      "v2-background-bg-inverse": "#201d1d",
+      "v2-text-text-base": "#201d1d",
+      "v2-text-text-inverse": "#fdfcfc",
+      "font-family-text": "var(--font-family-sans)",
+      "v2-font-family-sans": "var(--font-family-sans)"
     }
   },
   "dark": {
@@ -92,6 +101,15 @@
       "background-strong": "#201d1d",
       "text-base": "#fdfcfc",
       "text-strong": "#fdfcfc"
+    },
+    "v2Overrides": {
+      "v2-background-bg-base": "#201d1d",
+      "v2-background-bg-deep": "#201d1d",
+      "v2-background-bg-inverse": "#fdfcfc",
+      "v2-text-text-base": "#fdfcfc",
+      "v2-text-text-inverse": "#201d1d",
+      "font-family-text": "var(--font-family-sans)",
+      "v2-font-family-sans": "var(--font-family-sans)"
     }
   }
 }

@@ -1,0 +1,6 @@
+/* V2 controls use literal radii, so the brand's square treatment needs a scoped override. */
+:root[data-theme="unlimit-code"]
+  body[data-new-layout]
+  :is(button, input, textarea, select, [role="dialog"], [role="tab"], [data-component="session-new-design"]) {
+  border-radius: 0 !important;
+}

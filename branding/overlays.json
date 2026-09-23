@@ -233,5 +233,30 @@
     "target": "packages/ui/src/components/provider-icon.tsx",
     "source": "branding/templates/packages__ui__src__components__provider-icon.tsx",
     "upstreamSha256": "496efb540e644bcb9e54acba48f77b82c0fe5fd5a389e42383855155fb1ace7d"
+  },
+  {
+    "target": "packages/ui/src/v2/components/wordmark-v2.tsx",
+    "source": "branding/templates/packages__ui__src__v2__components__wordmark-v2.tsx",
+    "upstreamSha256": "5475270be148a565b283131df7c72f25c1d994012c6cb55a90ec029f5576e5be"
+  },
+  {
+    "target": "packages/app/src/pages/new-session/new-session-view.tsx",
+    "source": "branding/templates/packages__app__src__pages__new-session__new-session-view.tsx",
+    "upstreamSha256": "4385d7517828d52ea3ba56b4e20600289d46ff59c286fc901c15d79fd92d3f40"
+  },
+  {
+    "target": "packages/app/src/components/dialog-manage-models.tsx",
+    "source": "branding/templates/packages__app__src__components__dialog-manage-models.tsx",
+    "upstreamSha256": "75b980e3bba11cb47aeb87a6b960e54083e65f0d3502a995deaf6f7cf856799f"
+  },
+  {
+    "target": "packages/app/src/context/settings.tsx",
+    "source": "branding/templates/packages__app__src__context__settings.tsx",
+    "upstreamSha256": "7fdc13c864064cf90c0370fa11ed3c0730c83c36a927af25de41502b9f2e1604"
+  },
+  {
+    "target": "packages/app/src/index.css",
+    "source": "branding/templates/packages__app__src__index.css",
+    "upstreamSha256": "be87c82ef2e44d0c1f8d27576ad229fd689b8475574ae6bb69007747af870bff"
   }
 ]

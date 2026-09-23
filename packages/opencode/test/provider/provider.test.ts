@@ -87,6 +87,22 @@ const languageBaseURL = (language: unknown) => (language as { config: { baseURL:
 const it = testEffect(LayerNode.compile(LayerNode.group([Provider.node, Env.node, Plugin.node])))
 const experimentalModels = testEffect(providerLayer({ enableExperimentalModels: true }))
 
+it.instance("managed desktop ignores ambient provider keys and uses only the native bridge", () =>
+  Effect.gen(function* () {
+    yield* setProcessEnv("UNLIMIT_MANAGED", "1")
+    yield* setProcessEnv("UNLIMIT_BRIDGE_URL", "http://127.0.0.1:12345/v1")
+    yield* setProcessEnv("UNLIMIT_BRIDGE_KEY", "a".repeat(43))
+    yield* setProcessEnv("OPENAI_API_KEY", "ambient-must-not-be-used")
+    yield* setProcessEnv("ANTHROPIC_API_KEY", "ambient-must-not-be-used")
+    const providers = yield* list
+    expect(Object.keys(providers)).toEqual(["unlimitcode"])
+    const managed = providers[ProviderV2.ID.make("unlimitcode")]
+    expect(Object.keys(managed.models)).toEqual(["anthropic/claude-fable-5.1", "openai/gpt-6-astra"])
+    expect(managed.options.apiKey).toBe("a".repeat(43))
+    expect(Object.values(managed.models).every((model) => model.api.url === "http://127.0.0.1:12345/v1")).toBe(true)
+  }),
+)
+
 const alphaProviderConfig = {
   provider: {
     "custom-provider": {

@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, 'codex/**']
+    branches: [main, "codex/**"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
       - uses: ./.github/actions/setup-bun
         with:
           install-flags: --frozen-lockfile
@@ -25,5 +28,17 @@ jobs:
         working-directory: packages/app
       - run: bun typecheck
         working-directory: packages/tui
+      - run: bun typecheck
+        working-directory: packages/desktop
+      - run: bun typecheck
+        working-directory: packages/opencode
+      - run: bun test src/managed
+        working-directory: packages/desktop
+      - run: node --experimental-strip-types --test test-node/managed-bridge.test.mjs
+        working-directory: packages/desktop
+      - run: bun test test/config/unlimit.test.ts test/provider/provider.test.ts
+        working-directory: packages/opencode
+      - run: bun test --conditions=solid --preload ./happydom.ts ./src/hooks/provider-catalog.test.ts ./src/pages/layout/helpers.test.ts
+        working-directory: packages/app
       - run: bun test --conditions=solid --preload ./happydom.ts ./src/theme-preload.test.ts
         working-directory: packages/app

@@ -26,8 +26,11 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Add a canonical brand manifest and approved asset sources.
 - [x] Implement deterministic `brand:scan`, `brand:apply`, and `brand:check` with documented compatibility exceptions and failure on unknown drift.
 - [ ] Replace shipped names, logos, icons, banners, installer metadata, native menus, and localization copy.
+- [x] Package the approved original icon as macOS ICNS, Windows ICO and native PNG resources; verify checksums and compile the desktop with owned metadata and notification artwork.
 - [x] Add Paper/Ink application and TUI themes with readable syntax, diffs, and status colours.
 - [ ] Isolate application IDs, URL schemes, CLI command, and user-data paths from OpenCode.
+- [x] Isolate desktop application IDs/schemes, core user-data/config/cache/state directories and managed preferences; remove automatic legacy OpenCode data migration. Standalone CLI naming remains pending.
+- [x] Remove upstream desktop update feeds, disable updating until private delivery is ready, disallow downgrades and require Windows update signature verification.
 - [ ] Replace owned website, support, install, download, telemetry, and update destinations; disable unsupported upstream-owned services.
 - [x] Verify repeated branding application is a no-op, missing targets fail, and unexpected new branding fails.
 - [ ] Review screenshots of desktop, TUI, website, icons, and installer surfaces in both themes.
@@ -38,6 +41,9 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Add RLS and server-only subscription writes; test cross-account access denial.
 - [ ] Finish website signup/login, recovery, logout, and account acceptance tests. Email-link login, logout and model-selection pages are implemented; real email delivery and full browser sign-in remain to verify.
 - [ ] Implement desktop and CLI browser login, secure token storage, session refresh, and revocation.
+- [x] Implement desktop browser PKCE, consent, account-only IPC, encrypted-storage adapter, refresh coalescing and logout fencing; verify real hosted OAuth/account API/refresh revocation with a temporary user and remove the user.
+- [x] Verify the encrypted-token adapter against real Electron safeStorage on macOS in an isolated profile; synthetic credentials and profile removed.
+- [ ] Verify installed macOS/Windows browser callback, Windows credential storage and real email delivery; implement standalone CLI login.
 - [x] Implement account-bound Dodo test-checkout/customer-portal routes with fixed server product, checkout reuse, and disabled-by-default billing. Verified with the official SDK, simulated provider responses and real hosted Supabase.
 - [x] Verify raw-body signatures, deduplicate events, and atomically reconcile current subscription/payment state with database leases and stale-worker protection.
 - [x] Test mandate versus payment, renewal-period matching, delayed events, retries, cancellation, holds/expiry, refunds, cross-account access and payment-reuse denial using unit/PostgreSQL tests and a hosted Supabase smoke test.
@@ -52,6 +58,7 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Implement the authenticated streaming gateway with server-held OpenRouter credentials and subscription enforcement. Five gateway tests pass; live inference remains disabled pending verified payments and real-provider testing.
 - [ ] Preserve streaming tool calls, reasoning options, cancellation, provider errors, and context limits; never silently change the selected model.
 - [ ] Automatically load account selections in the fork and remove customer model-connection/key-entry flows.
+- [x] Wire the development desktop to the managed gateway through a private loopback bridge; replace provider-key forms with account controls and filter the picker to account-selected models. Verify routing, streaming, cancellation, key exclusion and selection filtering in tests.
 - [ ] Preserve custom workflows, agents, and tools independently from managed model connections.
 - [ ] Track company usage/cost metadata without storing prompt/code contents by default or implementing customer usage quotas.
 - [ ] Test unauthorized requests, cancelled subscriptions, model IDs, stream failures, cancellation, and actual end-to-end coding.
@@ -68,7 +75,9 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 ## 6. Builds, releases, and upstream maintenance
 
 - [ ] Build all bundled engine/CLI components from the fork revision; avoid upstream-branded executable downloads.
+- [x] Build the desktop's embedded v1 engine from the fork and remove the upstream development v2 executable download/launch path. CLI and WSL packaging remain pending.
 - [ ] Separate product version from upstream compatibility version.
+- [x] Source desktop display/package version from the brand manifest independently of upstream engine compatibility version; beta/production packaging remains explicitly disabled.
 - [ ] Build macOS arm64/x64 and Windows x64/arm64 desktop apps and CLI archives.
 - [ ] Configure Apple Developer ID signing/notarization and Windows Authenticode signing; fail production builds when absent.
 - [ ] Publish verified artifacts before update metadata, separate beta/stable feeds, and reject invalid signatures/downgrades.
@@ -96,5 +105,6 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - 2026-09-23: Platform build/typecheck, five gateway tests and isolated PostgreSQL policy/lifecycle tests pass. Hosted Supabase Auth/RLS tests pass; both temporary accounts were deleted. Portal and configured sign-in form inspected in the browser.
 - 2026-09-23: Dodo, real OpenRouter execution, native account integration, signed downloads, updater delivery and public deployment are not complete. Domain and price/currency remain intentionally deferred.
 - 2026-09-23: Added test-mode billing routes, raw-body verification, event deduplication, fenced reconciliation, refund/dispute handling, checkout reuse and recovery tooling. All 20 unit tests, PostgreSQL account/billing checks, typecheck and production build pass. Billing migration applied to development Supabase; hosted Auth/Postgres billing smoke passed with simulated Dodo responses, and both temporary accounts plus test metadata were removed. Actual Dodo merchant acceptance and production billing remain pending; live mode is rejected.
+- 2026-09-23: Enabled hosted Supabase OAuth with dynamic registration disabled; registered/reused a public development desktop client. Hosted PKCE, consent, one-use codes, verified account API, refresh and logout revocation pass. Added native account/bridge integration, managed provider restriction, identity isolation, approved native icons and release guards. These code checks do not complete real email, installed-app, Windows/macOS signing, private distribution or paid inference acceptance. See `branding/NATIVE_ACCOUNT.md` and private platform `NATIVE_AUTH.md`.
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.

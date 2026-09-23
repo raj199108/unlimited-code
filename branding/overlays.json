@@ -53,5 +53,180 @@
     "target": "packages/ui/src/theme/themes/opencode.json",
     "source": "branding/templates/classic-theme.json",
     "upstreamSha256": "4215d8e26a5b13d07eb6ba3daa1ce9dc108a2decc1c8c623fde11683bcf30433"
+  },
+  {
+    "target": "packages/app/package.json",
+    "source": "branding/templates/packages__app__package.json",
+    "upstreamSha256": "bac0be74ac600b22e84f373ca047e33c2ccac5b1eda4166f9c9bcd49a274db0d"
+  },
+  {
+    "target": "packages/app/src/components/dialog-connect-provider.tsx",
+    "source": "branding/templates/packages__app__src__components__dialog-connect-provider.tsx",
+    "upstreamSha256": "066cd8b41351375525812023725b8605919ea43d4adee75f90b2cf900ca6ed94"
+  },
+  {
+    "target": "packages/app/src/components/dialog-custom-provider.tsx",
+    "source": "branding/templates/packages__app__src__components__dialog-custom-provider.tsx",
+    "upstreamSha256": "4e94247e6cfa726b691abcd08d4d333fa9836f801b58ba7ce903a21ea5c5bd44"
+  },
+  {
+    "target": "packages/app/src/components/dialog-select-model.tsx",
+    "source": "branding/templates/packages__app__src__components__dialog-select-model.tsx",
+    "upstreamSha256": "949e2f88a3918a022c329f64e2882ce089018661405e7dcc8f55ea7e3ca8a958"
+  },
+  {
+    "target": "packages/app/src/components/settings-providers.tsx",
+    "source": "branding/templates/packages__app__src__components__settings-providers.tsx",
+    "upstreamSha256": "a434192304b74b5fff96b2ca66590b2eeb09f988460c7cf17c8c2e058d93e8c7"
+  },
+  {
+    "target": "packages/app/src/components/settings-v2/providers.tsx",
+    "source": "branding/templates/packages__app__src__components__settings-v2__providers.tsx",
+    "upstreamSha256": "d622f5318a53f9a340aa6bbb5cb2efc85b446d337dd1f3b97b6033352ca75e64"
+  },
+  {
+    "target": "packages/app/src/context/platform.tsx",
+    "source": "branding/templates/packages__app__src__context__platform.tsx",
+    "upstreamSha256": "4fe0c445d20d3fa7d936ca18472a3f103de8a8abcde93959c0c8823911c0a2f4"
+  },
+  {
+    "target": "packages/app/src/desktop-menu.ts",
+    "source": "branding/templates/packages__app__src__desktop-menu.ts",
+    "upstreamSha256": "7fe6b7a9ce57a282d593d152f1692feae345c40d69a3f834dcf8802d0d8acea9"
+  },
+  {
+    "target": "packages/app/src/hooks/provider-catalog.ts",
+    "source": "branding/templates/packages__app__src__hooks__provider-catalog.ts",
+    "upstreamSha256": "bae3b46751acd02b4a15f2a2cf590da141a61b398978db50c5ccd4b1a1db8517"
+  },
+  {
+    "target": "packages/app/src/hooks/use-providers.ts",
+    "source": "branding/templates/packages__app__src__hooks__use-providers.ts",
+    "upstreamSha256": "806f6a8db778186919502bba7ba56eb18d4731fa7d4f467be69d07edff1780c0"
+  },
+  {
+    "target": "packages/app/src/i18n/en.ts",
+    "source": "branding/templates/packages__app__src__i18n__en.ts",
+    "upstreamSha256": "589c074e01b06d1ba36c871f295c509da808143e762b865e469f93adbdd4c4c2"
+  },
+  {
+    "target": "packages/app/src/pages/layout.tsx",
+    "source": "branding/templates/packages__app__src__pages__layout.tsx",
+    "upstreamSha256": "4f2e40d8d2d2f14ef28a761b14bd85828c5a89f76239c0c28113b7d1b0df55d5"
+  },
+  {
+    "target": "packages/app/src/pages/layout/deep-links.ts",
+    "source": "branding/templates/packages__app__src__pages__layout__deep-links.ts",
+    "upstreamSha256": "cc45ba21f402fca3ce75f39b815ff3a7f3c78f6cb83a14345a4a8b34fb379f24"
+  },
+  {
+    "target": "packages/core/src/global.ts",
+    "source": "branding/templates/packages__core__src__global.ts",
+    "upstreamSha256": "37c9aae045e01cd246cd4d8c489e84ea4849b6297d3a6f9ff9b1bca57f85c013"
+  },
+  {
+    "target": "packages/desktop/electron-builder.config.ts",
+    "source": "branding/templates/packages__desktop__electron-builder.config.ts",
+    "upstreamSha256": "178893ffc1d81ef212aa714fa08be6577523655fec76630499d12b2d8712c8cb"
+  },
+  {
+    "target": "packages/desktop/electron.vite.config.ts",
+    "source": "branding/templates/packages__desktop__electron.vite.config.ts",
+    "upstreamSha256": "e4ce7ab3e384d8e68c2ed33c5ac269665b7b266cf443916dcc191d737a24228f"
+  },
+  {
+    "target": "packages/desktop/package.json",
+    "source": "branding/templates/packages__desktop__package.json",
+    "upstreamSha256": "7517e416461d0bdf96abec6e3aa076e2a1b79ebb860b7d3fc07f8b453968d104"
+  },
+  {
+    "target": "packages/desktop/scripts/copy-icons.ts",
+    "source": "branding/templates/packages__desktop__scripts__copy-icons.ts",
+    "upstreamSha256": "b77470e9c591fc60210aa4092a474c7f0025fb61c95bd4765e7a00e10a1ba4e8"
+  },
+  {
+    "target": "packages/desktop/scripts/copy-metainfo.ts",
+    "source": "branding/templates/packages__desktop__scripts__copy-metainfo.ts",
+    "upstreamSha256": "9f2132af9f20f28c760e083ea7dad673b67b0bbfd305a801232bb5b4fd38427e"
+  },
+  {
+    "target": "packages/desktop/scripts/prebuild.ts",
+    "source": "branding/templates/packages__desktop__scripts__prebuild.ts",
+    "upstreamSha256": "8f813aa2c3ee15122b87fb94ddc9227d8763376aedae371cf89e17d931d2ffa0"
+  },
+  {
+    "target": "packages/desktop/scripts/predev.ts",
+    "source": "branding/templates/packages__desktop__scripts__predev.ts",
+    "upstreamSha256": "1cff0aa51a6fb6dfb59bc1519ea8ddc67418061b413f673da4dfa1586cfec6c1"
+  },
+  {
+    "target": "packages/desktop/src/main/constants.ts",
+    "source": "branding/templates/packages__desktop__src__main__constants.ts",
+    "upstreamSha256": "c5ecefad57ea990e891844e3217d18da37d8ff8c5282bc24b0c7d50545215e61"
+  },
+  {
+    "target": "packages/desktop/src/main/index.ts",
+    "source": "branding/templates/packages__desktop__src__main__index.ts",
+    "upstreamSha256": "7f6af4d53e405692ad74320ad4618dfb309dc25d089f92ab5e34451e75627a77"
+  },
+  {
+    "target": "packages/desktop/src/main/ipc.ts",
+    "source": "branding/templates/packages__desktop__src__main__ipc.ts",
+    "upstreamSha256": "84ce2eae84fa49296e72c4689407a3364b7a90896e2eafb8241a9b1ea49baddf"
+  },
+  {
+    "target": "packages/desktop/src/main/logging.ts",
+    "source": "branding/templates/packages__desktop__src__main__logging.ts",
+    "upstreamSha256": "9bf7f7a2233024cd82a133c6d25b67afe9e6858a6e4aa387d351437d95486763"
+  },
+  {
+    "target": "packages/desktop/src/main/server.ts",
+    "source": "branding/templates/packages__desktop__src__main__server.ts",
+    "upstreamSha256": "b011cc9421ffe27bbdc18f8e18423f114636a310b7290394a19a7f1b29a8c352"
+  },
+  {
+    "target": "packages/desktop/src/main/updater.ts",
+    "source": "branding/templates/packages__desktop__src__main__updater.ts",
+    "upstreamSha256": "ecdace7e71a7212caa8efd01f190ffd66d3a2816ac6fec7e4504e94f0cb9e6d2"
+  },
+  {
+    "target": "packages/desktop/src/preload/index.ts",
+    "source": "branding/templates/packages__desktop__src__preload__index.ts",
+    "upstreamSha256": "80957eec2df2cd4c0fde22c51c834aa2fdc0fdf305a1487752d9cd149c249d8f"
+  },
+  {
+    "target": "packages/desktop/src/preload/types.ts",
+    "source": "branding/templates/packages__desktop__src__preload__types.ts",
+    "upstreamSha256": "14345774e610db4dd1673fd34fb8ca6397d636fdfaed9478ae71e11bdcd73d2c"
+  },
+  {
+    "target": "packages/desktop/src/renderer/index.tsx",
+    "source": "branding/templates/packages__desktop__src__renderer__index.tsx",
+    "upstreamSha256": "d7199f45922da2763c047c948bf88ba31f51f4384e12702029f660a3df7f347e"
+  },
+  {
+    "target": "packages/opencode/src/config/config.ts",
+    "source": "branding/templates/packages__opencode__src__config__config.ts",
+    "upstreamSha256": "87a9071af1ddb04d65947dba49be3fb4c94ecf63e120f17ce46ee81ff25dd45a"
+  },
+  {
+    "target": "packages/opencode/src/config/managed.ts",
+    "source": "branding/templates/packages__opencode__src__config__managed.ts",
+    "upstreamSha256": "680c1f5371c223cecf6d902561b8bbc91bdd68c05350fe17b441d2a5901e2843"
+  },
+  {
+    "target": "packages/opencode/src/provider/provider.ts",
+    "source": "branding/templates/packages__opencode__src__provider__provider.ts",
+    "upstreamSha256": "77216c71fd0079da036ac25af516a29ee45f58b52e7c63987065ca97583ee364"
+  },
+  {
+    "target": "packages/app/index.html",
+    "source": "branding/templates/packages__app__index.html",
+    "upstreamSha256": "d3e66cff3753fbae6eaece2614f0cc381174173e843ed570a4b9d0e09656e5f8"
+  },
+  {
+    "target": "packages/desktop/src/renderer/index.html",
+    "source": "branding/templates/packages__desktop__src__renderer__index.html",
+    "upstreamSha256": "8b4bb96d4eef6e92d83ebc9f9931605beb42fe3c92578e363b45d62396d3d65d"
   }
 ]

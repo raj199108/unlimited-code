@@ -11,6 +11,7 @@
   "palette": { "paper": "#fdfcfc", "ink": "#201d1d" },
   "font": "IBM Plex Mono",
   "icon": "brand-kit/assets/unlimit-code-icon-original.png",
+  "nativeIcons": "branding/native-icons/checksums.json",
   "siteUrl": null,
   "apiUrl": null,
   "downloadsUrl": null,

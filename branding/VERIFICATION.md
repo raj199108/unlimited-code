@@ -13,3 +13,13 @@ Baseline: upstream v1.18.32 (`545f51d26cc39a907d2867492d498d9607ea5fa4`).
 Supabase local credentials are in ignored, mode-0600 environment files inside the private platform checkout. No provider or service-role secret is in the public application repository. Original font license bytes, including CRLF line endings, are retained.
 
 This evidence does not certify a release. Outstanding acceptance gates are in IMPLEMENTATION_CHECKLIST.md.
+
+## Native account and distribution foundation — 2026-09-23
+
+- Registered a public Supabase OAuth client in the dedicated development project, with dynamic registration disabled. A real hosted smoke test passed PKCE/consent, one-use authorization codes, account API, refresh and refresh-token revocation. The synthetic user was removed. This did not send email or complete an installed-app callback test.
+- Six native account/storage tests, three Node bridge tests, 105 engine/config/provider tests, and 35 app catalog/deep-link tests pass. The bridge suite runs in Node to verify the same fetch/stream cancellation behavior used by Electron.
+- Real Electron safeStorage on macOS passed encrypted write/read/delete in a temporary profile, with synthetic credentials and cleanup. Windows acceptance remains pending.
+- Desktop, app and engine package typechecks pass. A complete desktop build with the fork-built embedded engine passes. The build retains existing upstream bundling warnings; no release package was signed or published.
+- The private platform passes 22 unit tests, typecheck and production build. Billing and paid inference remain disabled.
+- Approved PNG artwork is packaged into native PNG/ICNS/ICO files with checksums. Owned icons are used for the dock, notifications and HTML favicons. Application IDs, protocol handlers and user-data namespaces are independent from upstream; upstream desktop update feeds are removed and publishing defaults are disabled.
+- Native/account changes to upstream files are recorded as explicit checksum-protected overlays. Integration deliberately stops if upstream modifies these files, requiring a reviewed merge before accepting a new baseline. New fork-owned modules remain ordinary maintained source files.

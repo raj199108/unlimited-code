@@ -1,0 +1,7 @@
+{
+  "issuer": "https://akonegyrvrjhgrmpzgbd.supabase.co",
+  "clientId": "c13afd84-6dbe-462d-aaf8-1a0ae8d59ed6",
+  "redirectUri": "unlimitcode-dev://auth/callback",
+  "site": "http://127.0.0.1:3210",
+  "publishableKey": "sb_publishable_aOwpDnIGh3TCDaVzDHJSaA_1UpONAWl"
+}

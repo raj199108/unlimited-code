@@ -74,6 +74,17 @@ export function transform(path, text, expected, name) {
 
 export async function plan(base = root) {
   const brand = JSON.parse(await readFile(resolve(base, "branding/brand.json"), "utf8"))
+  if (brand.nativeIcons) {
+    const icons = JSON.parse(await readFile(resolve(base, brand.nativeIcons), "utf8"))
+    for (const [file, hash] of Object.entries(icons)) {
+      if (digest(await readFile(resolve(base, dirname(brand.nativeIcons), file))) !== hash)
+        throw new Error(`Native icon drift: ${file}; regenerate from the approved source`)
+    }
+    if (digest(await readFile(resolve(base, brand.icon))) !== icons["icon.png"])
+      throw new Error("Native icon no longer matches the approved original")
+    if (digest(await readFile(resolve(base, "packages/app/public/unlimit-code-icon.png"))) !== icons["128x128.png"])
+      throw new Error("Notification icon no longer matches the native icon")
+  }
   const targets = JSON.parse(await readFile(resolve(base, "branding/text-targets.json"), "utf8"))
   const overlays = JSON.parse(await readFile(resolve(base, "branding/overlays.json"), "utf8"))
   const changes = []
@@ -128,7 +139,10 @@ async function scan() {
     })
   }
   await mkdir(resolve(root, "branding/reports"), { recursive: true })
-  await writeFile(resolve(root, "branding/reports/scan.json"), JSON.stringify({ matches, binaryAssets, skipped }, null, 2) + "\n")
+  await writeFile(
+    resolve(root, "branding/reports/scan.json"),
+    JSON.stringify({ matches, binaryAssets, skipped }, null, 2) + "\n",
+  )
   console.log(
     `${matches.reduce((n, item) => n + item.count, 0)} occurrences across ${new Set(matches.map((item) => item.path)).size} files; see branding/reports/scan.json`,
   )

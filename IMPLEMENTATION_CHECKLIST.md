@@ -38,9 +38,13 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - [x] Add RLS and server-only subscription writes; test cross-account access denial.
 - [ ] Finish website signup/login, recovery, logout, and account acceptance tests. Email-link login, logout and model-selection pages are implemented; real email delivery and full browser sign-in remain to verify.
 - [ ] Implement desktop and CLI browser login, secure token storage, session refresh, and revocation.
-- [ ] Integrate Dodo test checkout and customer portal.
-- [ ] Verify raw-body webhook signatures, deduplicate events, and reconcile subscription state.
-- [ ] Test first payment, delayed/out-of-order events, renewal, cancellation, failed payment, expiry, and refunds.
+- [x] Implement account-bound Dodo test-checkout/customer-portal routes with fixed server product, checkout reuse, and disabled-by-default billing. Verified with the official SDK, simulated provider responses and real hosted Supabase.
+- [x] Verify raw-body signatures, deduplicate events, and atomically reconcile current subscription/payment state with database leases and stale-worker protection.
+- [x] Test mandate versus payment, renewal-period matching, delayed events, retries, cancellation, holds/expiry, refunds, cross-account access and payment-reuse denial using unit/PostgreSQL tests and a hosted Supabase smoke test.
+- [x] Add a manual reconciliation/recovery command and billing configuration runbook.
+- [ ] Configure Dodo test merchant/product/webhook credentials and verify real checkout, customer portal, signed deliveries and the full payment lifecycle. Simulated provider responses do not complete this acceptance gate.
+- [ ] Verify actual Dodo payment-to-period timestamps, adaptive currency behavior and completed/expired checkout replacement before enabling purchases.
+- [ ] Deploy scheduled billing reconciliation and event-lag/failure alerts.
 
 ## 4. Managed models
 
@@ -91,5 +95,6 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 - 2026-09-23: Branding tests and four theme-preload tests pass; all 30 workspace typechecks and app production build pass.
 - 2026-09-23: Platform build/typecheck, five gateway tests and isolated PostgreSQL policy/lifecycle tests pass. Hosted Supabase Auth/RLS tests pass; both temporary accounts were deleted. Portal and configured sign-in form inspected in the browser.
 - 2026-09-23: Dodo, real OpenRouter execution, native account integration, signed downloads, updater delivery and public deployment are not complete. Domain and price/currency remain intentionally deferred.
+- 2026-09-23: Added test-mode billing routes, raw-body verification, event deduplication, fenced reconciliation, refund/dispute handling, checkout reuse and recovery tooling. All 20 unit tests, PostgreSQL account/billing checks, typecheck and production build pass. Billing migration applied to development Supabase; hosted Auth/Postgres billing smoke passed with simulated Dodo responses, and both temporary accounts plus test metadata were removed. Actual Dodo merchant acceptance and production billing remain pending; live mode is rejected.
 
 - Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.

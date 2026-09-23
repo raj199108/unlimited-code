@@ -1,0 +1,18 @@
+{
+  "name": "Unlimit Code",
+  "slug": "unlimitcode",
+  "repository": "raj199108/unlimited-code",
+  "productVersion": "0.1.0",
+  "upstream": {
+    "repository": "anomalyco/opencode",
+    "tag": "v1.18.32",
+    "sha": "545f51d26cc39a907d2867492d498d9607ea5fa4"
+  },
+  "palette": { "paper": "#fdfcfc", "ink": "#201d1d" },
+  "font": "IBM Plex Mono",
+  "icon": "brand-kit/assets/unlimit-code-icon-original.png",
+  "siteUrl": null,
+  "apiUrl": null,
+  "downloadsUrl": null,
+  "releaseEnabled": false
+}

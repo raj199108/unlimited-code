@@ -492,7 +492,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           headers: {
             "HTTP-Referer": "https://opencode.ai/",
             "X-Title": "opencode",
-            "X-BILLING-INVOKE-ORIGIN": "OpenCode",
+            "X-BILLING-INVOKE-ORIGIN": "Unlimit Code",
           },
         },
       }),

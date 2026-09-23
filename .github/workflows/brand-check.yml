@@ -1,0 +1,29 @@
+name: Unlimit Code checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, 'codex/**']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.repository == 'raj199108/unlimited-code'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: ./.github/actions/setup-bun
+        with:
+          install-flags: --frozen-lockfile
+      - run: node branding/brand.mjs check
+      - run: bun test
+        working-directory: branding
+      - run: bun typecheck
+        working-directory: packages/ui
+      - run: bun typecheck
+        working-directory: packages/app
+      - run: bun typecheck
+        working-directory: packages/tui
+      - run: bun test --conditions=solid --preload ./happydom.ts ./src/theme-preload.test.ts
+        working-directory: packages/app

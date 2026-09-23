@@ -1,0 +1,57 @@
+[
+  {
+    "target": "packages/ui/src/components/logo.tsx",
+    "source": "branding/templates/logo.tsx",
+    "upstreamSha256": "eaa160ae3d3e54f184694f361185c6b0f5a923a5b23bc5fbffd810cfef37838a"
+  },
+  {
+    "target": "packages/ui/src/components/logo.css",
+    "source": "branding/templates/logo.css",
+    "upstreamSha256": "0f0c1a853fea51eb25a182bc444f1ae61b5383b67759e22c97778972352436af"
+  },
+  {
+    "target": "packages/tui/src/logo.ts",
+    "source": "branding/templates/packages__tui__src__logo.ts",
+    "upstreamSha256": "a649abe2d28e46a45627bd32f357fa91a462491afe32144ee73db14dda30505c"
+  },
+  {
+    "target": "packages/app/src/app.tsx",
+    "source": "branding/templates/packages__app__src__app.tsx",
+    "upstreamSha256": "001589156c684adc61c7b74a2bc652967c03220134eda0616ba0728792e4c249"
+  },
+  {
+    "target": "packages/app/public/oc-theme-preload.js",
+    "source": "branding/templates/packages__app__public__oc-theme-preload.js",
+    "upstreamSha256": "8d4449bfa3375186f91aa344dfe7352344af1a5a92d7e2e61d55ada85b1e7c19"
+  },
+  {
+    "target": "packages/ui/src/styles/index.css",
+    "source": "branding/templates/packages__ui__src__styles__index.css",
+    "upstreamSha256": "63c9c24d19feae01d64ea43150f04a19fd1bf435fdf42bbe15b37928bde8d6d4"
+  },
+  {
+    "target": "packages/ui/src/theme/context.tsx",
+    "source": "branding/templates/packages__ui__src__theme__context.tsx",
+    "upstreamSha256": "59db2f5d2b74405d8527362b3784cfd0553301fa7392df092af0374c50f222da"
+  },
+  {
+    "target": "packages/tui/src/theme/index.ts",
+    "source": "branding/templates/packages__tui__src__theme__index.ts",
+    "upstreamSha256": "b78ba8e1a897bd47b9094cfba060b6fdffb2f734f936d851f8bef49515244c14"
+  },
+  {
+    "target": "packages/tui/src/context/theme.tsx",
+    "source": "branding/templates/packages__tui__src__context__theme.tsx",
+    "upstreamSha256": "ff3a6a30b40d81d1a223a1972427dbb35410e871aeac206de0badc9f493c7f79"
+  },
+  {
+    "target": "packages/ui/package.json",
+    "source": "branding/templates/packages__ui__package.json",
+    "upstreamSha256": "237cc0e2cb438af91bb9b25563eb3b47788e94f207b1e6bf737bb9a95d25fc3c"
+  },
+  {
+    "target": "packages/ui/src/theme/themes/opencode.json",
+    "source": "branding/templates/classic-theme.json",
+    "upstreamSha256": "4215d8e26a5b13d07eb6ba3daa1ce9dc108a2decc1c8c623fde11683bcf30433"
+  }
+]

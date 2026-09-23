@@ -1,0 +1,32 @@
+name: Review upstream stable releases
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: upstream-stable-integration
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'raj199108/unlimited-code'
+    runs-on: ubuntu-latest
+    env:
+      # A narrowly scoped GitHub App installation token or fine-grained PAT.
+      # Separate from GITHUB_TOKEN so the draft PR triggers its verification workflow.
+      GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
+    steps:
+      - name: Check automation credentials
+        run: test -n "$GH_TOKEN" || { echo 'Configure UPSTREAM_SYNC_TOKEN before enabling this workflow.'; exit 1; }
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
+      - uses: ./.github/actions/setup-bun
+        with:
+          install-flags: --frozen-lockfile
+      - run: git config user.name 'Unlimit Code integration'
+      - run: git config user.email 'raj@facts.ai'
+      - run: node branding/sync-upstream.mjs

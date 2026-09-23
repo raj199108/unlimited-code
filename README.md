@@ -1,9 +1,11 @@
+> This is an independent development fork. See the [implementation checklist](IMPLEMENTATION_CHECKLIST.md) and [upstream attribution](UPSTREAM.md). Managed subscriptions and official downloads are not available yet.
+
 <p align="center">
   <a href="https://opencode.ai">
     <picture>
       <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
       <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="OpenCode logo">
+      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="Unlimit Code logo">
     </picture>
   </a>
 </p>
@@ -39,7 +41,7 @@
   <a href="README.vi.md">Tiếng Việt</a>
 </p>
 
-[![OpenCode Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+[![Unlimit Code Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
 
 ---
 
@@ -66,7 +68,7 @@ nix run nixpkgs#opencode           # or github:anomalyco/opencode for latest dev
 
 ### Desktop App (BETA)
 
-OpenCode is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
+Unlimit Code is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
 
 | Platform              | Download                           |
 | --------------------- | ---------------------------------- |
@@ -99,7 +101,7 @@ XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
 
 ### Agents
 
-OpenCode includes two built-in agents you can switch between with the `Tab` key.
+Unlimit Code includes two built-in agents you can switch between with the `Tab` key.
 
 - **build** - Default, full-access agent for development work
 - **plan** - Read-only agent for analysis and code exploration
@@ -114,15 +116,15 @@ Learn more about [agents](https://opencode.ai/docs/agents).
 
 ### Documentation
 
-For more info on how to configure OpenCode, [**head over to our docs**](https://opencode.ai/docs).
+For more info on how to configure Unlimit Code, [**head over to our docs**](https://opencode.ai/docs).
 
 ### Contributing
 
-If you're interested in contributing to OpenCode, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
+If you're interested in contributing to Unlimit Code, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
 
-### Building on OpenCode
+### Building on Unlimit Code
 
-If you are working on a project that's related to OpenCode and is using "opencode" as part of its name, for example "opencode-dashboard" or "opencode-mobile", please add a note to your README to clarify that it is not built by the OpenCode team and is not affiliated with us in any way.
+If you are working on a project that's related to Unlimit Code and is using "opencode" as part of its name, for example "opencode-dashboard" or "opencode-mobile", please add a note to your README to clarify that it is not built by the Unlimit Code team and is not affiliated with us in any way.
 
 ---
 

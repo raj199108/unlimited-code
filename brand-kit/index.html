@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en" data-uc-theme="paper">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Unlimit Code brand kit: typography, colour, components and landing page themes.">
+  <meta name="theme-color" content="#fdfcfc">
+  <title>Unlimit Code — Brand & Theme</title>
+  <link rel="icon" type="image/png" href="assets/unlimit-code-icon-original.png">
+  <link rel="preload" href="fonts/IBMPlexMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="theme.css">
+  <link rel="stylesheet" href="preview.css">
+  <script src="preview.js" defer></script>
+</head>
+<body class="uc-theme">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="kit-toolbar">
+    <span class="uc-label kit-label">Unlimit Code / Theme kit v1</span>
+    <div class="view-switch" aria-label="Preview view">
+      <button type="button" data-view="landing" aria-pressed="true">Landing preview</button>
+      <button type="button" data-view="system" aria-pressed="false">Brand system</button>
+    </div>
+    <div class="theme-switch" aria-label="Colour theme">
+      <button type="button" data-theme="paper" aria-pressed="true">Paper</button>
+      <button type="button" data-theme="ink" aria-pressed="false">Ink</button>
+    </div>
+  </header>
+  <main id="main" tabindex="-1">
+    <div id="landing-view">
+      <nav class="site-nav uc-container" aria-label="Landing preview">
+        <a href="#landing-top" class="brand-lockup" aria-label="Unlimit Code home">
+          <span class="brand-mark"><img src="assets/unlimit-code-icon-original.png" alt="" width="64" height="64"></span>
+          <span class="uc-wordmark">Unlimit Code</span>
+        </a>
+        <div class="site-nav-links"><a class="uc-link" href="#workflow">Workflow</a><button class="nav-link" type="button" data-open-system>Brand guide <span aria-hidden="true">↗</span></button></div>
+      </nav>
+      <section id="landing-top" class="hero uc-container">
+        <div class="hero-copy">
+          <p class="uc-label">Coding agent / Terminal-native</p>
+          <h1 class="uc-display">From intent<br>to code<span class="hero-period">.</span></h1>
+          <p class="hero-description">A clear space for your next idea.<br>Unlimit Code brings the coding agent<br class="desktop-break"> into your terminal.</p>
+          <div class="hero-actions"><a class="uc-button" href="#workflow">Explore the workflow <span aria-hidden="true">→</span></a><button class="uc-button uc-button--secondary" type="button" data-open-system>View the theme</button></div>
+          <p class="uc-label hero-footnote">A little structure. Room to build.</p>
+        </div>
+        <div class="hero-emblem" aria-label="Original Unlimit Code app icon">
+          <div class="emblem-meta uc-label"><span>UC / 001</span><span>Unbound</span></div>
+          <img src="assets/unlimit-code-icon-original.png" alt="Angular open infinity path with a terminal command caret" width="420" height="420">
+          <div class="emblem-meta uc-label"><span>Intent → Code</span><span>[ _ ]</span></div>
+        </div>
+      </section>
+      <section class="terminal-section uc-container" aria-labelledby="terminal-title">
+        <div class="section-label"><span class="uc-label" id="terminal-title">01 / In the terminal</span><span class="uc-label">Illustrative interface</span></div>
+        <div class="uc-terminal" data-uc-theme="ink">
+          <div class="uc-terminal__bar"><span>unlimit-code / workspace</span><span>[ example session ]</span></div>
+          <div class="terminal-grid">
+            <div class="terminal-conversation">
+              <p class="uc-label">You</p><p class="terminal-prompt">Build a focused landing page<br>for Unlimit Code.</p>
+              <p class="uc-label terminal-agent-label">Unlimit Code</p><p>Two colours. One typeface.<br>A clear path from idea to interface.</p>
+              <div class="terminal-command"><span aria-hidden="true">&gt;</span><span>What would you like to build?</span><span class="static-cursor" aria-hidden="true"></span></div>
+            </div>
+            <div class="terminal-plan">
+              <p class="uc-label">Theme / preview</p>
+              <div><span>[01]</span><span>Set the type</span></div>
+              <div><span>[02]</span><span>Define the space</span></div>
+              <div><span>[03]</span><span>Make it clear</span></div>
+              <p class="terminal-note">paper #fdfcfc<br>ink   #201d1d</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="workflow uc-container" id="workflow" aria-labelledby="workflow-title">
+        <div class="section-heading"><p class="uc-label">02 / The story</p><h2 class="uc-heading" id="workflow-title">A simple rhythm.</h2></div>
+        <div class="workflow-rows">
+          <article><span class="uc-label">01</span><h3>Describe.</h3><p>Begin with what you want to make. Keep the intent clear.</p></article>
+          <article><span class="uc-label">02</span><h3>Build.</h3><p>Give the work a focused space, with the important details in view.</p></article>
+          <article><span class="uc-label">03</span><h3>Refine.</h3><p>Look closely. Make the next change count.</p></article>
+        </div>
+      </section>
+      <section class="closing uc-container"><p class="uc-label">Your next idea starts here.</p><h2 class="uc-heading">Code, unbound.</h2><button class="uc-button" type="button" data-open-system>Explore the brand system <span aria-hidden="true">→</span></button></section>
+      <footer class="site-footer uc-container"><span class="uc-wordmark">Unlimit Code</span><span class="uc-label">Landing page theme / concept copy</span><a href="README.md" class="uc-link">Theme guidelines</a></footer>
+    </div>
+    <div id="system-view" hidden class="uc-container">
+      <section class="system-intro"><p class="uc-label">Unlimit Code / Brand system v1.0</p><h1 class="uc-display">Quiet confidence.<br>Terminal precision.</h1><p class="uc-body">Two colours, one type family, and the original open infinity mark. A practical foundation for landing pages, product UI, docs, and release notes.</p><div class="download-links"><a class="uc-button" href="theme.css" download>Download CSS</a><a class="uc-button uc-button--secondary" href="tokens.json" download>Download tokens</a><a class="uc-link" href="README.md">Read guidelines <span aria-hidden="true">↗</span></a></div></section>
+      <section class="system-section" aria-labelledby="identity-heading"><div class="system-section-heading"><p class="uc-label">01 / Identity</p><h2 class="uc-heading" id="identity-heading">The original mark.</h2></div><div class="identity-layout"><div class="identity-sample"><img src="assets/unlimit-code-icon-original.png" alt="Original angular infinity icon with command caret" width="300" height="300"><span class="uc-wordmark">Unlimit Code</span></div><div class="identity-notes"><p>The open path suggests possibility. The caret places it in the terminal.</p><ul><li>Keep the first icon’s geometry intact.</li><li>Use a cream holding square on dark surfaces.</li><li>Give the mark breathing room.</li><li>Use the name exactly: Unlimit Code.</li></ul><div class="icon-sizes"><figure><img src="assets/unlimit-code-icon-original.png" alt="Icon at 32 pixels" width="32" height="32"><figcaption>32px</figcaption></figure><figure><img src="assets/unlimit-code-icon-original.png" alt="Icon at 48 pixels" width="48" height="48"><figcaption>48px</figcaption></figure><figure><img src="assets/unlimit-code-icon-original.png" alt="Icon at 64 pixels" width="64" height="64"><figcaption>64px</figcaption></figure></div></div></div></section>
+      <section class="system-section" aria-labelledby="palette-heading"><div class="system-section-heading"><p class="uc-label">02 / Palette</p><h2 class="uc-heading" id="palette-heading">Paper. Ink. Nothing extra.</h2></div><div class="swatch-grid"><button class="swatch swatch-paper" type="button" data-copy="#fdfcfc" aria-label="Copy cream hex #fdfcfc"><span class="uc-label">01 / Paper</span><strong>#fdfcfc</strong><span>Background / Negative space</span><span class="uc-label">Copy hex ↗</span></button><button class="swatch swatch-ink" type="button" data-copy="#201d1d" aria-label="Copy ink hex #201d1d"><span class="uc-label">02 / Ink</span><strong>#201d1d</strong><span>Type / Rules / Primary actions</span><span class="uc-label">Copy hex ↗</span></button></div><p class="palette-caption">Invert the pair for the Ink theme. Keep secondary text full-contrast; create hierarchy with spacing, size, and weight.</p><p id="copy-status" role="status" aria-live="polite"></p></section>
+      <section class="system-section" aria-labelledby="type-heading"><div class="system-section-heading"><p class="uc-label">03 / Typography</p><h2 class="uc-heading" id="type-heading">IBM Plex Mono</h2></div><p class="uc-body">A real, self-hosted website font. Use 400 for reading, 500 for headings, and 600 for short emphasis. The generated logo remains separate artwork.</p><div class="type-row"><span class="uc-label">Display / 80 → 36 / 500</span><span class="type-display">Build what’s next.</span></div><div class="type-row"><span class="uc-label">Heading / 48 → 28 / 500</span><span class="type-heading">A clearer workspace.</span></div><div class="type-row"><span class="uc-label">Body / 16 / 400</span><span class="type-body">Use plain language. Keep the next action clear.<br>Make space for the work to speak.</span></div><div class="type-row"><span class="uc-label">Label / 12 / 500</span><span class="uc-label">WORKSPACE / READY / 001</span></div><p class="alphabet">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz<br>0123456789 / &gt;_ [ ] { } ( ) + − = : ;</p></section>
+      <section class="system-section" aria-labelledby="components-heading"><div class="system-section-heading"><p class="uc-label">04 / Components</p><h2 class="uc-heading" id="components-heading">Small moves. Clear states.</h2></div><div class="component-grid"><div class="component-sample"><p class="uc-label">Actions / 48px / 0px radius</p><button class="uc-button" id="sample-primary" type="button">Primary action <span aria-hidden="true">→</span></button><button class="uc-button uc-button--secondary" id="sample-secondary" type="button">Secondary action</button><button class="uc-button" type="button" disabled>Unavailable</button><p id="action-status" role="status">Use Tab to inspect the focus ring.</p></div><form class="component-sample" id="sample-form" novalidate><label class="uc-label" for="project-name">Input / Project name</label><input id="project-name" name="project" class="uc-input" placeholder="my-next-project" required aria-describedby="field-help"><p id="field-help">Try an empty submission to see the error state.</p><button class="uc-button uc-button--secondary" type="submit">Validate example</button><p id="form-status" role="status"></p></form></div><div class="state-row"><span class="uc-status">[OK] Ready</span><span class="uc-status">[··] In progress</span><span class="uc-status">[!] Needs attention</span><span class="uc-status">[×] Could not complete</span></div></section>
+      <section class="system-section" aria-labelledby="layout-heading"><div class="system-section-heading"><p class="uc-label">05 / Layout & rhythm</p><h2 class="uc-heading" id="layout-heading">Space is the accent.</h2></div><div class="layout-grid"><div><p class="uc-label">Spacing / 4px base</p><div class="space-ruler" aria-label="Spacing scale in pixels"><span style="--size:4px">4</span><span style="--size:8px">8</span><span style="--size:16px">16</span><span style="--size:24px">24</span><span style="--size:32px">32</span><span style="--size:48px">48</span><span style="--size:64px">64</span></div></div><dl class="layout-spec"><div><dt>Content width</dt><dd>1200px max</dd></div><div><dt>Mobile gutter</dt><dd>20px min</dd></div><div><dt>Section spacing</dt><dd>56–96px</dd></div><div><dt>Rules / corners</dt><dd>1px / 0px</dd></div><div><dt>Interaction timing</dt><dd>120ms</dd></div></dl></div></section>
+      <section class="system-section" aria-labelledby="voice-heading"><div class="system-section-heading"><p class="uc-label">06 / Voice</p><h2 class="uc-heading" id="voice-heading">Direct. Capable. Human.</h2></div><div class="voice-examples"><p><span class="uc-label">Headline</span><strong>From intent to code.</strong></p><p><span class="uc-label">Action</span><strong>Review changes</strong></p><p><span class="uc-label">Error</span><strong>Couldn’t open this file. Check the path and try again.</strong></p></div><p class="uc-body">Lead with a useful action. Keep claims specific and provable. Let the interface feel technical while the language stays natural.</p></section>
+      <footer class="system-footer"><span class="uc-label">Unlimit Code / Brand v1.0</span><a class="uc-link" href="https://github.com/IBM/plex/blob/master/README.md" target="_blank" rel="noreferrer">Font source ↗</a><a class="uc-link" href="fonts/LICENSE.txt">Font license</a></footer>
+    </div>
+  </main>
+</body>
+</html>

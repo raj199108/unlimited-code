@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# Unlimit Code Desktop
 
-The OpenCode Desktop app, built with Electron.
+The Unlimit Code Desktop app, built with Electron.
 
 ## Development
 

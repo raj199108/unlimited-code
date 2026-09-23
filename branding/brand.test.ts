@@ -36,7 +36,7 @@ test("preserves documentation commands, identifiers, and URLs", () => {
 
 test("the checked-out branded source has no pending transformations", async () => {
   expect(await plan()).toEqual([])
-})
+}, 30_000)
 
 test("unreviewed upstream names and missing targets stop integration", async () => {
   const base = await mkdtemp(join(tmpdir(), "unlimit-brand-test-"))

@@ -88,6 +88,8 @@ Updated: 2026-09-23. Check an item only when its acceptance criteria have been v
 
 - 2026-09-23: Workspace moved and original-file checksums verified; fork and private platform repository created.
 - 2026-09-23: Applied 9,218 display/prose replacements across 802 targets plus 11 explicit overlays. Wider scan still reports technical identifiers, upstream compatibility references, URLs, and unconverted surfaces; this is not a completed full rebrand.
-- 2026-09-23: Branding tests and four theme-preload tests pass; UI/app/TUI/engine/desktop typechecks and app production build pass.
+- 2026-09-23: Branding tests and four theme-preload tests pass; all 30 workspace typechecks and app production build pass.
 - 2026-09-23: Platform build/typecheck, five gateway tests and isolated PostgreSQL policy/lifecycle tests pass. Hosted Supabase Auth/RLS tests pass; both temporary accounts were deleted. Portal and configured sign-in form inspected in the browser.
 - 2026-09-23: Dodo, real OpenRouter execution, native account integration, signed downloads, updater delivery and public deployment are not complete. Domain and price/currency remain intentionally deferred.
+
+- Review branches are pushed. Draft changes: [application branding](https://github.com/raj199108/unlimited-code/pull/1) and [private account platform](https://github.com/raj199108/unlimited-code-platform/pull/1). Neither PR represents a finished production release.

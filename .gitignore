@@ -32,3 +32,8 @@ UPCOMING_CHANGELOG.md
 logs/
 *.bun-build
 tsconfig.tsbuildinfo
+
+# Separate managed-service checkout and local implementation evidence
+/platform/
+/output/
+/branding/reports/

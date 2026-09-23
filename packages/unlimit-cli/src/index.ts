@@ -3,13 +3,13 @@ import { homedir } from "node:os"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 import { access } from "node:fs/promises"
-import { startManagedBridge } from "@unlimitcode/account/bridge"
-import config from "../../../branding/cli-development.json"
+const config = __UNLIMIT_ACCOUNT_CONFIG__
+const channel = __UNLIMIT_CHANNEL__
 import brand from "../../../branding/brand.json"
 import { createOsStorage } from "./secure-storage.ts"
 import { createCliAccount } from "./account.ts"
 import { startLogin } from "./login.ts"
-import { engineEnvironment, requireLocalCommand } from "./engine.ts"
+import { engineEnvironment } from "./engine.ts"
 
 async function openBrowser(url: string) {
   const command =
@@ -38,17 +38,23 @@ async function main() {
     throw new Error("cli_node_required")
   const args = process.argv.slice(2)
   if (args.length === 1 && ["--version", "-v"].includes(args[0])) {
-    console.log(`${brand.name} ${brand.productVersion}-dev (upstream ${brand.upstream.tag})`)
+    console.log(
+      `${brand.name} ${brand.productVersion}${channel === "dev" ? "-dev" : ""} (upstream ${brand.upstream.tag})`,
+    )
     return
   }
   if (args.length === 1 && ["--help", "-h"].includes(args[0])) {
     console.log(
-      `Unlimit Code\n\n  unlimitcode login          Sign in using your browser\n  unlimitcode logout         Sign out of this CLI\n  unlimitcode account        Show account and selected models\n  unlimitcode account open   Manage subscription and models\n  unlimitcode [project]      Start coding\n  unlimitcode run [prompt]   Run a coding task\n  unlimitcode models         List your selected models\n\nProject agents, MCP tools, sessions, import, export and stats remain available.\nDevelopment build. Run inside the project or use an explicit ./path.\n`,
+      `Unlimit Code\n\n  unlimitcode login          Sign in to your optional profile\n  unlimitcode logout         Sign out of this CLI\n  unlimitcode account        Show your profile\n  unlimitcode account open   Edit your profile in the browser\n  unlimitcode [project]      Start coding\n  unlimitcode run [prompt]   Run a coding task\n  unlimitcode models         List available models\n  unlimitcode auth login     Connect your own provider\n\nConnect providers with /connect in the workspace. Custom models, local models, agents and workflows are supported. Provider usage is billed by your provider; no Unlimit Code subscription is required.\n`,
     )
     return
   }
-  const directory = join(homedir(), ".unlimitcode", "cli-dev")
-  const account = createCliAccount(config, createOsStorage(directory), directory)
+  const directory = join(homedir(), ".unlimitcode", `cli-${channel}`)
+  const account = createCliAccount(
+    config,
+    createOsStorage(directory, `ai.factso.unlimitcode.cli.${channel}`),
+    directory,
+  )
   if (args[0] === "logout" && args.length === 1) {
     await account.signOut()
     console.log("Signed out of Unlimit Code CLI.")
@@ -76,48 +82,38 @@ async function main() {
     const state = await account.status()
     if (state.status === "signed-out") return console.log("Signed out. Run unlimitcode login.")
     if (state.status !== "signed-in") throw new Error("account_unavailable")
-    console.log(
-      `Unlimit Code account: ${state.email}\nSubscription: ${state.paid ? "active" : "inactive"}\nModels:\n${state.models?.map((model) => `  ${model.name}`).join("\n")}`,
-    )
+    console.log(`Unlimit Code account: ${state.email}\nName: ${state.displayName || "—"}`)
     return
   }
-  requireLocalCommand(args)
   const engine = fileURLToPath(
     new URL(`./unlimit-engine${process.platform === "win32" ? ".exe" : ""}`, import.meta.url),
   )
   await access(engine).catch(() => {
     throw new Error("cli_engine_missing")
   })
-  const state = await account.status()
-  if (state.status === "signed-out") throw new Error("account_signed_out")
-  if (state.status !== "signed-in" || !state.models?.length) throw new Error("account_unavailable")
-  if (!state.paid && args[0] !== "models") throw new Error("account_subscription_required")
-  const bridge = await startManagedBridge(config.site, () => account.token())
-  try {
-    process.exitCode = await new Promise<number>((resolve, reject) => {
-      const child = spawn(engine, args, { stdio: "inherit", env: engineEnvironment(bridge, state.models!) })
-      const stop = () => child.kill("SIGTERM")
-      process.once("SIGINT", stop)
-      process.once("SIGTERM", stop)
-      child.once("error", () => {
-        process.off("SIGINT", stop)
-        process.off("SIGTERM", stop)
-        reject(new Error("cli_engine_unavailable"))
-      })
-      child.once("exit", (code) => {
-        process.off("SIGINT", stop)
-        process.off("SIGTERM", stop)
-        resolve(code ?? 1)
-      })
+  process.exitCode = await new Promise<number>((resolve, reject) => {
+    const child = spawn(engine, args, {
+      stdio: "inherit",
+      env: engineEnvironment(),
     })
-  } finally {
-    await bridge.close()
-  }
+    const stop = () => child.kill("SIGTERM")
+    process.once("SIGINT", stop)
+    process.once("SIGTERM", stop)
+    child.once("error", () => {
+      process.off("SIGINT", stop)
+      process.off("SIGTERM", stop)
+      reject(new Error("cli_engine_unavailable"))
+    })
+    child.once("exit", (code) => {
+      process.off("SIGINT", stop)
+      process.off("SIGTERM", stop)
+      resolve(code ?? 1)
+    })
+  })
 }
 
 const messages: Record<string, string> = {
   account_signed_out: "Run unlimitcode login to sign in.",
-  account_subscription_required: "An active subscription is required. Run unlimitcode account open.",
   account_callback_port_unavailable: "The sign-in callback port is in use. Close the other CLI sign-in and retry.",
   account_secure_storage_unavailable:
     "Secure credential storage is unavailable. Unlock your OS keychain and retry. Linux requires secret-tool and a Secret Service keyring.",
@@ -128,7 +124,6 @@ const messages: Record<string, string> = {
   cli_engine_missing: "The fork-built engine is missing. Rebuild this development CLI package.",
   cli_node_required: "This development CLI launcher requires Node.js 22.13 or newer.",
   cli_command_unavailable: "This command is unavailable in Unlimit Code. Run unlimitcode --help.",
-  cli_remote_not_supported: "Remote server connections are not available in this development CLI.",
   cli_browser_unavailable: "The system browser could not be opened. Check your default browser and retry.",
 }
 await main().catch((error: unknown) => {

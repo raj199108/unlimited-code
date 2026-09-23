@@ -2,9 +2,8 @@ import { useServerSync } from "@/context/server-sync"
 import { decode64 } from "@/utils/base64"
 import { useParams } from "@solidjs/router"
 import { Iterable, pipe } from "effect"
-import { createMemo, createResource, onCleanup, type Accessor } from "solid-js"
-import { selectProviderCatalog, selectManagedCatalog } from "./provider-catalog"
-import { usePlatform } from "@/context/platform"
+import { createEffect, createMemo, type Accessor } from "solid-js"
+import { selectProviderCatalog } from "./provider-catalog"
 
 export const popularProviders = [
   "opencode",
@@ -21,20 +20,8 @@ const popularProviderSet = new Set(popularProviders)
 export function useProviders(directory: Accessor<string | undefined>) {
   const serverSync = useServerSync()
   const params = useParams()
-  const account = usePlatform().managedAccount
-  const [selection, { refetch }] = createResource(
-    () => account,
-    async (current) => {
-      const state = await current.state().catch(() => ({ status: "error" as const, models: undefined }))
-      return state.status === "signed-in" ? new Set(state.models?.map((model) => model.id)) : new Set<string>()
-    },
-  )
-  if (account) {
-    const timer = setInterval(() => void refetch(), 15000)
-    onCleanup(() => clearInterval(timer))
-  }
   const dir = () => (directory ? directory() : decode64(params.dir))
-  const source = () => {
+  const providers = () => {
     const value = dir()
     const projectStore = value ? serverSync().child(value)[0] : undefined
     if (value)
@@ -50,11 +37,6 @@ export function useProviders(directory: Accessor<string | undefined>) {
       global: serverSync().data.provider,
     })
   }
-  const providers = createMemo(() => {
-    const catalog = source()
-    if (!account) return catalog
-    return selectManagedCatalog(catalog, selection())
-  })
 
   return {
     all: () => providers().all,

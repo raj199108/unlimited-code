@@ -1,20 +1,20 @@
 import { DESKTOP_NATIVE_ENGLISH } from "./desktop-native"
 
 export const dict = {
-  "managed.account.title": "Unlimit Code account",
-  "managed.account.description":
-    "Sign in through your browser to use your selected models. Manage your subscription and model choices in your account.",
-  "managed.account.unconfigured": "Account service is not configured for this build.",
-  "managed.account.signed-out": "Sign in to get started.",
-  "managed.account.signing-in": "Complete sign-in in your browser.",
-  "managed.account.signed-in": "Signed in",
-  "managed.account.error": "Unable to access your account. Try again or sign out and reconnect.",
-  "managed.account.paid": "Subscription active",
-  "managed.account.unpaid": "An active subscription is required to use managed models.",
-  "managed.account.signIn": "Sign in with browser",
-  "managed.account.signOut": "Sign out",
-  "managed.account.manage": "Manage account",
-  "managed.account.onboarding": "Sign in to Unlimit Code to choose your models and start coding.",
+  "account.title": "Unlimit Code account",
+  "account.description":
+    "Sign in to view and edit your profile. Coding and provider connections work independently of your account.",
+  "account.unconfigured": "Account service is not configured for this build.",
+  "account.signed-out": "You are signed out. Profile sign-in is optional.",
+  "account.signing-in": "Complete sign-in in your browser.",
+  "account.signed-in": "Signed in",
+  "account.error": "Unable to access your profile. Try again or sign out and reconnect.",
+  "account.signIn": "Sign in with browser",
+  "account.signOut": "Sign out",
+  "account.manage": "Edit profile in browser",
+  "account.displayName": "Display name",
+  "account.email": "Email address",
+  "account.noName": "Not set",
   ...DESKTOP_NATIVE_ENGLISH,
   "command.category.suggested": "Suggested",
   "command.category.view": "View",
@@ -162,7 +162,7 @@ export const dict = {
   "provider.connect.apiKey.placeholder": "API key",
   "provider.connect.apiKey.required": "API key is required",
   "provider.connect.opencodeZen.line1":
-    "Unlimit Code Zen gives you access to a curated set of reliable optimized models for coding agents.",
+    "Zen gives you access to a curated set of reliable optimized models for coding agents.",
   "provider.connect.opencodeZen.line2":
     "With a single API key you'll get access to models such as Claude, GPT, Gemini, GLM and more.",
   "provider.connect.opencodeZen.visit.prefix": "Visit ",

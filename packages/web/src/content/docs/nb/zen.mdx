@@ -7,9 +7,9 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-Unlimit Code Zen er en liste over testede og verifiserte modeller levert av Unlimit Code-teamet.
+OpenCode Zen er en liste over testede og verifiserte modeller levert av Unlimit Code-teamet.
 
-Zen fungerer som enhver annen leverandør i Unlimit Code. Du logger inn på Unlimit Code Zen og får
+Zen fungerer som enhver annen leverandør i Unlimit Code. Du logger inn på OpenCode Zen og får
 API-nøkkelen din. Det er **helt valgfritt**, og du trenger ikke bruke det for å bruke
 Unlimit Code.
 
@@ -37,17 +37,17 @@ For å løse dette gjorde vi et par ting:
 3. Til slutt benchmarket vi kombinasjonen av modell/leverandør og laget
    en liste vi føler oss trygge på å anbefale.
 
-Unlimit Code Zen er en AI gateway som gir deg tilgang til disse modellene.
+OpenCode Zen er en AI gateway som gir deg tilgang til disse modellene.
 
 ---
 
 ## Slik fungerer det
 
-Unlimit Code Zen fungerer som enhver annen leverandør i Unlimit Code.
+OpenCode Zen fungerer som enhver annen leverandør i Unlimit Code.
 
-1. Du logger inn på **<a href={console}>Unlimit Code Zen</a>**, legger til
+1. Du logger inn på **<a href={console}>OpenCode Zen</a>**, legger til
    faktureringsdetaljene dine og kopierer API-nøkkelen din.
-2. Du kjører kommandoen `/connect` i TUI, velger Unlimit Code Zen og limer inn API-nøkkelen din.
+2. Du kjører kommandoen `/connect` i TUI, velger OpenCode Zen og limer inn API-nøkkelen din.
 3. Kjør `/models` i TUI for å se listen over modeller vi anbefaler.
 
 Du blir belastet per forespørsel, og du kan legge til kreditt på kontoen din.
@@ -156,7 +156,7 @@ https://opencode.ai/zen/v1/models
 
 Jev er en System One-modell fra TypeSafe AI for raske, strukturerte beslutninger. I stedet for å generere tekst evaluerer den en `state` mot typede spørsmål og returnerer verdier og sannsynligheter som koden din kan bruke direkte. Den støtter ja/nei-spørsmål (`noul`), flervalgsspørsmål (`choice`) og kriteriebaserte spørsmål (`score`).
 
-Bruk Unlimit Code Zen API Nøkkelen din med endepunktet `https://opencode.ai/zen/v1/systemone`. Dette eksempelet sjekker om en støtteforespørsel haster:
+Bruk OpenCode Zen API Nøkkelen din med endepunktet `https://opencode.ai/zen/v1/systemone`. Dette eksempelet sjekker om en støtteforespørsel haster:
 
 ```bash
 curl https://opencode.ai/zen/v1/systemone \
@@ -429,7 +429,7 @@ og du vil bruke den i stedet for den Zen tilbyr.
 
 ## Mål
 
-Vi opprettet Unlimit Code Zen for å:
+Vi opprettet OpenCode Zen for å:
 
 1. **Benchmarke** de beste modellene/leverandørene for kodeagenter.
 2. Ha tilgang til alternativene med **høyest kvalitet** og ikke nedgradere ytelsen eller rute til billigere leverandører.

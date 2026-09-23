@@ -160,12 +160,7 @@ export function DialogModel(props: { providerID?: string }) {
       actions={[
         {
           command: "model.dialog.provider",
-          title:
-            process.env.UNLIMIT_MANAGED === "1"
-              ? "Unlimit Code account"
-              : connected()
-                ? "Connect provider"
-                : "View all providers",
+          title: connected() ? "Connect provider" : "View all providers",
           onTrigger() {
             dialog.replace(() => <DialogProvider />)
           },

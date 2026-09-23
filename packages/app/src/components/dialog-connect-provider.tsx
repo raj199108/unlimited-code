@@ -34,7 +34,6 @@ import { useServerSDK } from "@/context/server-sdk"
 import { useServerSync } from "@/context/server-sync"
 import { useLanguage } from "@/context/language"
 import { usePlatform } from "@/context/platform"
-import { ManagedAccount } from "./managed-account"
 import { useSettings } from "@/context/settings"
 import { popularProviders, useProviders } from "@/hooks/use-providers"
 import { CustomProviderForm } from "./dialog-custom-provider"
@@ -58,13 +57,6 @@ export const DialogConnectProvider: Component<{
   directory?: Accessor<string | undefined>
   controller?: ReturnType<typeof useProviderConnectController>
 }> = (props) => {
-  const account = usePlatform().managedAccount
-  if (account)
-    return (
-      <Dialog>
-        <ManagedAccount account={account} />
-      </Dialog>
-    )
   const fallback = useProviderConnectController()
   const controller = props.controller ?? fallback
   const language = useLanguage()

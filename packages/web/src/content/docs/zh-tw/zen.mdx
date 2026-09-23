@@ -7,9 +7,9 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-Unlimit Code Zen 是由 Unlimit Code 團隊提供、經過測試與驗證的模型清單。
+OpenCode Zen 是由 Unlimit Code 團隊提供、經過測試與驗證的模型清單。
 
-Zen 的運作方式和 Unlimit Code 中的其他供應商一樣。你登入 Unlimit Code Zen 並取得
+Zen 的運作方式和 Unlimit Code 中的其他供應商一樣。你登入 OpenCode Zen 並取得
 你的 API 金鑰。它是 **完全可選的**，你不需要使用它也能使用
 Unlimit Code。
 
@@ -33,16 +33,16 @@ Unlimit Code。
 2. 接著我們與幾家供應商合作，確保這些模型能被正確提供。
 3. 最後，我們針對模型與供應商的組合進行基準測試，整理出一份我們有信心推薦的清單。
 
-Unlimit Code Zen 是一個 AI 閘道，讓你可以存取這些模型。
+OpenCode Zen 是一個 AI 閘道，讓你可以存取這些模型。
 
 ---
 
 ## 運作方式
 
-Unlimit Code Zen 的運作方式和 Unlimit Code 中的其他供應商一樣。
+OpenCode Zen 的運作方式和 Unlimit Code 中的其他供應商一樣。
 
-1. 你登入 **<a href={console}>Unlimit Code Zen</a>**，加入帳單資訊，然後複製你的 API 金鑰。
-2. 你在 TUI 中執行 `/connect` 指令，選擇 Unlimit Code Zen，然後貼上你的 API 金鑰。
+1. 你登入 **<a href={console}>OpenCode Zen</a>**，加入帳單資訊，然後複製你的 API 金鑰。
+2. 你在 TUI 中執行 `/connect` 指令，選擇 OpenCode Zen，然後貼上你的 API 金鑰。
 3. 在 TUI 中執行 `/models`，查看我們推薦的模型清單。
 
 你會依請求計費，也可以為帳戶儲值。
@@ -150,7 +150,7 @@ https://opencode.ai/zen/v1/models
 
 Jev 是 TypeSafe AI 推出的一款 System One 模型，適合用於快速、結構化的決策。它不會產生文字，而是根據有型別的問題評估 `state`，並回傳可供程式碼直接使用的值與機率。它支援是／否問題（`noul`）、多選問題（`choice`），以及依評分標準判定的問題（`score`）。
 
-將你的 Unlimit Code Zen API 金鑰用於 `https://opencode.ai/zen/v1/systemone` 端點。以下範例會檢查支援請求是否緊急：
+將你的 OpenCode Zen API 金鑰用於 `https://opencode.ai/zen/v1/systemone` 端點。以下範例會檢查支援請求是否緊急：
 
 ```bash
 curl https://opencode.ai/zen/v1/systemone \
@@ -417,7 +417,7 @@ Admin 可以為工作區啟用或停用特定模型。對已停用模型發出�
 
 ## 目標
 
-我們建立 Unlimit Code Zen，是為了：
+我們建立 OpenCode Zen，是為了：
 
 1. 為編碼代理對最佳模型與供應商進行 **基準測試**。
 2. 取得 **最高品質** 的選項，而不是降低效能或改路由到更便宜的供應商。

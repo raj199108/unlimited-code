@@ -34,22 +34,24 @@ jobs:
         working-directory: packages/opencode
       - run: bun test src/managed
         working-directory: packages/desktop
-      - run: node --experimental-strip-types --test test-node/managed-bridge.test.mjs
-        working-directory: packages/desktop
-      - run: bun test test/config/unlimit.test.ts test/provider/provider.test.ts
+      - run: bun test test/config/unlimit.test.ts test/server/httpapi-global.test.ts test/provider/provider.test.ts
         working-directory: packages/opencode
       - run: bun test --conditions=solid --preload ./happydom.ts ./src/hooks/provider-catalog.test.ts ./src/pages/layout/helpers.test.ts
         working-directory: packages/app
       - run: bun test --conditions=solid --preload ./happydom.ts ./src/theme-preload.test.ts
         working-directory: packages/app
 
+      - run: bun run test
+        working-directory: packages/account
       - run: bun typecheck
         working-directory: packages/account
       - run: bun typecheck
         working-directory: packages/unlimit-cli
       - run: bun run test
         working-directory: packages/unlimit-cli
-      - run: bun run build
+      - run: bun run build --with-engine
+        working-directory: packages/unlimit-cli
+      - run: node script/smoke.mjs
         working-directory: packages/unlimit-cli
   cli-native:
     if: github.repository == 'raj199108/unlimited-code'

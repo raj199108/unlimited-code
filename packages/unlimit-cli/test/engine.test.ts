@@ -1,26 +1,15 @@
 import { test } from "node:test"
 import assert from "node:assert/strict"
-import { engineEnvironment, requireLocalCommand } from "../src/engine.ts"
+import { engineEnvironment } from "../src/engine.ts"
 
-test("official launcher isolates managed connections, selected models and upstream update/share services", () => {
-  const result = engineEnvironment(
-    { url: "http://127.0.0.1:2222/v1", key: "ephemeral" },
-    [{ id: "openai/gpt-6-astra", name: "GPT-6 Astra", context: 1050000, output: 128000 }],
-    { UNLIMIT_MANAGED: "0", UNLIMIT_BRIDGE_URL: "https://evil.invalid" },
-  )
-  assert.equal(result.UNLIMIT_MANAGED, "1")
-  assert.equal(result.UNLIMIT_BRIDGE_URL, "http://127.0.0.1:2222/v1")
-  assert.deepEqual(JSON.parse(result.UNLIMIT_SELECTED_MODELS), ["openai/gpt-6-astra"])
+test("launcher preserves user provider settings and protects fork updates without an account gateway", () => {
+  const input = { OPENAI_API_KEY: "synthetic", OPENCODE_CONFIG: "/tmp/project-config.json" }
+  const result: NodeJS.ProcessEnv = engineEnvironment(input)
+  assert.equal(result.OPENAI_API_KEY, input.OPENAI_API_KEY)
+  assert.equal(result.OPENCODE_CONFIG, input.OPENCODE_CONFIG)
   assert.equal(result.OPENCODE_DISABLE_AUTOUPDATE, "1")
   assert.equal(result.OPENCODE_DISABLE_SHARE, "1")
-  for (const args of [[], ["run", "code"], ["./project"], ["agent", "create"], ["mcp", "add"]])
-    requireLocalCommand(args)
-  for (const args of [
-    ["providers"],
-    ["console", "login"],
-    ["upgrade"],
-    ["serve"],
-    ["run", "--attach=https://evil.invalid"],
-  ])
-    assert.throws(() => requireLocalCommand(args))
+  assert.equal(result.OPENCODE_DISABLE_DEFAULT_PLUGINS, undefined)
+  assert.equal(result.UNLIMIT_MANAGED, undefined)
+  assert.equal(result.UNLIMIT_BRIDGE_URL, undefined)
 })

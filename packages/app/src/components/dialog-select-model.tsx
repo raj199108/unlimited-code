@@ -1,4 +1,3 @@
-import { usePlatform } from "@/context/platform"
 import { Popover as Kobalte } from "@kobalte/core/popover"
 import { Component, ComponentProps, createEffect, createMemo, For, JSX, Show } from "solid-js"
 import { createStore } from "solid-js/store"
@@ -123,7 +122,6 @@ export function ModelSelectorPopover(props: {
   trigger: ModelSelectorTrigger
   onClose?: (cause: "escape" | "select") => void
 }) {
-  const account = usePlatform().managedAccount
   const [store, setStore] = createStore<{
     open: boolean
     dismiss: Dismiss | null
@@ -195,16 +193,13 @@ export function ModelSelectorPopover(props: {
             class="p-1"
             action={
               <div class="flex items-center gap-1">
-                <Tooltip
-                  placement="top"
-                  value={language.t(account ? "managed.account.manage" : "command.provider.connect")}
-                >
+                <Tooltip placement="top" value={language.t("command.provider.connect")}>
                   <IconButton
                     icon="plus-small"
                     variant="ghost"
                     iconSize="normal"
                     class="size-6"
-                    aria-label={language.t(account ? "managed.account.manage" : "command.provider.connect")}
+                    aria-label={language.t("command.provider.connect")}
                     onClick={handleConnectProvider}
                   />
                 </Tooltip>
@@ -527,7 +522,6 @@ function ModelSelectorPopoverV2View(props: {
 }
 
 export const DialogSelectModel: Component<{ provider?: string; model?: ModelState }> = (props) => {
-  const account = usePlatform().managedAccount
   const dialog = useDialog()
   const language = useLanguage()
   const local = useLocal()
@@ -550,7 +544,7 @@ export const DialogSelectModel: Component<{ provider?: string; model?: ModelStat
       title={language.t("dialog.model.select.title")}
       action={
         <Button class="h-7 -my-1 text-14-medium" icon="plus-small" tabIndex={-1} onClick={provider}>
-          {language.t(account ? "managed.account.manage" : "command.provider.connect")}
+          {language.t("command.provider.connect")}
         </Button>
       }
     >

@@ -11,7 +11,7 @@ const updaterHandler = (_: unknown, state: UpdaterState) => {
 }
 
 const api: ElectronAPI = {
-  managedAccount: {
+  account: {
     state: () => ipcRenderer.invoke("account-state"),
     signIn: () => ipcRenderer.invoke("account-sign-in"),
     signOut: () => ipcRenderer.invoke("account-sign-out"),

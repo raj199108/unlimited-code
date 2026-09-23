@@ -12,8 +12,6 @@ import { ExternalLink } from "@/components/external-link"
 import { useServerSDK } from "@/context/server-sdk"
 import { useServerSync } from "@/context/server-sync"
 import { useLanguage } from "@/context/language"
-import { usePlatform } from "@/context/platform"
-import { ManagedAccount } from "./managed-account"
 import { type FormState, headerRow, modelRow, validateCustomProvider } from "./dialog-custom-provider-form"
 
 type Props = {
@@ -43,8 +41,6 @@ export function DialogCustomProvider(props: Props) {
 }
 
 export function CustomProviderForm(props: { autofocus?: boolean } = {}) {
-  const account = usePlatform().managedAccount
-  if (account) return <ManagedAccount account={account} />
   const dialog = useDialog()
   const serverSync = useServerSync()
   const serverSDK = useServerSDK()

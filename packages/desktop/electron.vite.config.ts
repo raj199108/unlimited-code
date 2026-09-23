@@ -2,7 +2,9 @@ import { sentryVitePlugin } from "@sentry/vite-plugin"
 import { defineConfig } from "electron-vite"
 import appPlugin from "@opencode-ai/app/vite"
 import nativeDevelopment from "../../branding/native-development.json"
-import * as fs from "node:fs/promises"
+import { readFile, readdir, writeFile } from "node:fs/promises"
+import { releaseAccountConfig } from "@unlimitcode/account/release-config"
+import brand from "../../branding/brand.json"
 
 const OPENCODE_SERVER_DIST = "../opencode/dist/node"
 
@@ -12,6 +14,23 @@ const channel = (() => {
   if (process.env.OPENCODE_CHANNEL === "latest") return "prod"
   return "dev"
 })()
+
+const nativeAccount =
+  channel === "dev"
+    ? nativeDevelopment
+    : await (async () => {
+        if (
+          !brand.releaseEnabled ||
+          process.env.UNLIMIT_RELEASE_APPROVED !== "true" ||
+          !process.env.UNLIMIT_ACCOUNT_CONFIG
+        )
+          throw new Error("Release approval and production account configuration are required")
+        return releaseAccountConfig(
+          JSON.parse(await readFile(process.env.UNLIMIT_ACCOUNT_CONFIG, "utf8")),
+          channel,
+          "desktop",
+        )
+      })()
 
 const nodePtyPkg = `@lydell/node-pty-${process.platform}-${process.arch}`
 
@@ -36,7 +55,7 @@ export default defineConfig({
   main: {
     define: {
       "import.meta.env.OPENCODE_CHANNEL": JSON.stringify(channel),
-      "import.meta.env.UNLIMIT_NATIVE_DEVELOPMENT": JSON.stringify(channel === "dev" ? nativeDevelopment : null),
+      "import.meta.env.UNLIMIT_NATIVE_ACCOUNT": JSON.stringify(nativeAccount),
     },
     build: {
       rollupOptions: {
@@ -73,9 +92,9 @@ const require = __cjs_mod__.createRequire(import.meta.url);
       {
         name: "opencode:copy-server-assets",
         async writeBundle() {
-          for (const l of await fs.readdir(OPENCODE_SERVER_DIST)) {
+          for (const l of await readdir(OPENCODE_SERVER_DIST)) {
             if (!l.endsWith(".wasm")) continue
-            await fs.writeFile(`./out/main/chunks/${l}`, await fs.readFile(`${OPENCODE_SERVER_DIST}/${l}`))
+            await writeFile(`./out/main/chunks/${l}`, await readFile(`${OPENCODE_SERVER_DIST}/${l}`))
           }
         },
       },

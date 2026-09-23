@@ -1,5 +1,5 @@
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto"
-import type { ManagedAccountState, ManagedModel } from "./types"
+import type { AccountState } from "./types"
 
 export type AccountConfig = {
   issuer: string
@@ -20,7 +20,14 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
     refresh: undefined as Promise<Tokens> | undefined,
     loading: undefined as Promise<void> | undefined,
     persistence: Promise.resolve(),
-    profile: undefined as { email: string; paid: boolean; models: ManagedModel[]; checked: number } | undefined,
+    profile: undefined as
+      | {
+          id?: string
+          email: string
+          displayName: string
+          checked: number
+        }
+      | undefined,
   }
   const persist = (tokens: Tokens | undefined, epoch: number) => {
     const task = state.persistence.then(() => (epoch === state.epoch ? storage.write(tokens) : undefined))
@@ -165,7 +172,7 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
       state.profile = undefined
       return true
     },
-    async status(): Promise<ManagedAccountState> {
+    async status(fresh = false): Promise<AccountState> {
       try {
         await load()
       } catch {
@@ -175,7 +182,7 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
       state.pending = undefined
       if (!state.tokens) return { status: "signed-out" }
       try {
-        if (!state.profile || state.profile.checked < Date.now() - 15000) {
+        if (fresh || !state.profile || state.profile.checked < Date.now() - 15000) {
           const epoch = state.epoch
           const response = await request(`${config.site}/api/account`, {
             headers: { Authorization: `Bearer ${await token()}` },
@@ -185,28 +192,26 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
           if (!response.ok) throw new Error("account_unavailable")
           const value = await response.json()
           if (
+            !value ||
+            typeof value !== "object" ||
+            typeof value.id !== "string" ||
             typeof value.email !== "string" ||
-            typeof value.paid !== "boolean" ||
-            !Array.isArray(value.models) ||
-            !value.models.every(
-              (model: ManagedModel) =>
-                typeof model.id === "string" &&
-                typeof model.name === "string" &&
-                Number.isSafeInteger(model.context) &&
-                Number.isSafeInteger(model.output) &&
-                model.context > 0 &&
-                model.output > 0,
-            )
+            typeof value.displayName !== "string"
           )
             throw new Error("account_invalid")
           if (epoch !== state.epoch) return { status: "signed-out" }
-          state.profile = { email: value.email, paid: value.paid, models: value.models, checked: Date.now() }
+          state.profile = {
+            id: value.id,
+            email: value.email,
+            displayName: value.displayName,
+            checked: Date.now(),
+          }
         }
         return {
           status: "signed-in",
+          id: state.profile.id,
           email: state.profile.email,
-          paid: state.profile.paid,
-          models: state.profile.models,
+          displayName: state.profile.displayName,
         }
       } catch {
         return { status: "error" }

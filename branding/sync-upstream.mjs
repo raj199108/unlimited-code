@@ -48,8 +48,11 @@ try {
     ])
       check("bun", ["typecheck"], cwd)
     check("bun", ["test", "src/managed"], "packages/desktop")
-    check("node", ["--experimental-strip-types", "--test", "test-node/managed-bridge.test.mjs"], "packages/desktop")
-    check("bun", ["test", "test/config/unlimit.test.ts", "test/provider/provider.test.ts"], "packages/opencode")
+    check(
+      "bun",
+      ["test", "test/config/unlimit.test.ts", "test/server/httpapi-global.test.ts", "test/provider/provider.test.ts"],
+      "packages/opencode",
+    )
     check(
       "bun",
       [
@@ -63,8 +66,10 @@ try {
       ],
       "packages/app",
     )
+    check("bun", ["run", "test"], "packages/account")
     check("bun", ["run", "test"], "packages/unlimit-cli")
     check("bun", ["run", "build", "--with-engine"], "packages/unlimit-cli")
+    check("node", ["script/smoke.mjs"], "packages/unlimit-cli")
     check("bun", ["run", "build"], "packages/app")
     check("bun", ["run", "build"], "packages/desktop")
     brand.upstream = { ...brand.upstream, tag: release.tagName, sha }

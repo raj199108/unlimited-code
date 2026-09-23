@@ -63,3 +63,10 @@ test("unreviewed upstream names and missing targets stop integration", async () 
     await rm(base, { recursive: true, force: true })
   }
 })
+
+test("third-party Zen and Go service names retain their actual owner", () => {
+  const source = 'const label = "OpenCode"; const providers = ["OpenCode Zen", "OpenCode Go"]'
+  const branded = 'const label = "Unlimit Code"; const providers = ["OpenCode Zen", "OpenCode Go"]'
+  expect(transform("example.ts", source, 1, "Unlimit Code")).toBe(branded)
+  expect(transform("example.ts", branded, 1, "Unlimit Code")).toBe(branded)
+})

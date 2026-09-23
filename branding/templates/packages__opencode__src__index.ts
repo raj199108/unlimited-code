@@ -5,8 +5,6 @@ import { GenerateCommand } from "./cli/cmd/generate"
 import { ConsoleCommand } from "./cli/cmd/account"
 import { ProvidersCommand } from "./cli/cmd/providers"
 import { AgentCommand } from "./cli/cmd/agent"
-import { UpgradeCommand } from "./cli/cmd/upgrade"
-import { UninstallCommand } from "./cli/cmd/uninstall"
 import { ModelsCommand } from "./cli/cmd/models"
 import { UI } from "./cli/ui"
 import { InstallationVersion } from "@opencode-ai/core/installation/version"
@@ -31,7 +29,6 @@ import { PluginCommand } from "./cli/cmd/plug"
 import { Heap } from "./cli/heap"
 
 const args = hideBin(process.argv)
-const managed = process.env.UNLIMIT_MANAGED === "1"
 
 function show(out: string) {
   const text = out.trimStart()
@@ -82,23 +79,22 @@ const cli = yargs(args)
   .command(AcpCommand)
   .command(McpCommand)
   .command(TuiThreadCommand)
-  .command(managed ? [] : [AttachCommand])
+  .command(AttachCommand)
   .command(RunCommand)
   .command(GenerateCommand)
   .command(DebugCommand)
-  .command(managed ? [] : [ConsoleCommand])
-  .command(managed ? [] : [ProvidersCommand])
+  .command(ConsoleCommand)
+  .command(ProvidersCommand)
   .command(AgentCommand)
-  .command(managed ? [] : [UpgradeCommand])
-  .command(managed ? [] : [UninstallCommand])
+
   .command(ServeCommand)
-  .command(managed ? [] : [WebCommand])
+  .command(WebCommand)
   .command(ModelsCommand)
   .command(StatsCommand)
   .command(ExportCommand)
   .command(ImportCommand)
-  .command(managed ? [] : [GithubCommand])
-  .command(managed ? [] : [PrCommand])
+  .command(GithubCommand)
+  .command(PrCommand)
   .command(SessionCommand)
   .command(PluginCommand)
   .command(DbCommand)

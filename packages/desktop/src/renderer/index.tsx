@@ -167,7 +167,7 @@ const createPlatform = (windowState: DesktopWindowState): Platform => {
 
   return {
     platform: "desktop",
-    managedAccount: window.api.managedAccount,
+    account: window.api.account,
     os,
     version: product.version,
     windowID: windowState.id,

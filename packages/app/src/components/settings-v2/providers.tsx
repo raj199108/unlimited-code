@@ -12,8 +12,6 @@ import { DialogConnectProvider, useProviderConnectController } from "../dialog-c
 import { DialogCustomProvider } from "../dialog-custom-provider"
 import { SettingsListV2 } from "./parts/list"
 import "./settings-v2.css"
-import { usePlatform } from "@/context/platform"
-import { ManagedAccount } from "../managed-account"
 
 type ProviderSource = "env" | "api" | "config" | "custom"
 type ProviderItem = ReturnType<ReturnType<typeof useProviders>["connected"]>[number]
@@ -35,8 +33,6 @@ export const SettingsProvidersV2: Component<{
   directory: Accessor<string | undefined>
   onBack?: () => void
 }> = (props) => {
-  const account = usePlatform().managedAccount
-  if (account) return <ManagedAccount account={account} />
   const dialog = useDialog()
   const language = useLanguage()
   const serverSdk = useServerSDK()

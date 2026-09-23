@@ -2,20 +2,6 @@ import type { NormalizedProviderListResponse } from "@opencode-ai/session-ui/con
 
 const emptyProviderCatalog: NormalizedProviderListResponse = { all: new Map(), connected: [], default: {} }
 
-export function selectManagedCatalog(
-  catalog: NormalizedProviderListResponse,
-  selected?: ReadonlySet<string>,
-): NormalizedProviderListResponse {
-  const provider = catalog.all.get("unlimitcode")
-  const models = Object.fromEntries(Object.entries(provider?.models ?? {}).filter(([id]) => selected?.has(id)))
-  if (!provider || !Object.keys(models).length) return emptyProviderCatalog
-  return {
-    all: new Map([[provider.id, { ...provider, models }]]),
-    connected: [provider.id],
-    default: { [provider.id]: Object.keys(models)[0] },
-  }
-}
-
 type DirectoryCatalog = {
   ready: boolean
   providers: NormalizedProviderListResponse

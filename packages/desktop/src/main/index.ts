@@ -46,9 +46,8 @@ import { createWslServersController } from "./wsl/servers"
 import { registerWslIpcHandlers } from "./wsl/ipc"
 import { spawnWslSidecar } from "./wsl/sidecar"
 import { product } from "../shared/product"
-import { createManagedAccount, managedConfig } from "./managed-account"
+import { createAccount, accountConfig } from "./account"
 import { cleanupStoreFiles } from "./store-cleanup"
-import { startManagedBridge } from "../managed/bridge"
 import { setNativeTranslations } from "./native-translations"
 
 const APP_NAMES: Record<string, string> = {
@@ -199,7 +198,7 @@ const main = Effect.gen(function* () {
   }
 
   preferAppEnv(app.getPath("userData"))
-  const account = createManagedAccount(managedConfig())
+  const account = createAccount(accountConfig())
   const receiveLinks = async (urls: string[]) => {
     for (const url of urls) {
       // Authorization codes must never reach renderer deep-link events or logs.
@@ -262,10 +261,6 @@ const main = Effect.gen(function* () {
   const serverReady = Deferred.makeUnsafe<ServerReadyData, unknown>()
 
   yield* Effect.promise(() => app.whenReady())
-  const managedBridge = yield* Effect.promise(() => startManagedBridge(managedConfig()?.site, account.token))
-  app.once("will-quit", () => {
-    void managedBridge.close()
-  })
 
   yield* Effect.promise(() => cleanupStoreFiles(app.getPath("userData"))).pipe(
     Effect.tap((result) =>
@@ -297,7 +292,7 @@ const main = Effect.gen(function* () {
     relaunch,
   }
   registerIpcHandlers({
-    managedAccount: account.platform,
+    account: account.platform,
     killSidecar: () => killSidecar(),
     relaunch,
     awaitInitialization: Effect.fnUntraced(
@@ -377,7 +372,6 @@ const main = Effect.gen(function* () {
     logger.log("spawning sidecar", { url })
     const { listener, health } = yield* Effect.promise(() =>
       spawnLocalServer(hostname, port, password, {
-        managedBridge,
         userDataPath: app.getPath("userData"),
         onStdout: (message) => writeLog("server", "stdout", { message }),
         onStderr: (message) => writeLog("server", "stderr", { message }, "warn"),

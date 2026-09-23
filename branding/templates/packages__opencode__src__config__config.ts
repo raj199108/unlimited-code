@@ -619,7 +619,8 @@ const layer = Layer.effect(
     )
 
     const get = Effect.fn("Config.get")(function* () {
-      return yield* InstanceState.use(state, (s) => ConfigUnlimit.apply(s.config))
+      const config = yield* InstanceState.use(state, (s) => s.config)
+      return ConfigUnlimit.apply(config)
     })
 
     const directories = Effect.fn("Config.directories")(function* () {

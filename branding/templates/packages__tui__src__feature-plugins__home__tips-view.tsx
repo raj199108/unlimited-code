@@ -68,17 +68,7 @@ function parse(tip: string): TipPart[] {
   return parts
 }
 
-const MANAGED_TIPS = [
-  "Run {highlight}/models{/highlight} to choose an account-selected model",
-  "Run {highlight}unlimitcode account open{/highlight} in another terminal to manage your subscription and models",
-  "Keep custom agents, project instructions and MCP tools in your project configuration",
-  "Run {highlight}/export{/highlight} to save your conversation locally",
-  "Use Paper and Ink themes to match your terminal",
-]
-const NO_MODELS_TIP =
-  process.env.UNLIMIT_MANAGED === "1"
-    ? "Run {highlight}unlimitcode login{/highlight}, then select models in your account"
-    : "Run {highlight}/connect{/highlight} to add an AI provider and start coding"
+const NO_MODELS_TIP = "Run {highlight}/connect{/highlight} to add an AI provider and start coding"
 const NO_MODELS_PARTS = parse(NO_MODELS_TIP)
 
 function shortcutText(value: string) {
@@ -144,10 +134,7 @@ export function Tips(props: { api: TuiPluginApi; connected?: boolean }) {
   }
   const tip = createMemo(() => {
     if (props.connected === false) return NO_MODELS_TIP
-    const tips = [
-      ...(process.env.UNLIMIT_MANAGED === "1" ? MANAGED_TIPS : TIPS),
-      process.platform !== "win32" ? TERMINAL_SUSPEND_TIP : INPUT_UNDO_TIP,
-    ].flatMap((item) => {
+    const tips = [...TIPS, process.platform !== "win32" ? TERMINAL_SUSPEND_TIP : INPUT_UNDO_TIP].flatMap((item) => {
       const value = typeof item === "string" ? item : item(shortcuts)
       return value ? [value] : []
     })
@@ -247,14 +234,14 @@ const TIPS: Tip[] = [
   "Add {highlight}.ts{/highlight} files to {highlight}.opencode/plugins/{/highlight} for event hooks",
   "Use plugins to send OS notifications when sessions complete",
   "Create a plugin to prevent Unlimit Code from reading sensitive files",
-  "Use {highlight}opencode run{/highlight} for non-interactive scripting",
-  "Use {highlight}opencode --continue{/highlight} to resume the last session",
-  "Use {highlight}opencode run -f file.ts{/highlight} to attach files via CLI",
+  "Use {highlight}unlimitcode run{/highlight} for non-interactive scripting",
+  "Use {highlight}unlimitcode --continue{/highlight} to resume the last session",
+  "Use {highlight}unlimitcode run -f file.ts{/highlight} to attach files via CLI",
   "Use {highlight}--format json{/highlight} for machine-readable output in scripts",
-  "Run {highlight}opencode serve{/highlight} for headless API access to Unlimit Code",
-  "Use {highlight}opencode run --attach{/highlight} to connect to a running server",
-  "Run {highlight}opencode upgrade{/highlight} to update to the latest version",
-  "Run {highlight}opencode auth list{/highlight} to see all configured providers",
+  "Run {highlight}unlimitcode serve{/highlight} for headless API access to Unlimit Code",
+  "Use {highlight}unlimitcode run --attach{/highlight} to connect to a running server",
+  "Get verified Unlimit Code updates from the project’s download page",
+  "Run {highlight}unlimitcode auth list{/highlight} to see all configured providers",
   "Run {highlight}opencode agent create{/highlight} for guided agent creation",
   "Use {highlight}/opencode{/highlight} in GitHub issues/PRs to trigger AI actions",
   "Run {highlight}opencode github install{/highlight} to set up the GitHub workflow",
@@ -287,8 +274,7 @@ const TIPS: Tip[] = [
     shortcuts.commandList()
       ? `Toggle username display in chat via the command palette (${shortcutText(shortcuts.commandList())})`
       : "Toggle username display in chat via the command palette",
-  "Run {highlight}docker run -it --rm ghcr.io/anomalyco/opencode{/highlight} in a container",
-  "Use {highlight}/connect{/highlight} with Unlimit Code Zen for curated, tested models",
+  "Use {highlight}/connect{/highlight} with Zen for curated, tested models",
   "Commit your project's {highlight}AGENTS.md{/highlight} file to Git for team sharing",
   "Use {highlight}/review{/highlight} to review uncommitted changes, branches, or PRs",
   (shortcuts) => `Use ${commandText("/help", shortcuts.helpShow())} to show the help dialog`,

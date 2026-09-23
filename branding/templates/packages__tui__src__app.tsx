@@ -739,15 +739,15 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
       },
       {
         name: "provider.connect",
-        title: process.env.UNLIMIT_MANAGED === "1" ? "Unlimit Code account" : "Connect provider",
+        title: "Connect provider",
         suggested: !connected(),
-        slashName: process.env.UNLIMIT_MANAGED === "1" ? "account" : "connect",
+        slashName: "connect",
         run: () => {
           dialog.replace(() => <DialogProviderList />)
         },
         category: "Provider",
       },
-      ...(process.env.UNLIMIT_MANAGED !== "1" && sync.data.console_state.switchableOrgCount > 1
+      ...(sync.data.console_state.switchableOrgCount > 1
         ? [
             {
               name: "console.org.switch",
@@ -1028,55 +1028,6 @@ function App(props: { onSnapshot?: () => Promise<string[]>; pluginHost: TuiPlugi
       message,
       duration: 5000,
     })
-  })
-
-  event.on("installation.update-available", async (evt) => {
-    if (process.env.UNLIMIT_MANAGED === "1") return
-    console.log("installation.update-available", evt)
-    const version = evt.properties.version
-
-    const skipped = kv.get("skipped_version")
-    if (skipped && !isVersionGreater(version, skipped)) return
-
-    const choice = await DialogConfirm.show(
-      dialog,
-      `Update Available`,
-      `A new release v${version} is available. Would you like to update now?`,
-      "skip",
-    )
-
-    if (choice === false) {
-      kv.set("skipped_version", version)
-      return
-    }
-
-    if (choice !== true) return
-
-    toast.show({
-      variant: "info",
-      message: `Updating to v${version}…`,
-      duration: 30000,
-    })
-
-    const result = await sdk.client.global.upgrade({ target: version })
-
-    if (result.error || !result.data?.success) {
-      toast.show({
-        variant: "error",
-        title: "Update Failed",
-        message: "Update failed",
-        duration: 10000,
-      })
-      return
-    }
-
-    await DialogAlert.show(
-      dialog,
-      "Update Complete",
-      `Successfully updated to Unlimit Code v${result.data.version}. Please restart the application.`,
-    )
-
-    void exit()
   })
 
   const plugin = createMemo(() => {

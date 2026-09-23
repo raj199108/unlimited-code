@@ -8,6 +8,8 @@ function fixture(initial?: Tokens) {
     exchanges: 0,
     challenge: "",
     rejected: false,
+    displayName: "Test User",
+    unavailable: false,
     requests: [] as string[],
     wait: undefined as Promise<void> | undefined,
     arrived: undefined as (() => void) | undefined,
@@ -32,10 +34,11 @@ function fixture(initial?: Tokens) {
       }
       if (url.pathname === "/api/account") {
         expect(request.headers.get("authorization")).toBe("Bearer access-private")
+        if (state.unavailable) return new Response(null, { status: 503 })
         return Response.json({
+          id: "account-a",
           email: "test@example.invalid",
-          paid: true,
-          models: [{ id: "model", name: "Model", context: 1000, output: 100 }],
+          displayName: state.displayName,
         })
       }
       return new Response(null, { status: 204 })
@@ -85,15 +88,23 @@ describe("native account session", () => {
     expect(f.state.saved?.refresh).toBe("refresh-private")
     expect(await f.session.status()).toEqual({
       status: "signed-in",
+      id: "account-a",
       email: "test@example.invalid",
-      paid: true,
-      models: [{ id: "model", name: "Model", context: 1000, output: 100 }],
+      displayName: "Test User",
     })
     await f.session.callback(callback)
     expect(f.state.exchanges).toBe(1)
     await f.session.signOut()
     expect(f.state.saved).toBeUndefined()
     expect(await f.session.status()).toEqual({ status: "signed-out" })
+  })
+  test("profile refresh observes edits and reports outages without exposing credentials", async () => {
+    using f = fixture({ access: "access-private", refresh: "refresh-private", expires: Date.now() + 3600000 })
+    expect((await f.session.status()).displayName).toBe("Test User")
+    f.state.displayName = "Updated User"
+    expect((await f.session.status(true)).displayName).toBe("Updated User")
+    f.state.unavailable = true
+    expect(await f.session.status(true)).toEqual({ status: "error" })
   })
   test("refresh is shared by simultaneous requests", async () => {
     using f = fixture({ access: "old", refresh: "old-refresh", expires: 0 })

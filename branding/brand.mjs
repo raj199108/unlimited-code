@@ -7,7 +7,8 @@ import ts from "typescript"
 
 export const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 export const digest = (value) => createHash("sha256").update(value).digest("hex")
-const displayPattern = /\bOpen ?Code\b/g
+// Zen and Go are third-party services; renaming them would imply that we sell them.
+const displayPattern = /\bOpen ?Code\b(?! (?:Zen|Go)\b)/g
 const eligible =
   /^(?:README(?:\.[\w-]+)?\.md|packages\/(?:app|desktop|ui|tui|opencode|web)\/.*\.(?:[cm]?[jt]sx?|json|html|md|mdx|astro))$/
 

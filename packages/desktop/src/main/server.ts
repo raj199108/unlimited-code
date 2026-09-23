@@ -21,7 +21,6 @@ const SIDECAR_START_STALL_TIMEOUT = 60_000
 const SIDECAR_STOP_TIMEOUT = 6_000
 
 type SpawnLocalServerOptions = {
-  managedBridge: { url: string; key: string }
   userDataPath: string
   onStdout?: (message: string) => void
   onStderr?: (message: string) => void
@@ -66,9 +65,8 @@ export async function spawnLocalServer(
     cwd: process.cwd(),
     env: {
       ...createSidecarEnv(),
-      UNLIMIT_MANAGED: "1",
-      UNLIMIT_BRIDGE_URL: options.managedBridge.url,
-      UNLIMIT_BRIDGE_KEY: options.managedBridge.key,
+      OPENCODE_DISABLE_AUTOUPDATE: "1",
+      OPENCODE_DISABLE_SHARE: "1",
     },
     serviceName: SIDECAR_SERVICE_NAME,
     stdio: "pipe",

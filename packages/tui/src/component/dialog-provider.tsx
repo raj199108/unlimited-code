@@ -84,7 +84,6 @@ export function normalizeCustomProviderID(value: string) {
 }
 
 export function createDialogProviderOptions() {
-  if (process.env.UNLIMIT_MANAGED === "1") return createMemo(() => [])
   const sync = useSync()
   const dialog = useDialog()
   const sdk = useSDK()
@@ -227,25 +226,8 @@ export function createDialogProviderOptions() {
 }
 
 export function DialogProvider() {
-  if (process.env.UNLIMIT_MANAGED === "1") return <DialogManagedAccount />
   const options = createDialogProviderOptions()
   return <DialogSelect title="Connect a provider" options={options()} />
-}
-
-function DialogManagedAccount() {
-  const { theme } = useTheme()
-  return (
-    <box paddingLeft={2} paddingRight={2} gap={1} paddingBottom={1}>
-      <text attributes={TextAttributes.BOLD} fg={theme.text}>
-        Unlimit Code account
-      </text>
-      <text fg={theme.textMuted}>Models are managed through your Unlimit Code account.</text>
-      <text fg={theme.text}>
-        Run unlimitcode account open in another terminal to manage your models and subscription.
-      </text>
-      <text fg={theme.textMuted}>After changing model selections, reopen this coding session.</text>
-    </box>
-  )
 }
 
 interface AutoMethodProps {
@@ -389,8 +371,7 @@ function ApiMethod(props: ApiMethodProps) {
           opencode: (
             <box gap={1}>
               <text fg={theme.textMuted}>
-                Unlimit Code Zen gives you access to all the best coding models at the cheapest prices with a single API
-                key.
+                Zen is a third-party service from Anomaly. Connect using your own account and API key.
               </text>
               <text fg={theme.text}>
                 Go to <span style={{ fg: theme.primary }}>https://opencode.ai/zen</span> to get a key
@@ -400,11 +381,10 @@ function ApiMethod(props: ApiMethodProps) {
           "opencode-go": (
             <box gap={1}>
               <text fg={theme.textMuted}>
-                Unlimit Code Go is a $10 per month subscription that provides reliable access to popular open coding
-                models with generous usage limits.
+                Go is a third-party service from Anomaly with its own plans and usage terms.
               </text>
               <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/go</span> and enable Unlimit Code Go
+                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/go</span> and enable Go
               </text>
             </box>
           ),

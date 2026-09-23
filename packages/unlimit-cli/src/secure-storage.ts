@@ -2,6 +2,7 @@ import { spawn } from "node:child_process"
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto"
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises"
 import { join } from "node:path"
+import type { SecretStorage } from "@unlimitcode/account/storage"
 import type { Tokens, TokenStorage } from "@unlimitcode/account/session"
 
 // Secrets travel only over pipes, never command arguments, environment variables or logs.
@@ -25,9 +26,9 @@ async function command(executable: string, args: string[], input = "") {
   })
 }
 
-export function createOsStorage(directory: string, service = "ai.factso.unlimitcode.cli.dev"): TokenStorage {
+export function createOsSecretStorage(directory: string, service: string, name = "secret.enc"): SecretStorage {
   if (!/^[a-zA-Z0-9.-]{1,150}$/.test(service)) throw new Error("account_storage_identity_invalid")
-  const file = join(directory, "session.enc")
+  const file = join(directory, name)
   const key = async (create: boolean): Promise<Buffer> => {
     const result =
       process.platform === "darwin"
@@ -83,22 +84,7 @@ export function createOsStorage(directory: string, service = "ai.factso.unlimitc
               cipher.setAuthTag(bytes.subarray(13, 29))
               return Buffer.concat([cipher.update(bytes.subarray(29)), cipher.final()])
             })()
-      const value: unknown = JSON.parse(clear.toString("utf8"))
-      if (
-        !value ||
-        typeof value !== "object" ||
-        !("access" in value) ||
-        typeof value.access !== "string" ||
-        !("refresh" in value) ||
-        typeof value.refresh !== "string" ||
-        !("expires" in value) ||
-        typeof value.expires !== "number" ||
-        !Number.isFinite(value.expires) ||
-        !value.access ||
-        !value.refresh
-      )
-        throw new Error("account_storage_invalid")
-      return value as Tokens
+      return clear.toString("utf8")
     },
     async write(value) {
       if (!value) {
@@ -106,7 +92,7 @@ export function createOsStorage(directory: string, service = "ai.factso.unlimitc
         // Keep the random OS-protected encryption key; it contains no session or account data.
         return
       }
-      const clear = Buffer.from(JSON.stringify(value))
+      const clear = Buffer.from(value)
       const bytes =
         process.platform === "win32"
           ? await dpapi(clear, "Protect")
@@ -126,5 +112,32 @@ export function createOsStorage(directory: string, service = "ai.factso.unlimitc
         await rm(temporary, { force: true })
       }
     },
+  }
+}
+
+export function createOsStorage(directory: string, service = "ai.factso.unlimitcode.cli.dev"): TokenStorage {
+  const storage = createOsSecretStorage(directory, service, "session.enc")
+  return {
+    async read() {
+      const raw = await storage.read()
+      if (!raw) return
+      const value: unknown = JSON.parse(raw)
+      if (
+        !value ||
+        typeof value !== "object" ||
+        !("access" in value) ||
+        typeof value.access !== "string" ||
+        !("refresh" in value) ||
+        typeof value.refresh !== "string" ||
+        !("expires" in value) ||
+        typeof value.expires !== "number" ||
+        !Number.isFinite(value.expires) ||
+        !value.access ||
+        !value.refresh
+      )
+        throw new Error("account_storage_invalid")
+      return value as Tokens
+    },
+    write: (value) => storage.write(value ? JSON.stringify(value) : undefined),
   }
 }

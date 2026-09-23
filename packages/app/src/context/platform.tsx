@@ -5,7 +5,7 @@ import type { DesktopMenuAction } from "../desktop-menu"
 import { ServerConnection } from "./server"
 import type { WslServersPlatform } from "../wsl/types"
 import type { UpdaterPlatform } from "../updater"
-import type { ManagedAccountPlatform } from "../managed-account"
+import type { AccountPlatform } from "../account"
 import type { DraftStore } from "@/utils/draft-store"
 
 type PickerPaths = string | string[] | null
@@ -30,7 +30,7 @@ export type FatalRendererErrorLog = {
 }
 
 type PlatformBase = {
-  managedAccount?: ManagedAccountPlatform
+  account?: AccountPlatform
   /** App version */
   version?: string
 

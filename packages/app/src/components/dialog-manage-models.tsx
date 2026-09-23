@@ -15,7 +15,6 @@ import { For, Show, type Component } from "solid-js"
 import { useLocal } from "@/context/local"
 import { popularProviders } from "@/hooks/use-providers"
 import { useLanguage } from "@/context/language"
-import { usePlatform } from "@/context/platform"
 import { useDialog } from "@opencode-ai/ui/context/dialog"
 import { DialogConnectProvider } from "./dialog-connect-provider"
 import { decode64 } from "@/utils/base64"
@@ -28,7 +27,6 @@ type ModelItem = ReturnType<ReturnType<typeof useLocal>["model"]["list"]>[number
 export const DialogManageModels: Component = () => {
   const local = useLocal()
   const language = useLanguage()
-  const account = usePlatform().managedAccount
   const dialog = useDialog()
   const directory = () => decode64(local.slug())
 
@@ -51,7 +49,7 @@ export const DialogManageModels: Component = () => {
       description={language.t("dialog.model.manage.description")}
       action={
         <Button class="h-7 -my-1 text-14-medium" icon="plus-small" tabIndex={-1} onClick={handleConnectProvider}>
-          {language.t(account ? "managed.account.manage" : "command.provider.connect")}
+          {language.t("command.provider.connect")}
         </Button>
       }
     >
@@ -121,7 +119,6 @@ export const DialogManageModels: Component = () => {
 export const DialogManageModelsV2: Component = () => {
   const local = useLocal()
   const language = useLanguage()
-  const account = usePlatform().managedAccount
   const dialog = useDialog()
   const directory = () => decode64(local.slug())
 
@@ -164,7 +161,7 @@ export const DialogManageModelsV2: Component = () => {
           description={language.t("dialog.model.manage.description")}
         />
         <ButtonV2 variant="neutral" icon="plus" onClick={handleConnectProvider}>
-          {language.t(account ? "managed.account.manage" : "command.provider.connect")}
+          {language.t("command.provider.connect")}
         </ButtonV2>
       </DialogHeader>
       <DialogBody class="flex min-h-0 flex-1 flex-col">

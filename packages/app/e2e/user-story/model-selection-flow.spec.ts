@@ -4,7 +4,7 @@ import { expectAppVisible } from "../utils/waits"
 
 const directory = "C:/Unlimit Code/NewProject"
 
-test("creates a session in a new project, connects Unlimit Code Go, and selects its model", async ({ page }) => {
+test("creates a session in a new project, connects OpenCode Go, and selects its model", async ({ page }) => {
   let connectedGo = false
   let pendingGo = false
   const connections: Array<{ integrationID: string; body: unknown }> = []
@@ -35,7 +35,7 @@ test("creates a session in a new project, connects Unlimit Code Go, and selects 
         },
         {
           id: "opencode-go",
-          name: "Unlimit Code Go",
+          name: "OpenCode Go",
           models: {
             "go-model-1": {
               id: "go-model-1",

@@ -57,7 +57,7 @@ try {
   const body = join(temp, "body.md")
   writeFileSync(
     body,
-    `Integrates upstream stable ${report.tag} (${report.upstreamSha}) into Unlimit Code.\n\nRead-only preparation passed branding drift checks, branding and managed-account/provider tests, package typechecks, and app/desktop builds. Preparation reports are attached to the workflow run. The candidate was prepared without publishing credentials.\n\nThis draft still requires review, native signing/install/upgrade acceptance and actual paid-provider tests. No merge, deployment or release is performed.\n`,
+    `Integrates upstream stable ${report.tag} (${report.upstreamSha}) into Unlimit Code.\n\nRead-only preparation passed branding drift checks, branding and profile-account/provider tests, package typechecks, and app/desktop builds. Preparation reports are attached to the workflow run. The candidate was prepared without publishing credentials.\n\nThis draft still requires review, native signing/install/upgrade acceptance and user-provider coding acceptance. No merge, deployment or release is performed.\n`,
   )
   console.log(
     run("gh", [

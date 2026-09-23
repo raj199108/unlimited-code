@@ -60,31 +60,6 @@
     "upstreamSha256": "bac0be74ac600b22e84f373ca047e33c2ccac5b1eda4166f9c9bcd49a274db0d"
   },
   {
-    "target": "packages/app/src/components/dialog-connect-provider.tsx",
-    "source": "branding/templates/packages__app__src__components__dialog-connect-provider.tsx",
-    "upstreamSha256": "066cd8b41351375525812023725b8605919ea43d4adee75f90b2cf900ca6ed94"
-  },
-  {
-    "target": "packages/app/src/components/dialog-custom-provider.tsx",
-    "source": "branding/templates/packages__app__src__components__dialog-custom-provider.tsx",
-    "upstreamSha256": "4e94247e6cfa726b691abcd08d4d333fa9836f801b58ba7ce903a21ea5c5bd44"
-  },
-  {
-    "target": "packages/app/src/components/dialog-select-model.tsx",
-    "source": "branding/templates/packages__app__src__components__dialog-select-model.tsx",
-    "upstreamSha256": "949e2f88a3918a022c329f64e2882ce089018661405e7dcc8f55ea7e3ca8a958"
-  },
-  {
-    "target": "packages/app/src/components/settings-providers.tsx",
-    "source": "branding/templates/packages__app__src__components__settings-providers.tsx",
-    "upstreamSha256": "a434192304b74b5fff96b2ca66590b2eeb09f988460c7cf17c8c2e058d93e8c7"
-  },
-  {
-    "target": "packages/app/src/components/settings-v2/providers.tsx",
-    "source": "branding/templates/packages__app__src__components__settings-v2__providers.tsx",
-    "upstreamSha256": "d622f5318a53f9a340aa6bbb5cb2efc85b446d337dd1f3b97b6033352ca75e64"
-  },
-  {
     "target": "packages/app/src/context/platform.tsx",
     "source": "branding/templates/packages__app__src__context__platform.tsx",
     "upstreamSha256": "4fe0c445d20d3fa7d936ca18472a3f103de8a8abcde93959c0c8823911c0a2f4"
@@ -95,24 +70,9 @@
     "upstreamSha256": "7fe6b7a9ce57a282d593d152f1692feae345c40d69a3f834dcf8802d0d8acea9"
   },
   {
-    "target": "packages/app/src/hooks/provider-catalog.ts",
-    "source": "branding/templates/packages__app__src__hooks__provider-catalog.ts",
-    "upstreamSha256": "bae3b46751acd02b4a15f2a2cf590da141a61b398978db50c5ccd4b1a1db8517"
-  },
-  {
-    "target": "packages/app/src/hooks/use-providers.ts",
-    "source": "branding/templates/packages__app__src__hooks__use-providers.ts",
-    "upstreamSha256": "806f6a8db778186919502bba7ba56eb18d4731fa7d4f467be69d07edff1780c0"
-  },
-  {
     "target": "packages/app/src/i18n/en.ts",
     "source": "branding/templates/packages__app__src__i18n__en.ts",
     "upstreamSha256": "589c074e01b06d1ba36c871f295c509da808143e762b865e469f93adbdd4c4c2"
-  },
-  {
-    "target": "packages/app/src/pages/layout.tsx",
-    "source": "branding/templates/packages__app__src__pages__layout.tsx",
-    "upstreamSha256": "4f2e40d8d2d2f14ef28a761b14bd85828c5a89f76239c0c28113b7d1b0df55d5"
   },
   {
     "target": "packages/app/src/pages/layout/deep-links.ts",
@@ -240,16 +200,6 @@
     "upstreamSha256": "5475270be148a565b283131df7c72f25c1d994012c6cb55a90ec029f5576e5be"
   },
   {
-    "target": "packages/app/src/pages/new-session/new-session-view.tsx",
-    "source": "branding/templates/packages__app__src__pages__new-session__new-session-view.tsx",
-    "upstreamSha256": "4385d7517828d52ea3ba56b4e20600289d46ff59c286fc901c15d79fd92d3f40"
-  },
-  {
-    "target": "packages/app/src/components/dialog-manage-models.tsx",
-    "source": "branding/templates/packages__app__src__components__dialog-manage-models.tsx",
-    "upstreamSha256": "75b980e3bba11cb47aeb87a6b960e54083e65f0d3502a995deaf6f7cf856799f"
-  },
-  {
     "target": "packages/app/src/context/settings.tsx",
     "source": "branding/templates/packages__app__src__context__settings.tsx",
     "upstreamSha256": "7fdc13c864064cf90c0370fa11ed3c0730c83c36a927af25de41502b9f2e1604"
@@ -285,11 +235,6 @@
     "upstreamSha256": "c99db2d432450e34cbd2b101a4414e075a510679e1e065cc3d4245c3d3170e5f"
   },
   {
-    "target": "packages/tui/src/component/dialog-model.tsx",
-    "source": "branding/templates/packages__tui__src__component__dialog-model.tsx",
-    "upstreamSha256": "e30c8949786f66bc139e7f2b748bbb6cba4d5f368689141316b8378fe99ba3a5"
-  },
-  {
     "target": "packages/tui/src/component/dialog-provider.tsx",
     "source": "branding/templates/packages__tui__src__component__dialog-provider.tsx",
     "upstreamSha256": "9fa8090a8c54c5260916525552fd25caee462f306acad6facf548e10ca6d776c"
@@ -298,5 +243,25 @@
     "target": "packages/tui/src/feature-plugins/home/tips-view.tsx",
     "source": "branding/templates/packages__tui__src__feature-plugins__home__tips-view.tsx",
     "upstreamSha256": "f01ecef2ae37d55bdd5b1b061e8604e0c2a4b35fffb84e40232c42236b759630"
+  },
+  {
+    "target": "packages/app/src/components/dialog-settings.tsx",
+    "source": "branding/templates/packages__app__src__components__dialog-settings.tsx",
+    "upstreamSha256": "22f9b9a60774d77960b88c092b3901006db6d2e83a21c5fbab5cc41372c20d86"
+  },
+  {
+    "target": "packages/app/src/components/settings-v2/dialog-settings-v2.tsx",
+    "source": "branding/templates/packages__app__src__components__settings-v2__dialog-settings-v2.tsx",
+    "upstreamSha256": "a5c2ea574ddfce129236adefa932300454bda4ec8099d15a3b9e9481fda0b20b"
+  },
+  {
+    "target": "packages/opencode/src/server/routes/instance/httpapi/handlers/global.ts",
+    "source": "branding/templates/packages__opencode__src__server__routes__instance__httpapi__handlers__global.ts",
+    "upstreamSha256": "c16bada73332142b026e7b2e52f777fe4fffede29673a791d7d76477d3e45f60"
+  },
+  {
+    "target": "README.md",
+    "source": "branding/templates/README.md",
+    "upstreamSha256": "400890a3082e225c440561825270a911cd7df90a9f64f85166aed330201e50ba"
   }
 ]

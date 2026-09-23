@@ -927,7 +927,7 @@ export default function LegacyLayout(props: ParentProps) {
       },
       {
         id: "provider.connect",
-        title: language.t(platform.managedAccount ? "managed.account.manage" : "command.provider.connect"),
+        title: language.t("command.provider.connect"),
         category: language.t("command.category.provider"),
         onSelect: () => connectProvider(),
       },
@@ -2198,12 +2198,12 @@ export default function LegacyLayout(props: ParentProps) {
                   {language.t("sidebar.gettingStarted.line1")}
                 </div>
                 <div class="text-14-regular text-text-base" style={{ "line-height": "var(--line-height-normal)" }}>
-                  {language.t(platform.managedAccount ? "managed.account.onboarding" : "sidebar.gettingStarted.line2")}
+                  {language.t("sidebar.gettingStarted.line2")}
                 </div>
               </div>
               <div data-component="getting-started-actions">
                 <Button size="large" icon="plus-small" onClick={connectProvider}>
-                  {language.t(platform.managedAccount ? "managed.account.manage" : "command.provider.connect")}
+                  {language.t("command.provider.connect")}
                 </Button>
                 <Button size="large" variant="ghost" onClick={() => setStore("gettingStartedDismissed", true)}>
                   {language.t("toast.update.action.notYet")}

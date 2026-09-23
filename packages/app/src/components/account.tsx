@@ -1,18 +1,18 @@
 import { Button } from "@opencode-ai/ui/button"
-import { For, Show, onCleanup, onMount } from "solid-js"
+import { Show, onCleanup, onMount } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLanguage } from "@/context/language"
-import type { ManagedAccountPlatform, ManagedAccountState } from "../managed-account"
+import type { AccountPlatform, AccountState } from "../account"
 
-export function ManagedAccount(props: { account: ManagedAccountPlatform }) {
+export function AccountSettings(props: { account: AccountPlatform }) {
   const language = useLanguage()
-  const [view, setView] = createStore<{ account: ManagedAccountState; busy: boolean; failed: boolean }>({
+  const [view, setView] = createStore<{ account: AccountState; busy: boolean; failed: boolean }>({
     account: { status: "signed-out" },
     busy: true,
     failed: false,
   })
   const refresh = async () => {
-    const account = await props.account.state().catch((): ManagedAccountState => ({ status: "error" }))
+    const account = await props.account.state().catch((): AccountState => ({ status: "error" }))
     setView("account", account)
   }
   const run = async (operation: () => Promise<void>) => {
@@ -29,21 +29,22 @@ export function ManagedAccount(props: { account: ManagedAccountPlatform }) {
     onCleanup(() => clearInterval(timer))
   })
   return (
-    <section class="flex flex-col gap-4 p-6" aria-label={language.t("managed.account.title")}>
-      <h2 class="text-16-medium">{language.t("managed.account.title")}</h2>
-      <p class="text-14-regular text-text-weak">{language.t("managed.account.description")}</p>
+    <section class="flex max-h-[85dvh] flex-col gap-4 overflow-y-auto p-6" aria-label={language.t("account.title")}>
+      <h2 class="text-16-medium">{language.t("account.title")}</h2>
+      <p class="text-14-regular text-text-weak">{language.t("account.description")}</p>
       <p role="status" aria-live="polite">
-        {language.t(`managed.account.${view.account.status}`)}
+        {language.t(`account.${view.account.status}`)}
       </p>
       <Show when={view.failed}>
-        <p role="alert">{language.t("managed.account.error")}</p>
+        <p role="alert">{language.t("account.error")}</p>
       </Show>
       <Show when={view.account.status === "signed-in"}>
-        <p>{view.account.email}</p>
-        <p>{language.t(view.account.paid ? "managed.account.paid" : "managed.account.unpaid")}</p>
-        <ul>
-          <For each={view.account.models}>{(model) => <li>{model.name}</li>}</For>
-        </ul>
+        <dl class="flex flex-col gap-2">
+          <dt>{language.t("account.displayName")}</dt>
+          <dd>{view.account.displayName || language.t("account.noName")}</dd>
+          <dt>{language.t("account.email")}</dt>
+          <dd>{view.account.email}</dd>
+        </dl>
       </Show>
       <div class="flex flex-wrap gap-2">
         <Show when={view.account.status !== "signed-in"}>
@@ -51,7 +52,7 @@ export function ManagedAccount(props: { account: ManagedAccountPlatform }) {
             disabled={view.busy || view.account.status === "unconfigured"}
             onClick={() => void run(() => props.account.signIn())}
           >
-            {language.t("managed.account.signIn")}
+            {language.t("account.signIn")}
           </Button>
         </Show>
         <Button
@@ -59,11 +60,11 @@ export function ManagedAccount(props: { account: ManagedAccountPlatform }) {
           disabled={view.busy || view.account.status === "unconfigured"}
           onClick={() => void run(() => props.account.openAccount())}
         >
-          {language.t("managed.account.manage")}
+          {language.t("account.manage")}
         </Button>
         <Show when={["signed-in", "signing-in", "error"].includes(view.account.status)}>
           <Button variant="ghost" disabled={view.busy} onClick={() => void run(() => props.account.signOut())}>
-            {language.t("managed.account.signOut")}
+            {language.t("account.signOut")}
           </Button>
         </Show>
       </div>

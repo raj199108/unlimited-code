@@ -1,7 +1,6 @@
-export type ManagedModel = { id: string; name: string; context: number; output: number }
-export type ManagedAccountState = {
+export type AccountState = {
   status: "unconfigured" | "signed-out" | "signing-in" | "signed-in" | "error"
+  id?: string
   email?: string
-  paid?: boolean
-  models?: ManagedModel[]
+  displayName?: string
 }

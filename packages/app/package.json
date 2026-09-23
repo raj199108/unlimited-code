@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "exports": {
-    "./managed-account": "./src/managed-account.ts",
+    "./account": "./src/account.ts",
     ".": "./src/index.ts",
     "./desktop-menu": "./src/desktop-menu.ts",
     "./i18n/desktop-native": "./src/i18n/desktop-native.ts",

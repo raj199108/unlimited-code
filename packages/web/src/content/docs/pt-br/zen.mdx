@@ -7,9 +7,9 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-O Unlimit Code Zen é uma lista de modelos testados e verificados fornecidos pela equipe do Unlimit Code.
+O OpenCode Zen é uma lista de modelos testados e verificados fornecidos pela equipe do Unlimit Code.
 
-O Zen funciona como qualquer outro provedor no Unlimit Code. Você faz login no Unlimit Code Zen e recebe sua chave de API. É **completamente opcional** e você não precisa usá-lo para usar o Unlimit Code.
+O Zen funciona como qualquer outro provedor no Unlimit Code. Você faz login no OpenCode Zen e recebe sua chave de API. É **completamente opcional** e você não precisa usá-lo para usar o Unlimit Code.
 
 ---
 
@@ -29,16 +29,16 @@ Para corrigir isso, fizemos algumas coisas:
 2. Depois, trabalhamos com alguns provedores para garantir que esses modelos fossem servidos corretamente.
 3. Por fim, fizemos benchmark da combinação modelo/provedor e chegamos a uma lista que nos sentimos confortáveis em recomendar.
 
-O Unlimit Code Zen é um gateway de AI que dá a você acesso a esses modelos.
+O OpenCode Zen é um gateway de AI que dá a você acesso a esses modelos.
 
 ---
 
 ## Como funciona
 
-O Unlimit Code Zen funciona como qualquer outro provedor no Unlimit Code.
+O OpenCode Zen funciona como qualquer outro provedor no Unlimit Code.
 
-1. Você faz login no **<a href={console}>Unlimit Code Zen</a>**, adiciona seus dados de cobrança e copia sua chave de API.
-2. Você executa o comando `/connect` no TUI, seleciona Unlimit Code Zen e cola sua chave de API.
+1. Você faz login no **<a href={console}>OpenCode Zen</a>**, adiciona seus dados de cobrança e copia sua chave de API.
+2. Você executa o comando `/connect` no TUI, seleciona OpenCode Zen e cola sua chave de API.
 3. Execute `/models` no TUI para ver a lista de modelos que recomendamos.
 
 Você é cobrado por solicitação e pode adicionar créditos à sua conta.
@@ -145,7 +145,7 @@ https://opencode.ai/zen/v1/models
 
 Jev é um modelo System One da TypeSafe AI para decisões rápidas e estruturadas. Em vez de gerar texto, ele avalia um `state` com base em perguntas tipadas e retorna valores e probabilidades que seu código pode usar diretamente. Ele é compatível com perguntas de sim/não (`noul`), de múltipla escolha (`choice`) e baseadas em critérios de avaliação (`score`).
 
-Use sua chave de API do Unlimit Code Zen com o endpoint `https://opencode.ai/zen/v1/systemone`. Este exemplo verifica se uma solicitação de suporte é urgente:
+Use sua chave de API do OpenCode Zen com o endpoint `https://opencode.ai/zen/v1/systemone`. Este exemplo verifica se uma solicitação de suporte é urgente:
 
 ```bash
 curl https://opencode.ai/zen/v1/systemone \
@@ -411,7 +411,7 @@ Por exemplo, sua organização pode já ter uma chave para OpenAI ou Anthropic e
 
 ## Objetivos
 
-Criamos o Unlimit Code Zen para:
+Criamos o OpenCode Zen para:
 
 1. Fazer **benchmark** dos melhores modelos/provedores para agentes de codificação.
 2. Ter acesso às opções de **mais alta qualidade** e não degradar o desempenho nem encaminhar para provedores mais baratos.

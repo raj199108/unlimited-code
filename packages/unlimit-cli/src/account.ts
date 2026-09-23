@@ -6,10 +6,12 @@ import { createAccountSession } from "@unlimitcode/account/session"
 import type { AccountConfig, TokenStorage, Tokens } from "@unlimitcode/account/session"
 
 export function createCliAccount(config: AccountConfig, storage: TokenStorage, directory: string) {
-  const locked = async <T>(action: () => Promise<T>) => {
+  const locked = async <T>(action: () => Promise<T>, name = "account.lock") => {
     await mkdir(directory, { recursive: true, mode: 0o700 })
-    const release = await lockfile.lock(directory, {
-      lockfilePath: join(directory, "account.lock"),
+    // proper-lockfile keys its in-process registry by the target, not lockfilePath.
+    const release = await lockfile.lock(join(directory, name), {
+      realpath: false,
+      lockfilePath: join(directory, name),
       stale: 60000,
       update: 5000,
       retries: { retries: 100, minTimeout: 100, maxTimeout: 300, factor: 1 },

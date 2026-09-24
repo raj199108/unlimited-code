@@ -1,13 +1,9 @@
-# CLI profile login
+# CLI sign-in and paid access
 
-The `unlimitcode` launcher adds optional profile commands to the fork-built engine. `login` opens the browser; `account` shows verified email/display name; `account open` edits the profile on the website; `logout` revokes the local session. No profile or subscription check precedes coding or provider commands.
+`unlimitcode login` uses public PKCE in the browser. `unlimitcode account` shows profile and software-access expiry; `account open` opens profile/subscription management; `logout` revokes the local session. Help and version are available without payment. Every workspace/provider command requires a verified active software subscription before the fork-built engine starts.
 
-The development public OAuth client is configured in `cli-development.json`, with exact loopback callback `http://127.0.0.1:32187/auth/callback`. PKCE and state bind a pending browser login to that CLI invocation. The callback rejects hostile origins, duplicate/replayed callbacks and occupied ports. Production builds require explicitly validated public HTTPS account configuration.
+Users connect their own providers through `/connect` or `auth login`. Provider environment variables, custom endpoints, model choices, local models, plugins, agents and workflows remain supported after software activation. Provider usage is billed separately.
 
-Profile credentials live under `~/.unlimitcode/cli-<channel>` with channel-specific operating-system storage identity. macOS uses Keychain-backed encryption, Windows uses DPAPI, and Linux uses Secret Service. Cross-process locks serialize refresh and logout; generation fencing prevents a late login from restoring a signed-out session. Provider credentials use the underlying engine's separate local authentication/configuration.
+A loopback access authority lives in the launcher. Only its random-secret URL is passed to the engine, not Supabase tokens. The engine also checks access and exits on loss of access. Direct engine invocation without the authority is denied. Auth tokens use macOS Keychain, Windows DPAPI or Linux Secret Service with no plaintext fallback. Existing refresh/logout generation fencing and process locks remain.
 
-Run package typecheck and `bun run test` from `packages/unlimit-cli`. Build with `bun run build --with-engine`, then run `node script/smoke.mjs` to verify a real CLI task against a synthetic local model without profile login. Keep desktop and CLI builds sequential because they share engine build output.
-
-Verified: six CLI tests including real macOS Keychain, independent-process refresh, state/PKCE callbacks and logout; hosted development OAuth/profile/refresh/revocation with temporary accounts; compiled local-provider task. Earlier cross-platform account/storage CI passed on macOS, Windows and Linux; the changed release still needs installed macOS/Windows acceptance.
-
-See [release packaging](../packages/unlimit-cli/RELEASES.md), [account behavior](ACCOUNTS.md) and the [checklist](../IMPLEMENTATION_CHECKLIST.md). Signing, bundled runtimes, public installers and owned update feeds remain release prerequisites.
+Verification: run `bun typecheck`, `bun run test`, `bun run build --with-engine`, then `node --experimental-strip-types script/smoke.mjs` from `packages/unlimit-cli`. The smoke test uses a synthetic local model and proves denied accounts make no model requests while paid access succeeds. It does not incur provider charges. Signed cross-platform release acceptance remains pending; see [RELEASES.md](../packages/unlimit-cli/RELEASES.md).

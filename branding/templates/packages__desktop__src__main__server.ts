@@ -6,6 +6,8 @@ import { getLogger } from "./logging"
 import { getUserShell, loadShellEnv } from "./shell-env"
 import { getStore } from "./store"
 import { DEFAULT_SERVER_URL_KEY } from "./store-keys"
+import { superviseAccess } from "@unlimitcode/account/access-supervisor"
+import type { AccountState } from "@unlimitcode/account/types"
 
 export type HealthCheck = { wait: Promise<void> }
 
@@ -21,6 +23,8 @@ const SIDECAR_START_STALL_TIMEOUT = 60_000
 const SIDECAR_STOP_TIMEOUT = 6_000
 
 type SpawnLocalServerOptions = {
+  access: { UNLIMIT_ACCESS_URL: string; UNLIMIT_ACCESS_SECRET: string }
+  account: () => Promise<AccountState>
   userDataPath: string
   onStdout?: (message: string) => void
   onStderr?: (message: string) => void
@@ -60,11 +64,25 @@ export async function spawnLocalServer(
   password: string,
   options: SpawnLocalServerOptions,
 ) {
+  const initial = await spawnServer(hostname, port, password, options)
+  const owner = superviseAccess(initial.listener, options.account, async () => {
+    const next = await spawnServer(hostname, port, password, options)
+    await next.health.wait.catch(async (error: unknown) => {
+      await next.listener.stop()
+      throw error
+    })
+    return next.listener
+  })
+  return { health: initial.health, listener: { stop: owner.stop } }
+}
+
+async function spawnServer(hostname: string, port: number, password: string, options: SpawnLocalServerOptions) {
   const sidecar = join(dirname(fileURLToPath(import.meta.url)), "sidecar.js")
   const child = utilityProcess.fork(sidecar, [], {
     cwd: process.cwd(),
     env: {
       ...createSidecarEnv(),
+      ...options.access,
       OPENCODE_DISABLE_AUTOUPDATE: "1",
       OPENCODE_DISABLE_SHARE: "1",
     },

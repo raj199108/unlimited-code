@@ -1,8 +1,8 @@
-> Current scope: branding, themes, independent distribution and optional profile login. Models use the user’s own provider connections. See [accounts](ACCOUNTS.md) and the [active checklist](../IMPLEMENTATION_CHECKLIST.md). Older managed-service references are superseded.
+> Current scope: branding, themes, independent distribution and required account login and paid software access. Models use the user’s own provider connections. See [accounts](ACCOUNTS.md) and the [active checklist](../IMPLEMENTATION_CHECKLIST.md). Older managed-service references are superseded.
 
 # Maintained branding layer
 
-Current account/provider policy: [optional profiles and user-configured providers](ACCOUNTS.md). No subscription or managed model service is part of the product.
+Current account/provider policy: [software subscriptions and user-configured providers](ACCOUNTS.md). An active software subscription is required. Company-funded model access is not part of the product.
 The product name is **Unlimit Code**. `brand.json` is the source of truth. The repository/directory slug `unlimited-code` does not change the approved display name.
 
 Run `bun run brand:scan`, `bun run brand:apply`, and `bun run brand:check` from the repository root. Run tooling tests from this directory with `bun test`.

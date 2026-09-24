@@ -113,6 +113,17 @@ const cli = yargs(args)
   .strict()
 
 try {
+  if (!(args.length === 1 && ["-h", "--help", "-v", "--version"].includes(args[0]))) {
+    const { verifyAccess } = await import("@unlimitcode/account/access-client")
+    await verifyAccess()
+    const timer = setInterval(() => {
+      void verifyAccess().catch(() => {
+        process.stderr.write("Unlimit Code subscription access ended. Sign in with an active subscription.\n")
+        process.exit(1)
+      })
+    }, 5000)
+    timer.unref()
+  }
   if (args.includes("-h") || args.includes("--help")) {
     await cli.parse(args, (err: Error | undefined, _argv: unknown, out: string) => {
       if (err) throw err

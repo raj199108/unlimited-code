@@ -263,5 +263,30 @@
     "target": "README.md",
     "source": "branding/templates/README.md",
     "upstreamSha256": "400890a3082e225c440561825270a911cd7df90a9f64f85166aed330201e50ba"
+  },
+  {
+    "target": "packages/opencode/src/auth/index.ts",
+    "source": "branding/templates/packages__opencode__src__auth__index.ts",
+    "upstreamSha256": "dc897ff4b04dba1ed81f3fe24cdce7289ae32acc6bac60bc430a884bb60ad5b0"
+  },
+  {
+    "target": "packages/opencode/src/session/llm.ts",
+    "source": "branding/templates/packages__opencode__src__session__llm.ts",
+    "upstreamSha256": "5f1dcfb734853e39760e4dd05470f0c7d8752fc5dcc64e118c065149602e402d"
+  },
+  {
+    "target": "packages/opencode/src/tool/tool.ts",
+    "source": "branding/templates/packages__opencode__src__tool__tool.ts",
+    "upstreamSha256": "fed2bc482a40aff4fe21a7939c753bc0f36110e5ec0e8dbba1410509d4deaf88"
+  },
+  {
+    "target": "packages/opencode/src/server/routes/instance/httpapi/lifecycle.ts",
+    "source": "branding/templates/packages__opencode__src__server__routes__instance__httpapi__lifecycle.ts",
+    "upstreamSha256": "88618adc27b27bebbc596207c7cf4324c112b7b49b696972e22050f8d5ca4adb"
+  },
+  {
+    "target": "packages/opencode/test/preload.ts",
+    "source": "branding/templates/packages__opencode__test__preload.ts",
+    "upstreamSha256": "79fe5a30fec88144d9774203a62200e57144d891b5480255e7e3d07559232911"
   }
 ]

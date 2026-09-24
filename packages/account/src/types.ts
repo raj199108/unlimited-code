@@ -3,4 +3,5 @@ export type AccountState = {
   id?: string
   email?: string
   displayName?: string
+  accessUntil?: string | null
 }

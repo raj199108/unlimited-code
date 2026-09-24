@@ -6,8 +6,10 @@ import { tmpdir } from "node:os"
 import { join } from "node:path"
 import { fileURLToPath } from "node:url"
 import assert from "node:assert/strict"
-const directory = await mkdtemp(join(tmpdir(), "unlimit-profile-task-"))
-const state = { requests: 0 }
+import { startAccessServer } from "@unlimitcode/account/access-server"
+const directory = await mkdtemp(join(tmpdir(), "unlimit-paid-task-"))
+const state = { requests: 0, active: false }
+const authority = await startAccessServer(async () => ({ status: "signed-in", accessUntil: state.active ? new Date(Date.now() + 60000).toISOString() : null }))
 const server = createServer(async (req, res) => {
   let body = ""
   for await (const part of req) body += part
@@ -23,7 +25,7 @@ const server = createServer(async (req, res) => {
         created: 1,
         model: "test",
         choices: [
-          { index: 0, delta: { role: "assistant", content: "Profile-independent coding works." }, finish_reason: null },
+          { index: 0, delta: { role: "assistant", content: "Subscribed user-provider coding works." }, finish_reason: null },
         ],
       }) +
       "\n\n",
@@ -57,11 +59,10 @@ try {
       },
     },
   }
-  const result = await new Promise((resolve, reject) => {
+  const run = (authorized) => new Promise((resolve, reject) => {
     const child = spawn(
-      process.execPath,
+      fileURLToPath(new URL(`../dist/unlimit-engine${process.platform === "win32" ? ".exe" : ""}`, import.meta.url)),
       [
-        fileURLToPath(new URL("../dist/unlimitcode.mjs", import.meta.url)),
         "run",
         "--model",
         "local-test/test",
@@ -73,6 +74,7 @@ try {
         cwd: directory,
         env: {
           PATH: process.env.PATH,
+          ...(authorized ? authority.environment : {}),
           OPENCODE_TEST_HOME: directory,
           TMPDIR: directory,
           XDG_CONFIG_HOME: join(directory, "config"),
@@ -100,14 +102,23 @@ try {
       resolve({ code, out, err })
     })
   })
+  const missing = await run(false)
+  assert.notEqual(missing.code, 0)
+  assert.equal(state.requests, 0)
+  const unpaid = await run(true)
+  assert.notEqual(unpaid.code, 0)
+  assert.equal(state.requests, 0)
+  state.active = true
+  const result = await run(true)
   if (result.code !== 0) console.log(result.err.slice(-2000))
   assert.equal(result.code, 0)
   assert.ok(state.requests > 0)
-  assert.match(result.out, /Profile-independent coding works/)
+  assert.match(result.out, /Subscribed user-provider coding works/)
   console.log(
-    "PASS: compiled CLI completed a task through a local user-configured provider, with no login or subscription, even with obsolete managed flags set.",
+    "PASS: compiled engine denies missing and unpaid accounts before provider calls, and a subscribed account completes a task with its own local provider.",
   )
 } finally {
+  await authority.close()
   server.closeAllConnections()
   await new Promise((r) => server.close(r))
   await rm(directory, { recursive: true, force: true })

@@ -1,3 +1,9 @@
+# Current paid software verification — 2026-09-24
+
+The current scope is mandatory account sign-in plus an active software subscription, including personal provider keys and local models. Company-managed inference is removed. Current checks: 110 engine/provider/server tests, 39 app tests, 8 shared account/access/lifecycle tests, 7 desktop session/storage tests, 6 CLI tests and 12 branding/integration tests passed; package typechecks and desktop/CLI builds passed. The compiled engine rejects missing/unpaid accounts and completes a task against a subscriber's synthetic local provider. Actual account UI signed-out/unpaid/active/revoked/offline states were verified in a separate browser fixture. Platform payment-policy/database/hosted Auth and simulated payment lifecycle checks passed; live merchant acceptance and installed OS acceptance remain pending. See [IMPLEMENTATION_CHECKLIST.md](../IMPLEMENTATION_CHECKLIST.md).
+
+The records below describe earlier implementation phases, including superseded managed inference and optional-profile behavior.
+
 # Initial implementation verification — 2026-09-23
 
 Baseline: upstream v1.18.32 (`545f51d26cc39a907d2867492d498d9607ea5fa4`).

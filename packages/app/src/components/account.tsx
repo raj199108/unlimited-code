@@ -1,8 +1,28 @@
 import { Button } from "@opencode-ai/ui/button"
-import { Show, onCleanup, onMount } from "solid-js"
+import { Show, onCleanup, onMount, type ParentProps } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useLanguage } from "@/context/language"
 import type { AccountPlatform, AccountState } from "../account"
+import { hasAccountAccess } from "../account"
+
+export function AccountGate(props: ParentProps<{ account?: AccountPlatform }>) {
+  const [view, setView] = createStore({ allowed: false })
+  onMount(() => {
+    if (!props.account) return
+    const refresh = async () => {
+      const state = await props.account!.state().catch((): AccountState => ({ status: "error" }))
+      setView("allowed", hasAccountAccess(state))
+    }
+    void refresh()
+    const timer = setInterval(() => void refresh(), 5000)
+    onCleanup(() => clearInterval(timer))
+  })
+  return (
+    <Show when={!props.account || view.allowed} fallback={<AccountSettings account={props.account!} />}>
+      {props.children}
+    </Show>
+  )
+}
 
 export function AccountSettings(props: { account: AccountPlatform }) {
   const language = useLanguage()
@@ -39,6 +59,9 @@ export function AccountSettings(props: { account: AccountPlatform }) {
         <p role="alert">{language.t("account.error")}</p>
       </Show>
       <Show when={view.account.status === "signed-in"}>
+        <p role="status">
+          {language.t(hasAccountAccess(view.account) ? "account.active" : "account.subscriptionRequired")}
+        </p>
         <dl class="flex flex-col gap-2">
           <dt>{language.t("account.displayName")}</dt>
           <dd>{view.account.displayName || language.t("account.noName")}</dd>
@@ -47,6 +70,9 @@ export function AccountSettings(props: { account: AccountPlatform }) {
         </dl>
       </Show>
       <div class="flex flex-wrap gap-2">
+        <Button variant="secondary" disabled={view.busy} onClick={() => void run(refresh)}>
+          {language.t("account.refresh")}
+        </Button>
         <Show when={view.account.status !== "signed-in"}>
           <Button
             disabled={view.busy || view.account.status === "unconfigured"}

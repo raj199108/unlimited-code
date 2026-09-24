@@ -199,6 +199,8 @@ const main = Effect.gen(function* () {
 
   preferAppEnv(app.getPath("userData"))
   const account = createAccount(accountConfig())
+  const accessServer = yield* Effect.promise(() => account.startAccessServer())
+  app.on("will-quit", () => void accessServer.close())
   const receiveLinks = async (urls: string[]) => {
     for (const url of urls) {
       // Authorization codes must never reach renderer deep-link events or logs.
@@ -372,6 +374,8 @@ const main = Effect.gen(function* () {
     logger.log("spawning sidecar", { url })
     const { listener, health } = yield* Effect.promise(() =>
       spawnLocalServer(hostname, port, password, {
+        access: accessServer.environment,
+        account: account.platform.state,
         userDataPath: app.getPath("userData"),
         onStdout: (message) => writeLog("server", "stdout", { message }),
         onStderr: (message) => writeLog("server", "stderr", { message }, "warn"),

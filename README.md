@@ -4,13 +4,13 @@
 
 An independent [OpenCode](https://github.com/anomalyco/opencode) fork with the approved infinity/caret mark, Paper and Ink themes, IBM Plex Mono, and its own application identity. Connect your own providers or local models and keep your agents, tools, and workflows.
 
-**No subscription is required.** Optional Supabase sign-in provides a profile with your email and display name. It does not gate coding, provision provider keys, or synchronize credentials.
+**Sign-in and an active software subscription are required.** The $99 USD/month plan unlocks the desktop app and CLI, including personal API keys and local models. Downloads are free. Supabase stores your profile and subscription status; model usage is billed separately by your provider. We do not provision or collect your model keys.
 
 Signed public installers and owned update feeds are still in preparation. The launch domain is undecided. Upstream OpenCode installers install the upstream product, not this fork.
 
 ## Desktop and terminal
 
-In the desktop app, **Settings → Providers** manages your connections and **Settings → Account** manages your optional profile. In the terminal, use `/connect` and `/models` for model access.
+In the desktop app, **Settings → Providers** manages your connections and **Settings → Account** manages your profile and subscription. In the terminal, use `/connect` and `/models` for model access.
 
 ```sh
 unlimitcode ./my-project

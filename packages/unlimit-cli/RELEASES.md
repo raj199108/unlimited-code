@@ -8,7 +8,7 @@ Build on each target OS/architecture from this package:
 OPENCODE_CHANNEL=prod bun run script/build.ts --with-engine
 ```
 
-The release account file uses the separately registered CLI public client and exact loopback callback `http://127.0.0.1:32187/auth/callback`. Profile login is optional and uses OS-protected session storage. Coding uses the user's provider credentials and configuration, with no managed gateway or subscription requirement.
+The release account file uses the separately registered CLI public client and exact loopback callback `http://127.0.0.1:32187/auth/callback`. Account sign-in uses OS-protected session storage. A verified active software subscription is required for coding and provider setup. Users supply their own provider credentials; there is no managed inference gateway.
 
 Supply `UNLIMIT_NODE_BINARY`, `UNLIMIT_NODE_LICENSE`, and `UNLIMIT_NODE_SHA256` for an independently verified official Node distribution matching the build OS/architecture. Sign the fork engine and verify both executables with the relevant OS tools. Run:
 
@@ -20,6 +20,6 @@ This creates the versioned `tar.gz` or `zip` and prints its exact byte size, SHA
 
 Packaging is not publication or notarization. Complete macOS Developer ID/notarization and Windows Authenticode acceptance, verify the desired signing identity, and test on a fresh OS account. Add the archive to schema 2 of the private platform's publisher-signed release catalog. Schema 1 desktop identities remain unchanged. Publish only after `release:verify` succeeds.
 
-The website installers verify checksums, install into a versioned user directory and expose `unlimitcode` on the user PATH. The Windows script needs an actual Windows installation test before launch; the current development machine is macOS. Releases are public to download. Provider connections and coding work without a profile session; model usage is billed by the chosen provider.
+The website installers verify checksums, install into a versioned user directory and expose `unlimitcode` on the user PATH. The Windows script needs an actual Windows installation test before launch; the current development machine is macOS. Releases are public to download. Provider connections and coding require a signed-in account with an active software subscription; model usage is billed separately by the chosen provider.
 
-After building with the engine, run `node script/smoke.mjs` to verify that a task completes through a local user-configured provider without login or subscription. The fixture uses synthetic credentials and removes its temporary project.
+After building with the engine, run `node --experimental-strip-types script/smoke.mjs` to verify that missing/unpaid accounts are denied before any model call and a subscriber completes a task with a local user-configured provider. The fixture uses synthetic credentials and removes its temporary project.

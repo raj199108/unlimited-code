@@ -6,22 +6,23 @@ Updated: 2026-09-24. Completed means verified; unfinished release prerequisites 
 
 An independent fork of OpenCode with the approved **Unlimit Code** name and infinity/caret logo, Paper/Ink themes, IBM Plex Mono, isolated application identity, fork-built desktop/CLI distribution, and reviewed upstream maintenance. Users connect their own providers, custom endpoints or local models. Agents, workflows and tools remain supported.
 
-Supabase supplies optional profile login, email and an editable display name. Login is separate from provider authentication. There is no managed inference service, company-funded model catalog, subscription, checkout, or paid-access gate. The previous commercial plan is superseded; its historical record is in `branding/history/2026-09-23-managed-plan.md`.
+Supabase provides mandatory sign-in, email/display-name profiles, and authoritative paid software access. The $99 USD/month plan is required even for personal keys or local models. Downloads stay free. Managed/company-funded inference is removed. This resolves the earlier ambiguity: removing managed subscriptions did not remove the software subscription.
 
-## Scope change
+## Paid software and personal providers
 
-- [x] Remove desktop workspace and prompt subscription gates.
-- [x] Restore provider connections, custom providers, model selection and TUI `/connect`.
-- [x] Remove CLI account/paid-access requirements for coding and provider commands.
-- [x] Remove the company model gateway, local managed bridge and special OpenRouter vault.
-- [x] Retain secure Supabase profile sessions and separate Account settings in both desktop layouts.
-- [x] Add email/display-name profile details and browser profile editing with account ownership checks.
-- [x] Retire checkout, billing portal, webhook and inference endpoints with HTTP 410; remove billing SDK and managed catalog code.
-- [x] Replace subscription marketing, installation instructions and launch configuration with user-provider guidance.
-- [x] Add a non-destructive database migration to retire client commercial access while retaining historical records.
-- [x] Verify profile migration and OAuth/profile behavior against development Supabase; temporary accounts and credentials removed.
-- [x] Complete regression checks and desktop/CLI/website builds for this scope change. Evidence: 109 engine/provider/server tests, 11 app tests, 12 branding/integration tests, 7 desktop session/storage tests, 6 CLI tests, release-config checks and 22 website tests; isolated database/RLS and hosted OAuth/profile checks pass. Browser profile editing and a compiled CLI task with a local provider pass.
-- [ ] Update the existing review branches after resolving the concurrent software-pricing decision. Local commits contain verified changes; publication is paused because the landing-page task is adding a $99/month software plan. Its in-progress edits are preserved.
+- [x] Preserve all upstream provider/custom/local-model connections, agents, tools and workflows for subscribers.
+- [x] Require verified sign-in and a paid period before desktop workspace access and CLI work commands.
+- [x] Enforce engine HTTP, credential-write, model-turn and tool-call access checks; no missing-config bypass.
+- [x] Keep Auth tokens in secure main/launcher storage; pass only a short-lived loopback access result to the engine.
+- [x] Add desktop sidecar stop/recovery and CLI ongoing access checks; final installed-platform acceptance remains below.
+- [x] Restore software checkout/portal/signed-webhook reconciliation with an exact $99 USD monthly product, no trial or arbitrary client product.
+- [x] Separate historical managed subscriptions from software entitlements; preserve RLS and block user entitlement writes.
+- [x] Preserve paid time after cancellation; deny expiry, holds, full refunds, disputes and failed verification.
+- [x] Apply the non-destructive software-access migration to dedicated development Supabase and verify real Auth/RLS/isolation/revocation with cleaned-up temporary users.
+- [x] Verify compiled engine denies unpaid/missing accounts before provider calls and succeeds with a subscriber's synthetic local model.
+- [x] Verify desktop/website builds and package typechecks; 110 engine/provider/server tests, 39 app/provider/theme tests, 8 shared account/lifecycle tests, 7 desktop session/storage tests, 6 CLI tests, 12 branding/integration tests and 35 platform tests pass. Isolated database lifecycle and hosted native/CLI OAuth tests pass. Real hosted RLS plus simulated signed payment reconciliation, refund/retry/dedup checks pass; actual merchant acceptance remains pending.
+- [x] Verify signed-out/unpaid/active/revoked/offline states in the actual account UI using an isolated browser fixture; account page reflects locked access. Protect the new engine boundaries with branding overlays and CI checks.
+- [ ] Publish updated review branches and refresh PR descriptions.
 
 ## Foundations retained
 
@@ -45,11 +46,8 @@ Supabase supplies optional profile login, email and an editable display name. Lo
 - [ ] Configure Apple signing/notarization and Windows signing; verify installed login/storage and coexistence with OpenCode.
 - [ ] Publish signed beta artifacts and owned updater feeds; verify upgrade, rollback protection and uninstall behavior.
 - [ ] Activate the scheduled upstream workflow on the maintained default branch with its scoped credential; verify a live integration run.
-- [ ] Run an installed-app coding task using a user-selected provider or local model, and verify real email/browser sign-in.
+- [ ] Configure the payment merchant, approved recurring product, webhook secrets and reconciliation schedule; verify a real test checkout, renewal, cancellation, refund and native activation before enabling live payments.
+- [ ] Run installed macOS/Windows paid-login → provider setup → coding → logout/expiry → renewal acceptance, including active task/terminal teardown and real email delivery.
 - [ ] Finalize privacy/operator policies, account support and operational monitoring; promote a verified beta to stable.
 
-Domain remains intentionally undecided. Billing prices, Dodo credentials, company OpenRouter keys and paid-access acceptance are no longer launch requirements. No running development app/server is restarted by this change.
-
-## Coordination note (2026-09-24)
-
-“Build Unlimit Code landing page” is concurrently editing the private website checkout and has a confirmed $99/month software-only plan. This task interpreted removal of managed subscriptions as removal of all paid-access gates. Clarify the software-subscription requirement before publishing or merging these differing policies. Managed company-funded inference is removed in either case. Existing release prerequisites above remain unchanged.
+Domain remains intentionally undecided. Production payment credentials, subscription acceptance, signing and hosting are launch prerequisites. Company OpenRouter keys and managed model access are not required. Existing development applications and servers were not restarted.

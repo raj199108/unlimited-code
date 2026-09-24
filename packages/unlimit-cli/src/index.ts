@@ -10,6 +10,8 @@ import { createOsStorage } from "./secure-storage.ts"
 import { createCliAccount } from "./account.ts"
 import { startLogin } from "./login.ts"
 import { engineEnvironment } from "./engine.ts"
+import { requireAccess } from "@unlimitcode/account/access"
+import { startAccessServer } from "@unlimitcode/account/access-server"
 
 async function openBrowser(url: string) {
   const command =
@@ -45,7 +47,7 @@ async function main() {
   }
   if (args.length === 1 && ["--help", "-h"].includes(args[0])) {
     console.log(
-      `Unlimit Code\n\n  unlimitcode login          Sign in to your optional profile\n  unlimitcode logout         Sign out of this CLI\n  unlimitcode account        Show your profile\n  unlimitcode account open   Edit your profile in the browser\n  unlimitcode [project]      Start coding\n  unlimitcode run [prompt]   Run a coding task\n  unlimitcode models         List available models\n  unlimitcode auth login     Connect your own provider\n\nConnect providers with /connect in the workspace. Custom models, local models, agents and workflows are supported. Provider usage is billed by your provider; no Unlimit Code subscription is required.\n`,
+      `Unlimit Code\n\n  unlimitcode login          Sign in to your account\n  unlimitcode logout         Sign out of this CLI\n  unlimitcode account        Show your profile\n  unlimitcode account open   Edit your profile in the browser\n  unlimitcode [project]      Start coding\n  unlimitcode run [prompt]   Run a coding task\n  unlimitcode models         List available models\n  unlimitcode auth login     Connect your own provider\n\nConnect providers with /connect in the workspace. Custom models, local models, agents and workflows are supported. Provider usage is billed by your provider; an active Unlimit Code software subscription is required for all workspace use.\n`,
     )
     return
   }
@@ -70,7 +72,9 @@ async function main() {
         await login.revoke()
         throw error
       })
-      console.log("Signed in. Run unlimitcode to start coding.")
+      console.log(
+        "Signed in. An active software subscription is required. Run unlimitcode account open to view access.",
+      )
     } finally {
       await login.close()
     }
@@ -82,37 +86,47 @@ async function main() {
     const state = await account.status()
     if (state.status === "signed-out") return console.log("Signed out. Run unlimitcode login.")
     if (state.status !== "signed-in") throw new Error("account_unavailable")
-    console.log(`Unlimit Code account: ${state.email}\nName: ${state.displayName || "—"}`)
+    console.log(
+      `Unlimit Code account: ${state.email}\nName: ${state.displayName || "—"}\nSoftware access until: ${state.accessUntil || "No active subscription"}`,
+    )
     return
   }
+  requireAccess(await account.status())
   const engine = fileURLToPath(
     new URL(`./unlimit-engine${process.platform === "win32" ? ".exe" : ""}`, import.meta.url),
   )
   await access(engine).catch(() => {
     throw new Error("cli_engine_missing")
   })
-  process.exitCode = await new Promise<number>((resolve, reject) => {
-    const child = spawn(engine, args, {
-      stdio: "inherit",
-      env: engineEnvironment(),
+  const accessServer = await startAccessServer(account.status)
+  try {
+    process.exitCode = await new Promise<number>((resolve, reject) => {
+      const child = spawn(engine, args, {
+        stdio: "inherit",
+        env: { ...engineEnvironment(), ...accessServer.environment },
+      })
+      const stop = () => child.kill("SIGTERM")
+      process.once("SIGINT", stop)
+      process.once("SIGTERM", stop)
+      child.once("error", () => {
+        process.off("SIGINT", stop)
+        process.off("SIGTERM", stop)
+        reject(new Error("cli_engine_unavailable"))
+      })
+      child.once("exit", (code) => {
+        process.off("SIGINT", stop)
+        process.off("SIGTERM", stop)
+        resolve(code ?? 1)
+      })
     })
-    const stop = () => child.kill("SIGTERM")
-    process.once("SIGINT", stop)
-    process.once("SIGTERM", stop)
-    child.once("error", () => {
-      process.off("SIGINT", stop)
-      process.off("SIGTERM", stop)
-      reject(new Error("cli_engine_unavailable"))
-    })
-    child.once("exit", (code) => {
-      process.off("SIGINT", stop)
-      process.off("SIGTERM", stop)
-      resolve(code ?? 1)
-    })
-  })
+  } finally {
+    await accessServer.close()
+  }
 }
 
 const messages: Record<string, string> = {
+  subscription_required:
+    "An active Unlimit Code software subscription is required, including for your own provider keys. Run unlimitcode account open to subscribe.",
   account_signed_out: "Run unlimitcode login to sign in.",
   account_callback_port_unavailable: "The sign-in callback port is in use. Close the other CLI sign-in and retry.",
   account_secure_storage_unavailable:

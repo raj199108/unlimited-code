@@ -3,15 +3,19 @@ import { DESKTOP_NATIVE_ENGLISH } from "./desktop-native"
 export const dict = {
   "account.title": "Unlimit Code account",
   "account.description":
-    "Sign in to view and edit your profile. Coding and provider connections work independently of your account.",
+    "Sign in and activate your software subscription to open the workspace, connect your providers, and start coding. Model usage is billed separately by your provider.",
   "account.unconfigured": "Account service is not configured for this build.",
-  "account.signed-out": "You are signed out. Profile sign-in is optional.",
+  "account.signed-out": "Sign up or sign in to continue. An active software subscription is required.",
+  "account.active": "Your software subscription is active.",
+  "account.subscriptionRequired":
+    "Your account has no active software subscription. Subscribe in your account to unlock the workspace, including your own API keys and local models.",
+  "account.refresh": "Check access again",
   "account.signing-in": "Complete sign-in in your browser.",
   "account.signed-in": "Signed in",
   "account.error": "Unable to access your profile. Try again or sign out and reconnect.",
   "account.signIn": "Sign in with browser",
   "account.signOut": "Sign out",
-  "account.manage": "Edit profile in browser",
+  "account.manage": "Profile and subscription",
   "account.displayName": "Display name",
   "account.email": "Email address",
   "account.noName": "Not set",

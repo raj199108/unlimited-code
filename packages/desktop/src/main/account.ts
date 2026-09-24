@@ -4,6 +4,7 @@ import { createAccountSession } from "../managed/session"
 import { createTokenStorage } from "../managed/storage"
 import type { AccountConfig } from "../managed/session"
 import type { AccountPlatform, AccountState } from "@opencode-ai/app/account"
+import { startAccessServer } from "@unlimitcode/account/access-server"
 
 export function createAccount(config: AccountConfig | null) {
   const directory = join(app.getPath("userData"), "account")
@@ -39,6 +40,7 @@ export function createAccount(config: AccountConfig | null) {
   }
   return {
     platform,
+    startAccessServer: () => startAccessServer(status),
     async callback(url: string) {
       return (await session?.callback(url)) ?? false
     },

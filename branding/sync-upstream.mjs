@@ -50,7 +50,13 @@ try {
     check("bun", ["test", "src/managed"], "packages/desktop")
     check(
       "bun",
-      ["test", "test/config/unlimit.test.ts", "test/server/httpapi-global.test.ts", "test/provider/provider.test.ts"],
+      [
+        "test",
+        "test/config/unlimit.test.ts",
+        "test/server/httpapi-global.test.ts",
+        "test/server/software-access.test.ts",
+        "test/provider/provider.test.ts",
+      ],
       "packages/opencode",
     )
     check(
@@ -61,6 +67,7 @@ try {
         "--preload",
         "./happydom.ts",
         "./src/theme-preload.test.ts",
+        "./src/account.test.ts",
         "./src/hooks/provider-catalog.test.ts",
         "./src/pages/layout/helpers.test.ts",
       ],
@@ -69,7 +76,7 @@ try {
     check("bun", ["run", "test"], "packages/account")
     check("bun", ["run", "test"], "packages/unlimit-cli")
     check("bun", ["run", "build", "--with-engine"], "packages/unlimit-cli")
-    check("node", ["script/smoke.mjs"], "packages/unlimit-cli")
+    check("node", ["--experimental-strip-types", "script/smoke.mjs"], "packages/unlimit-cli")
     check("bun", ["run", "build"], "packages/app")
     check("bun", ["run", "build"], "packages/desktop")
     brand.upstream = { ...brand.upstream, tag: release.tagName, sha }

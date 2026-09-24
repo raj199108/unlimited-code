@@ -46,6 +46,7 @@ import { ServerSyncProvider, useServerSync } from "@/context/server-sync"
 import { GlobalProvider, useGlobal } from "@/context/global"
 import { HighlightsProvider } from "@/context/highlights"
 import { LanguageProvider, type Locale, useLanguage } from "@/context/language"
+import { AccountGate } from "@/components/account"
 import { LayoutProvider } from "@/context/layout"
 import { ModelsProvider } from "@/context/models"
 import { NotificationProvider } from "@/context/notification"
@@ -565,6 +566,7 @@ export function AppInterface(props: {
   startup?: Promise<void>
   serverScoped?: JSX.Element
 }) {
+  const platform = usePlatform()
   // The visual new layout lives in the router root so it remains mounted across
   // route changes. Draft and session routes override only their server-bound data
   // providers beneath it.
@@ -578,38 +580,40 @@ export function AppInterface(props: {
   )
 
   return (
-    <ServerProvider
-      defaultServer={props.defaultServer}
-      canonicalLocalServer={props.canonicalLocalServer}
-      servers={props.servers}
-    >
-      <GlobalProvider>
-        <SettingsProvider>
-          <ConnectionGate disableHealthCheck={props.disableHealthCheck} startup={props.startup}>
-            <Show when={useSettings().general.newLayoutDesigns().toString()} keyed>
-              <Dynamic
-                component={props.router ?? Router}
-                root={(routerProps) => (
-                  <TabsProvider>
-                    <PermissionProvider>
-                      <NotificationProvider>
-                        <ServerShell>
-                          <Show when={useSettings().general.newLayoutDesigns()} fallback={routerProps.children}>
-                            <NewAppLayout serverScoped={props.serverScoped}>{routerProps.children}</NewAppLayout>
-                          </Show>
-                        </ServerShell>
-                      </NotificationProvider>
-                    </PermissionProvider>
-                  </TabsProvider>
-                )}
-              >
-                <Routes serverScoped={props.serverScoped} />
-              </Dynamic>
-            </Show>
-          </ConnectionGate>
-        </SettingsProvider>
-      </GlobalProvider>
-    </ServerProvider>
+    <AccountGate account={platform.account}>
+      <ServerProvider
+        defaultServer={props.defaultServer}
+        canonicalLocalServer={props.canonicalLocalServer}
+        servers={props.servers}
+      >
+        <GlobalProvider>
+          <SettingsProvider>
+            <ConnectionGate disableHealthCheck={props.disableHealthCheck} startup={props.startup}>
+              <Show when={useSettings().general.newLayoutDesigns().toString()} keyed>
+                <Dynamic
+                  component={props.router ?? Router}
+                  root={(routerProps) => (
+                    <TabsProvider>
+                      <PermissionProvider>
+                        <NotificationProvider>
+                          <ServerShell>
+                            <Show when={useSettings().general.newLayoutDesigns()} fallback={routerProps.children}>
+                              <NewAppLayout serverScoped={props.serverScoped}>{routerProps.children}</NewAppLayout>
+                            </Show>
+                          </ServerShell>
+                        </NotificationProvider>
+                      </PermissionProvider>
+                    </TabsProvider>
+                  )}
+                >
+                  <Routes serverScoped={props.serverScoped} />
+                </Dynamic>
+              </Show>
+            </ConnectionGate>
+          </SettingsProvider>
+        </GlobalProvider>
+      </ServerProvider>
+    </AccountGate>
   )
 }
 

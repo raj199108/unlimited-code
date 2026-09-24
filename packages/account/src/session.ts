@@ -25,6 +25,7 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
           id?: string
           email: string
           displayName: string
+          accessUntil: string | null
           checked: number
         }
       | undefined,
@@ -196,7 +197,11 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
             typeof value !== "object" ||
             typeof value.id !== "string" ||
             typeof value.email !== "string" ||
-            typeof value.displayName !== "string"
+            typeof value.displayName !== "string" ||
+            !(
+              value.accessUntil === null ||
+              (typeof value.accessUntil === "string" && Number.isFinite(Date.parse(value.accessUntil)))
+            )
           )
             throw new Error("account_invalid")
           if (epoch !== state.epoch) return { status: "signed-out" }
@@ -204,6 +209,7 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
             id: value.id,
             email: value.email,
             displayName: value.displayName,
+            accessUntil: value.accessUntil,
             checked: Date.now(),
           }
         }
@@ -212,6 +218,7 @@ export function createAccountSession(config: AccountConfig, storage: TokenStorag
           id: state.profile.id,
           email: state.profile.email,
           displayName: state.profile.displayName,
+          accessUntil: state.profile.accessUntil,
         }
       } catch {
         return { status: "error" }

@@ -39,6 +39,7 @@ function fixture(initial?: Tokens) {
           id: "account-a",
           email: "test@example.invalid",
           displayName: state.displayName,
+          accessUntil: null,
         })
       }
       return new Response(null, { status: 204 })
@@ -91,6 +92,7 @@ describe("native account session", () => {
       id: "account-a",
       email: "test@example.invalid",
       displayName: "Test User",
+      accessUntil: null,
     })
     await f.session.callback(callback)
     expect(f.state.exchanges).toBe(1)

@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test"
 import { ConfigUnlimit } from "../../src/config/unlimit"
 
-test("fork preserves user provider, local model and workflow settings without an account", () => {
+test("fork preserves user provider, local model and workflow settings independently of the software access policy", () => {
   const config = {
     model: "local/my-model",
     enabled_providers: ["local", "openrouter"],

@@ -47,7 +47,7 @@ try {
       "packages/unlimit-cli",
     ])
       check("bun", ["typecheck"], cwd)
-    check("bun", ["test", "src/managed"], "packages/desktop")
+    check("bun", ["test", "src/managed", "src/main/wsl/servers.test.ts"], "packages/desktop")
     check(
       "bun",
       [

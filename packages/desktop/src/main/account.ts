@@ -5,8 +5,9 @@ import { createTokenStorage } from "../managed/storage"
 import type { AccountConfig } from "../managed/session"
 import type { AccountPlatform, AccountState } from "@opencode-ai/app/account"
 import { startAccessServer } from "@unlimitcode/account/access-server"
+import { hasAccess } from "@unlimitcode/account/access"
 
-export function createAccount(config: AccountConfig | null) {
+export function createAccount(config: AccountConfig | null, onAccessLost: () => void) {
   const directory = join(app.getPath("userData"), "account")
   const cipher = {
     available: () =>
@@ -18,11 +19,14 @@ export function createAccount(config: AccountConfig | null) {
   const session = config ? createAccountSession(config, createTokenStorage(directory, cipher)) : undefined
   const reading = { pending: undefined as Promise<AccountState> | undefined }
   const status = () => {
-    reading.pending ??= (session?.status(true) ?? Promise.resolve<AccountState>({ status: "unconfigured" })).finally(
-      () => {
+    reading.pending ??= (session?.status(true) ?? Promise.resolve<AccountState>({ status: "unconfigured" }))
+      .then((state) => {
+        if (!hasAccess(state)) onAccessLost()
+        return state
+      })
+      .finally(() => {
         reading.pending = undefined
-      },
-    )
+      })
     return reading.pending
   }
   const platform: AccountPlatform = {
@@ -32,6 +36,7 @@ export function createAccount(config: AccountConfig | null) {
       await shell.openExternal(await session.begin())
     },
     async signOut() {
+      onAccessLost()
       await session?.signOut()
     },
     async openAccount() {

@@ -32,7 +32,7 @@ jobs:
         working-directory: packages/desktop
       - run: bun typecheck
         working-directory: packages/opencode
-      - run: bun test src/managed
+      - run: bun test src/managed src/main/wsl/servers.test.ts
         working-directory: packages/desktop
       - run: bun test test/config/unlimit.test.ts test/server/httpapi-global.test.ts test/server/software-access.test.ts test/provider/provider.test.ts
         working-directory: packages/opencode

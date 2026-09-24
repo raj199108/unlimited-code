@@ -47,6 +47,7 @@ import { registerWslIpcHandlers } from "./wsl/ipc"
 import { spawnWslSidecar } from "./wsl/sidecar"
 import { product } from "../shared/product"
 import { createAccount, accountConfig } from "./account"
+import { requireAccess } from "@unlimitcode/account/access"
 import { cleanupStoreFiles } from "./store-cleanup"
 import { setNativeTranslations } from "./native-translations"
 
@@ -149,6 +150,7 @@ const main = Effect.gen(function* () {
   const wslServers = createWslServersController(
     app.getVersion(),
     async (distro) => {
+      requireAccess(await account.platform.state())
       logger.log("spawning wsl sidecar", { distro })
       return spawnWslSidecar(distro, {
         onLine: (line) => logger.log("wsl sidecar", { distro, stream: line.stream, text: line.text }),
@@ -198,7 +200,7 @@ const main = Effect.gen(function* () {
   }
 
   preferAppEnv(app.getPath("userData"))
-  const account = createAccount(accountConfig())
+  const account = createAccount(accountConfig(), () => wslServers.stopAll())
   const accessServer = yield* Effect.promise(() => account.startAccessServer())
   app.on("will-quit", () => void accessServer.close())
   const receiveLinks = async (urls: string[]) => {

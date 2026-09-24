@@ -20,9 +20,9 @@ Supabase provides mandatory sign-in, email/display-name profiles, and authoritat
 - [x] Preserve paid time after cancellation; deny expiry, holds, full refunds, disputes and failed verification.
 - [x] Apply the non-destructive software-access migration to dedicated development Supabase and verify real Auth/RLS/isolation/revocation with cleaned-up temporary users.
 - [x] Verify compiled engine denies unpaid/missing accounts before provider calls and succeeds with a subscriber's synthetic local model.
-- [x] Verify desktop/website builds and package typechecks; 110 engine/provider/server tests, 39 app/provider/theme tests, 8 shared account/lifecycle tests, 7 desktop session/storage tests, 6 CLI tests, 12 branding/integration tests and 35 platform tests pass. Isolated database lifecycle and hosted native/CLI OAuth tests pass. Real hosted RLS plus simulated signed payment reconciliation, refund/retry/dedup checks pass; actual merchant acceptance remains pending.
+- [x] Verify desktop/website builds and package typechecks; 110 engine/provider/server tests, 39 app/provider/theme tests, 8 shared account/lifecycle tests, 19 desktop session/storage/WSL tests, 6 CLI tests, 12 branding/integration tests and 35 platform tests pass. Isolated database lifecycle and hosted native/CLI OAuth tests pass. Real hosted RLS plus simulated signed payment reconciliation, refund/retry/dedup checks pass; actual merchant acceptance remains pending.
 - [x] Verify signed-out/unpaid/active/revoked/offline states in the actual account UI using an isolated browser fixture; account page reflects locked access. Protect the new engine boundaries with branding overlays and CI checks.
-- [ ] Publish updated review branches and refresh PR descriptions.
+- [x] Publish updated changes to both existing draft PRs and align descriptions with the paid software/BYOK policy.
 
 ## Foundations retained
 
@@ -47,7 +47,7 @@ Supabase provides mandatory sign-in, email/display-name profiles, and authoritat
 - [ ] Publish signed beta artifacts and owned updater feeds; verify upgrade, rollback protection and uninstall behavior.
 - [ ] Activate the scheduled upstream workflow on the maintained default branch with its scoped credential; verify a live integration run.
 - [ ] Configure the payment merchant, approved recurring product, webhook secrets and reconciliation schedule; verify a real test checkout, renewal, cancellation, refund and native activation before enabling live payments.
-- [ ] Run installed macOS/Windows paid-login → provider setup → coding → logout/expiry → renewal acceptance, including active task/terminal teardown and real email delivery.
+- [ ] Run installed macOS/Windows paid-login → provider setup → coding → logout/expiry → renewal acceptance, including active task/terminal teardown and real email delivery. Verify Windows WSL start/stop behavior and replace its remaining upstream installer/runtime references before shipping WSL support.
 - [ ] Finalize privacy/operator policies, account support and operational monitoring; promote a verified beta to stable.
 
 Domain remains intentionally undecided. Production payment credentials, subscription acceptance, signing and hosting are launch prerequisites. Company OpenRouter keys and managed model access are not required. Existing development applications and servers were not restarted.

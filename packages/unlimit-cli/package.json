@@ -1,0 +1,27 @@
+{
+  "name": "@unlimitcode/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "bin": {
+    "unlimitcode": "./dist/unlimitcode.mjs"
+  },
+  "scripts": {
+    "typecheck": "tsgo --noEmit",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "build": "bun run script/build.ts"
+  },
+  "dependencies": {
+    "@unlimitcode/account": "workspace:*",
+    "proper-lockfile": "4.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/bun": "catalog:",
+    "@types/proper-lockfile": "4.1.4",
+    "@typescript/native-preview": "catalog:"
+  }
+}

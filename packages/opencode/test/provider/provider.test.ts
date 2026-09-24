@@ -87,6 +87,18 @@ const languageBaseURL = (language: unknown) => (language as { config: { baseURL:
 const it = testEffect(LayerNode.compile(LayerNode.group([Provider.node, Env.node, Plugin.node])))
 const experimentalModels = testEffect(providerLayer({ enableExperimentalModels: true }))
 
+it.instance("fork loads user provider credentials even with obsolete managed flags present", () =>
+  Effect.gen(function* () {
+    yield* setProcessEnv("UNLIMIT_MANAGED", "1")
+    yield* setProcessEnv("UNLIMIT_BRIDGE_URL", "http://127.0.0.1:1/v1")
+    yield* setProcessEnv("ANTHROPIC_API_KEY", "test-user-key")
+    const providers = yield* list
+    expect(providers[ProviderV2.ID.make("anthropic")]).toBeDefined()
+    expect(providers[ProviderV2.ID.make("unlimitcode")]).toBeUndefined()
+    expect(providers[ProviderV2.ID.make("unlimitcode-byok")]).toBeUndefined()
+  }),
+)
+
 const alphaProviderConfig = {
   provider: {
     "custom-provider": {
@@ -1282,7 +1294,7 @@ it.instance(
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
       "HTTP-Referer": "https://opencode.ai/",
       "X-Title": "opencode",
-      "X-BILLING-INVOKE-ORIGIN": "OpenCode",
+      "X-BILLING-INVOKE-ORIGIN": "Unlimit Code",
     })
   }),
   { config: { provider: { nvidia: { options: { apiKey: "test-api-key" } } } } },
@@ -1295,7 +1307,7 @@ it.instance(
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
       "HTTP-Referer": "https://opencode.ai/",
       "X-Title": "opencode",
-      "X-BILLING-INVOKE-ORIGIN": "OpenCode",
+      "X-BILLING-INVOKE-ORIGIN": "Unlimit Code",
     })
   }),
   { config: { provider: { nvidia: { options: { apiKey: "test-api-key", baseURL: "http://localhost:8000/v1" } } } } },

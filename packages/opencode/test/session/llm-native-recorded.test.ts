@@ -160,7 +160,7 @@ const RECORDED_SCENARIOS = [
   },
   {
     id: "opencode-proxy",
-    name: "OpenCode proxy",
+    name: "Unlimit Code proxy",
     providerID: ProviderV2.ID.opencode,
     modelID: "gpt-5.2-codex",
     cassette: "session/native-zen-tool-loop",

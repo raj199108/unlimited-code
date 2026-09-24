@@ -43,15 +43,18 @@ const apiLayer = HttpRouter.serve(
 const it = testEffect(apiLayer)
 
 describe("global HttpApi", () => {
-  it.live("upgrades to the requested version", () =>
+  it.live("refuses upstream package replacement in this fork", () =>
     Effect.gen(function* () {
       const response = yield* HttpClientRequest.post(GlobalPaths.upgrade).pipe(
         HttpClientRequest.bodyJsonUnsafe({ target: "9.9.9" }),
         HttpClient.execute,
       )
 
-      expect(response.status).toBe(200)
-      expect(yield* response.json).toEqual({ success: true, version: "9.9.9" })
+      expect(response.status).toBe(400)
+      expect(yield* response.json).toEqual({
+        success: false,
+        error: "Use a verified Unlimit Code release to update this installation",
+      })
     }),
   )
 

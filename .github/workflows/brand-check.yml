@@ -1,0 +1,73 @@
+name: Unlimit Code checks
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "codex/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    if: github.repository == 'raj199108/unlimited-code'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - uses: ./.github/actions/setup-bun
+        with:
+          install-flags: --frozen-lockfile
+      - run: node branding/brand.mjs check
+      - run: bun test
+        working-directory: branding
+      - run: bun typecheck
+        working-directory: packages/ui
+      - run: bun typecheck
+        working-directory: packages/app
+      - run: bun typecheck
+        working-directory: packages/tui
+      - run: bun typecheck
+        working-directory: packages/desktop
+      - run: bun typecheck
+        working-directory: packages/opencode
+      - run: bun test src/managed src/main/wsl/servers.test.ts
+        working-directory: packages/desktop
+      - run: bun test test/config/unlimit.test.ts test/server/httpapi-global.test.ts test/server/software-access.test.ts test/provider/provider.test.ts
+        working-directory: packages/opencode
+      - run: bun test --conditions=solid --preload ./happydom.ts ./src/account.test.ts ./src/hooks/provider-catalog.test.ts ./src/pages/layout/helpers.test.ts
+        working-directory: packages/app
+      - run: bun test --conditions=solid --preload ./happydom.ts ./src/theme-preload.test.ts
+        working-directory: packages/app
+
+      - run: bun run test
+        working-directory: packages/account
+      - run: bun typecheck
+        working-directory: packages/account
+      - run: bun typecheck
+        working-directory: packages/unlimit-cli
+      - run: bun run test
+        working-directory: packages/unlimit-cli
+      - run: bun run build --with-engine
+        working-directory: packages/unlimit-cli
+      - run: node --experimental-strip-types script/smoke.mjs
+        working-directory: packages/unlimit-cli
+  cli-native:
+    if: github.repository == 'raj199108/unlimited-code'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: ./.github/actions/setup-bun
+        with:
+          install-flags: --frozen-lockfile --ignore-scripts
+      - run: bun run test
+        working-directory: packages/unlimit-cli
+      - run: bun run build
+        working-directory: packages/unlimit-cli
+      - run: node dist/unlimitcode.mjs --version
+        working-directory: packages/unlimit-cli

@@ -19,6 +19,20 @@ beforeEach(() => {
 })
 
 describe("theme preload", () => {
+  test("uses the Paper theme for a fresh install", () => {
+    run()
+    expect(document.documentElement.dataset.theme).toBe("unlimit-code")
+    expect(document.documentElement.style.backgroundColor).toBe("#fdfcfc")
+  })
+
+  test("uses Ink for an explicit dark preference", () => {
+    localStorage.setItem("opencode-color-scheme", "dark")
+    run()
+    expect(document.documentElement.dataset.theme).toBe("unlimit-code")
+    expect(document.documentElement.dataset.colorScheme).toBe("dark")
+    expect(document.documentElement.style.backgroundColor).toBe("#201d1d")
+  })
+
   test("migrates legacy oc-1 to oc-2 before mount", () => {
     localStorage.setItem("opencode-theme-id", "oc-1")
     localStorage.setItem("opencode-theme-css-light", "--background-base:#fff;")

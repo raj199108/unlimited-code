@@ -1,0 +1,71 @@
+name: Review upstream stable releases
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: upstream-stable-integration
+  cancel-in-progress: false
+jobs:
+  prepare:
+    if: github.repository == 'raj199108/unlimited-code'
+    runs-on: ubuntu-latest
+    outputs:
+      prepared: ${{ steps.prepare.outputs.prepared }}
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/setup-bun
+        with:
+          install-flags: --frozen-lockfile
+      - run: git config user.name 'Unlimit Code integration'
+      - run: git config user.email 'raj@facts.ai'
+      - name: Prepare and verify without publishing credentials
+        id: prepare
+        env:
+          # Read-only token for release discovery only. Validation subprocesses strip it.
+          GH_TOKEN: ${{ github.token }}
+        run: node branding/sync-upstream.mjs
+      - name: Retain preparation report, including safe failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: upstream-report
+          path: ${{ runner.temp }}/upstream-integration/report.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Transfer verified candidate
+        if: steps.prepare.outputs.prepared == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: upstream-candidate
+          path: ${{ runner.temp }}/upstream-integration/
+          if-no-files-found: error
+          retention-days: 3
+  publish-draft:
+    needs: prepare
+    if: needs.prepare.outputs.prepared == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: upstream-candidate
+          path: ${{ runner.temp }}/upstream-candidate
+      - name: Publish only a draft integration branch
+        env:
+          # This fresh job never installs or executes candidate code.
+          GH_TOKEN: ${{ secrets.UPSTREAM_SYNC_TOKEN }}
+        run: node branding/publish-upstream.mjs "$RUNNER_TEMP/upstream-candidate"
